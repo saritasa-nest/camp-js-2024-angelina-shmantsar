@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 8px;
 }
 
 .books-app-header {
@@ -19,15 +19,22 @@
   gap: 24px;
 }
 
-.books-group-title {
-  display: flex;
-  gap: 8px;
-}
-
 .books-group {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.books-group-title {
+  display: flex;
+  gap: 8px;
+  position: sticky;
+  top: 0;
+  height: 24px;
+  width: 100%;
+  padding: 16px 0;
+  background-color: white;
 }
 
 .books {
@@ -44,11 +51,18 @@
   border-radius: 24px;
 }
 
+.filters-wrapper {
+  width: 320px;
+}
+
 .filters {
   width: 320px;
   display: flex;
   flex-direction: column;
   gap: 24px;
+  position: fixed;
+  top: 96px;
+  right: 344px;
 }
 
 .search-input {
@@ -117,6 +131,7 @@
 .books-app-footer {
   display: flex;
   justify-content: space-between;
+  margin-top: 16px;
   padding: 24px 0;
   width: 1244px;
   height: 128px;
