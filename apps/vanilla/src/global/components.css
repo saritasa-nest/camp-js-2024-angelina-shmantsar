@@ -70,9 +70,20 @@
 
 .select-input {
   height: 48px;
+  width: 320px;
   border-radius: 16px;
   border: none;
   background-color: rgb(0 0 0 / 5%);
+  font-size: 20px;
+  padding-left: 16px;
+  appearance: none;
+  background-image: url("../pages/static/heroicons_chevron-down.png");
+  background-repeat: no-repeat;
+  background-position: 278px 12px;
+}
+
+.select-input:invalid {
+  color: rgb(0 0 0 / 50%);
 }
 
 .checkbox-input {
