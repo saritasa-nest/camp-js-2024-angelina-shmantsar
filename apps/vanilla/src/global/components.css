@@ -31,10 +31,9 @@
 }
 
 .books {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 16px;
-  max-width: 910px;
-  flex-wrap: wrap;
 }
 
 .book {
