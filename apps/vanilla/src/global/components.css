@@ -5,11 +5,14 @@
   gap: 8px;
 }
 
+.main-wrapper {
+  width: 1244px;
+}
+
 .books-app-header {
   display: flex;
   align-items: center;
   font-weight: 700;
-  width: 1244px;
   height: 64px;
   border-bottom: 1px solid rgb(0 0 0 / 15%);
 }
@@ -53,6 +56,7 @@
 
 .filters-wrapper {
   width: 320px;
+  position: relative;
 }
 
 .filters {
@@ -83,7 +87,7 @@
 
 .select-input {
   height: 48px;
-  width: 320px;
+  width: 100%;
   border-radius: 16px;
   border: none;
   background-color: rgb(0 0 0 / 5%);
@@ -92,7 +96,7 @@
   appearance: none;
   background-image: url("../pages/static/heroicons_chevron-down.png");
   background-repeat: no-repeat;
-  background-position: 278px 12px;
+  background-position: 90% 12px;
 }
 
 .select-input:invalid {
@@ -133,7 +137,6 @@
   justify-content: space-between;
   margin-top: 16px;
   padding: 24px 0;
-  width: 1244px;
   height: 128px;
   border-top: 1px solid rgb(0 0 0 / 15%);
 }
@@ -150,6 +153,64 @@
 
 .books-app-footer-text {
   font-weight: 700;
+}
+
+@media screen and (max-width: 359px) {
+  .main-wrapper {
+    width: 272px;
+  }
+
+  .books-app-content {
+    flex-direction: column-reverse;
+  }
+
+  .filters-wrapper {
+    width: 272px;
+    height: 216px;
+  }
+
+  .filters {
+    position: sticky;
+    top: 0;
+    width: 272px;
+  }
+
+  .search-input {
+    border-radius: 12px;
+  }
+
+  .book-groups {
+    border-top: 1px solid rgb(0 0 0 / 15%);
+  }
+
+  .books {
+    grid-template-columns: auto;
+  }
+}
+
+@media screen and (max-width: 736px) {
+  .main-wrapper {
+    width: 352px;
+  }
+
+  .books-app-content {
+    flex-direction: column-reverse;
+  }
+
+  .filters-wrapper {
+    width: 352px;
+    height: 216px;
+  }
+
+  .filters {
+    position: sticky;
+    top: 0;
+    width: 352px;
+  }
+
+  .books {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .books-app-footer-github {
