@@ -86,9 +86,33 @@
   color: rgb(0 0 0 / 50%);
 }
 
+.checkbox-container {
+  position: relative;
+  display: flex;
+  gap: 16px;
+}
+
 .checkbox-input {
-  border: rgb(0 0 0 / 15%);
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgb(0 0 0 / 15%);
+  border-radius: 4px;
+}
+
+.checkbox-input:checked {
+  border: 2px solid #f15924;
+}
+
+.checkbox-input:checked ~ .check-mark {
+  position: absolute;
+  top: 8px;
+  left: 9px;
+  width: 10px;
+  height: 10px;
+  background-color: #f15924;
   border-radius: 2px;
+  display: block;
 }
 
 .books-app-footer {
