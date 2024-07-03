@@ -14,6 +14,41 @@
   border-bottom: 1px solid rgb(0 0 0 / 15%);
 }
 
+.books-app-content {
+  display: flex;
+  gap: 24px;
+}
+
+.books-group-title {
+  display: flex;
+  gap: 8px;
+}
+
+.books-group {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.books {
+  display: flex;
+  gap: 16px;
+  max-width: 910px;
+  flex-wrap: wrap;
+}
+
+.book {
+  width: 168px;
+}
+
+.book-image {
+  border-radius: 24px;
+}
+
+.filters {
+  width: 320px;
+}
+
 .books-app-footer {
   display: flex;
   justify-content: space-between;
