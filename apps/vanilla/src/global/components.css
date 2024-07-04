@@ -17,6 +17,10 @@
   font-weight: 700;
   height: 64px;
   border-bottom: 1px solid rgb(0 0 0 / 15%);
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
 }
 
 .books-app-content {
@@ -35,7 +39,7 @@
   display: flex;
   gap: 8px;
   position: sticky;
-  top: 0;
+  top: 65px;
   height: 24px;
   width: 100%;
   padding: 16px 0;
@@ -66,9 +70,9 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  position: fixed;
-  top: 96px;
-  right: 344px;
+  position: sticky;
+  top: 65px;
+  padding-top: 16px;
 }
 
 .filters-inner-wrapper {
@@ -186,7 +190,7 @@
   }
 
   .books-group-title {
-    top: 144px;
+    top: 208px;
   }
 
   .filters-wrapper {
@@ -194,7 +198,7 @@
     height: 120px;
     border-bottom: 1px solid rgb(0 0 0 / 15%);
     position: sticky;
-    top: 0;
+    top: 64px;
     background-color: white;
     padding-top: 24px;
   }
@@ -224,7 +228,7 @@
   }
 
   .books-group-title {
-    top: 272px;
+    top: 332px;
   }
 
   .book {
