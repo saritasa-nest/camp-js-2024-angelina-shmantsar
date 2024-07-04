@@ -36,7 +36,7 @@
   gap: 24px;
 }
 
-.books-group-title {
+.books-group__title {
   display: flex;
   gap: 8px;
   position: sticky;
@@ -59,7 +59,7 @@
   width: 168px;
 }
 
-.book-image {
+.book__image {
   border-radius: 24px;
 }
 
@@ -68,7 +68,7 @@
   position: relative;
 }
 
-.filters-header {
+.filters__header {
   font: var(--subtitle-font);
   text-transform: var(--uppercase);
 }
@@ -83,7 +83,7 @@
   padding-top: 16px;
 }
 
-.filters-inner-wrapper {
+.filters__inner-wrapper {
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -161,30 +161,44 @@
   border-top: 1px solid var(--border-color);
 }
 
-.books-app-footer-contact {
+.books-app-footer__contacts {
   display: flex;
   gap: 32px;
 }
 
-.books-app-footer-copyright {
+.books-app-footer__copyright {
   display: flex;
   gap: 8px;
 }
 
-.books-app-footer-logo {
+.books-app-footer__logo {
   font: var(--logo-font);
 }
 
-.books-app-footer-github {
+.books-app-footer__github {
   color: var(--on-surface-color);
 }
 
-.books-footer-app-anchor {
+.books-app-footer__anchor {
   color: var(--on-surface-color);
   text-decoration: none;
 }
 
-@media screen and (max-width: 1280px) {
+@media screen and (max-width: 1919px) {
+  .main-wrapper {
+    width: 1200px;
+  }
+
+  .filters-wrapper {
+    width: 276px;
+  }
+
+  .filters {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 1279px) {
   .main-wrapper {
     width: 738px;
   }
@@ -197,7 +211,7 @@
     grid-template-columns: repeat(4, 1fr);
   }
 
-  .books-group-title {
+  .books-group__title {
     top: 208px;
   }
 
@@ -216,13 +230,13 @@
     width: 100%;
   }
 
-  .filters-inner-wrapper {
+  .filters__inner-wrapper {
     flex-direction: row;
     gap: 32px;
   }
 }
 
-@media screen and (max-width: 786px) {
+@media screen and (max-width: 785px) {
   .main-wrapper {
     width: 312px;
   }
@@ -235,7 +249,7 @@
     font-size: 16px;
   }
 
-  .books-group-title {
+  .books-group__title {
     top: 332px;
   }
 
@@ -243,7 +257,7 @@
     width: 148px;
   }
 
-  .book-image {
+  .book__image {
     width: 100%;
   }
 
@@ -251,7 +265,7 @@
     height: 248px;
   }
 
-  .filters-inner-wrapper {
+  .filters__inner-wrapper {
     flex-direction: column;
     gap: 24px;
   }
@@ -262,11 +276,11 @@
     gap: 40px;
   }
 
-  .books-app-footer-contact {
+  .books-app-footer__contacts {
     justify-content: space-between;
   }
 
-  .books-footer-app-anchor {
+  .books-app-footer__anchor {
     align-self: flex-end;
   }
 }
