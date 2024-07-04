@@ -9,7 +9,6 @@
   width: 1244px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
 .books-app-header {
@@ -205,6 +204,7 @@
 
   .books-app-content {
     flex-direction: column-reverse;
+    gap: 0;
   }
 
   .books {
@@ -212,7 +212,7 @@
   }
 
   .books-group__title {
-    top: 208px;
+    top: 228px;
   }
 
   .filters-wrapper {
@@ -222,7 +222,7 @@
     position: sticky;
     top: 64px;
     background-color: var(--surface-color);
-    padding-top: 24px;
+    padding: 24px 0;
   }
 
   .filters {
@@ -250,7 +250,7 @@
   }
 
   .books-group__title {
-    top: 332px;
+    top: 352px;
   }
 
   .book {
