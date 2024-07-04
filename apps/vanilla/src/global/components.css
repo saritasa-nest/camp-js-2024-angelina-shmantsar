@@ -11,6 +11,8 @@
   flex-direction: column;
 }
 
+/* Header styles */
+
 .books-app-header {
   display: flex;
   align-items: center;
@@ -22,6 +24,8 @@
   background-color: var(--surface-color);
   z-index: 1;
 }
+
+/* Main styles */
 
 .books-app-content {
   display: flex;
@@ -150,6 +154,8 @@
   border-radius: 2px;
   display: block;
 }
+
+/* Footer styles */
 
 .books-app-footer {
   display: flex;
