@@ -2,11 +2,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
 }
 
 .main-wrapper {
   width: 1244px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .books-app-header {
@@ -67,6 +69,12 @@
   position: fixed;
   top: 96px;
   right: 344px;
+}
+
+.filters-inner-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .search-input {
@@ -155,64 +163,73 @@
   font-weight: 700;
 }
 
-@media screen and (max-width: 359px) {
+.books-app-footer-github {
+  color: black;
+}
+
+.books-footer-app-anchor {
+  color: black;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 1280px) {
   .main-wrapper {
-    width: 272px;
+    width: 738px;
   }
 
   .books-app-content {
     flex-direction: column-reverse;
-  }
-
-  .filters-wrapper {
-    width: 272px;
-    height: 216px;
-  }
-
-  .filters {
-    position: sticky;
-    top: 0;
-    width: 272px;
-  }
-
-  .search-input {
-    border-radius: 12px;
-  }
-
-  .book-groups {
-    border-top: 1px solid rgb(0 0 0 / 15%);
   }
 
   .books {
-    grid-template-columns: auto;
-  }
-}
-
-@media screen and (max-width: 736px) {
-  .main-wrapper {
-    width: 352px;
+    grid-template-columns: repeat(4, 1fr);
   }
 
-  .books-app-content {
-    flex-direction: column-reverse;
+  .books-group-title {
+    top: 144px;
   }
 
   .filters-wrapper {
-    width: 352px;
-    height: 216px;
+    width: 100%;
+    height: 120px;
+    border-bottom: 1px solid rgb(0 0 0 / 15%);
+    position: sticky;
+    top: 0;
+    background-color: white;
+    padding-top: 24px;
   }
 
   .filters {
-    position: sticky;
-    top: 0;
-    width: 352px;
+    position: static;
+    width: 100%;
+  }
+
+  .filters-inner-wrapper {
+    flex-direction: row;
+    gap: 32px;
+  }
+}
+
+@media screen and (max-width: 786px) {
+  .main-wrapper {
+    width: 312px;
   }
 
   .books {
     grid-template-columns: repeat(2, 1fr);
   }
-}
 
-.books-app-footer-github {
-  text-decoration: underline;
+  .books-app-footer {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 40px;
+  }
+
+  .books-app-footer-contact {
+    justify-content: space-between;
+  }
+
+  .books-footer-app-anchor {
+    align-self: flex-end;
+  }
 }

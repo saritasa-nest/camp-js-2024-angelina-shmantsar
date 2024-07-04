@@ -11,7 +11,7 @@
   </head>
   <body class="default-layout">
 		<main class="main-wrapper">
-			<header class="books-app-header">📚 Books app</header>
+			<header class="books-app-header" id="top-anchor">📚 Books app</header>
 			<section class="books-app-content">
 				<section class="book-groups">
 					<section class="books-group">
@@ -69,19 +69,21 @@
 				</section>
 				<div class="filters-wrapper">
 					<section class="filters">
-						<span>FILTERS</span>
-						<input class="search-input" type="search" placeholder="e.g. “Refactoring”">
-						<select class="select-input" required>
-							<option value="" selected hidden>Choose sort field</option>
-							<option value="length">Length</option>
-						</select>
-						<label class="checkbox-container">
-							<span>
-								<input type="checkbox" class="checkbox-input">
-								<span class="check-mark"></span>
-							</span>
-							Show comics
-						</label>
+						<span class="filters-header">FILTERS</span>
+						<div class="filters-inner-wrapper">
+							<input class="search-input" type="search" placeholder="e.g. “Refactoring”">
+							<select class="select-input" required>
+								<option value="" selected hidden>Choose sort field</option>
+								<option value="length">Length</option>
+							</select>
+							<label class="checkbox-container">
+								<span>
+									<input type="checkbox" class="checkbox-input">
+									<span class="check-mark"></span>
+								</span>
+								Show comics
+							</label>
+						</div>
 					</section>
 				</div>
 			</section>
@@ -91,9 +93,9 @@
 						<span class="books-app-footer-text">Books app</span>
 						<span>© 2023</span>
 					</span>
-					<span class="books-app-footer-github">Github</span>
+					<a class="books-app-footer-github" href="https://github.com/saritasa-nest/camp-js-2024-angelina-shmantsar">Github</a>
 				</span>
-				<span>Go to top ↑</span>
+				<a class="books-footer-app-anchor" href="#top-anchor">Go to top ↑</a>
 			</footer>
 		</main>
     <script type="module" src="./index.ts"></script>
