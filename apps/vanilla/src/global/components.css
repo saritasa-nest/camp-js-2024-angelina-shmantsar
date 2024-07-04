@@ -219,6 +219,31 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .books p {
+    font-size: 16px;
+  }
+
+  .books-group-title {
+    top: 272px;
+  }
+
+  .book {
+    width: 148px;
+  }
+
+  .book-image {
+    width: 100%;
+  }
+
+  .filters-wrapper {
+    height: 248px;
+  }
+
+  .filters-inner-wrapper {
+    flex-direction: column;
+    gap: 24px;
+  }
+
   .books-app-footer {
     flex-direction: column;
     justify-content: flex-start;
