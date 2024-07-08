@@ -1,292 +1,292 @@
 .default-layout {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font: var(--body-font);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font: var(--body-font);
 }
 
 .main-wrapper {
-  width: 1244px;
-  display: flex;
-  flex-direction: column;
+	width: 1244px;
+	display: flex;
+	flex-direction: column;
 }
 
 /* Header styles */
 
 .books-app-header {
-  display: flex;
-  align-items: center;
-  font: var(--logo-font);
-  height: 64px;
-  border-bottom: 1px solid rgb(0 0 0 / 15%);
-  position: sticky;
-  top: 0;
-  background-color: var(--surface-color);
-  z-index: 1;
+	display: flex;
+	align-items: center;
+	font: var(--logo-font);
+	height: 64px;
+	border-bottom: 1px solid rgb(0 0 0 / 15%);
+	position: sticky;
+	top: 0;
+	background-color: var(--surface-color);
+	z-index: 1;
 }
 
 /* Main styles */
 
 .books-app-content {
-  display: flex;
-  gap: 24px;
+	display: flex;
+	gap: 24px;
 }
 
 .books-group {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
 }
 
 .books-group__title {
-  display: flex;
-  gap: 8px;
-  position: sticky;
-  top: 65px;
-  height: 24px;
-  width: 100%;
-  padding: 16px 0;
-  background-color: var(--surface-color);
-  font: var(--subtitle-font);
-  text-transform: var(--uppercase);
+	display: flex;
+	gap: 8px;
+	position: sticky;
+	top: 65px;
+	height: 24px;
+	width: 100%;
+	padding: 16px 0;
+	background-color: var(--surface-color);
+	font: var(--subtitle-font);
+	text-transform: var(--uppercase);
 }
 
 .books {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 16px;
 }
 
 .book {
-  width: 168px;
+	width: 168px;
 }
 
 .book__image {
-  border-radius: 24px;
+	border-radius: 24px;
 }
 
 .filters-wrapper {
-  width: 320px;
-  position: relative;
+	width: 320px;
+	position: relative;
 }
 
 .filters__header {
-  font: var(--subtitle-font);
-  text-transform: var(--uppercase);
+	font: var(--subtitle-font);
+	text-transform: var(--uppercase);
 }
 
 .filters {
-  width: 320px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  position: sticky;
-  top: 65px;
-  padding-top: 16px;
+	width: 320px;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	position: sticky;
+	top: 65px;
+	padding-top: 16px;
 }
 
 .filters__inner-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
 }
 
 .search-input {
-  height: 48px;
-  padding-left: 48px;
-  border-radius: 16px;
-  border: none;
-  background-color: var(--surface-overlay-color);
-  background-image: url("../pages/static/heroicons_magnifying-glass.png");
-  background-repeat: no-repeat;
-  background-position: 12px 12px;
-  font-size: 20px;
+	height: 48px;
+	padding-left: 48px;
+	border-radius: 16px;
+	border: none;
+	background-color: var(--surface-overlay-color);
+	background-image: url("../pages/static/heroicons_magnifying-glass.png");
+	background-repeat: no-repeat;
+	background-position: 12px 12px;
+	font-size: 20px;
 }
 
 ::placeholder {
-  color: var(--on-surface-dim-color);
+	color: var(--on-surface-dim-color);
 }
 
 .select-input {
-  height: 48px;
-  width: 100%;
-  border-radius: 16px;
-  border: none;
-  background-color: var(--surface-overlay-color);
-  font-size: 20px;
-  padding-left: 16px;
-  appearance: none;
-  background-image: url("../pages/static/heroicons_chevron-down.png");
-  background-repeat: no-repeat;
-  background-position: 90% 12px;
+	height: 48px;
+	width: 100%;
+	border-radius: 16px;
+	border: none;
+	background-color: var(--surface-overlay-color);
+	font-size: 20px;
+	padding-left: 16px;
+	appearance: none;
+	background-image: url("../pages/static/heroicons_chevron-down.png");
+	background-repeat: no-repeat;
+	background-position: 90% 12px;
 }
 
 .select-input:invalid {
-  color: var(--on-surface-dim-color);
+	color: var(--on-surface-dim-color);
 }
 
 .checkbox-container {
-  position: relative;
-  display: flex;
-  gap: 16px;
+	position: relative;
+	display: flex;
+	gap: 16px;
 }
 
 .checkbox-input {
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--border-color);
-  border-radius: 4px;
+	appearance: none;
+	width: 20px;
+	height: 20px;
+	border: 2px solid var(--border-color);
+	border-radius: 4px;
 }
 
 .checkbox-input:checked {
-  border: 2px solid var(--primary-color);
+	border: 2px solid var(--primary-color);
 }
 
 .checkbox-input:checked ~ .check-mark {
-  position: absolute;
-  top: 8px;
-  left: 9px;
-  width: 10px;
-  height: 10px;
-  background-color: var(--primary-color);
-  border-radius: 2px;
-  display: block;
+	position: absolute;
+	top: 8px;
+	left: 9px;
+	width: 10px;
+	height: 10px;
+	background-color: var(--primary-color);
+	border-radius: 2px;
+	display: block;
 }
 
 /* Footer styles */
 
 .books-app-footer {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 16px;
-  padding: 24px 0;
-  height: 128px;
-  border-top: 1px solid var(--border-color);
+	display: flex;
+	justify-content: space-between;
+	margin-top: 16px;
+	padding: 24px 0;
+	height: 128px;
+	border-top: 1px solid var(--border-color);
 }
 
 .books-app-footer__contacts {
-  display: flex;
-  gap: 32px;
+	display: flex;
+	gap: 32px;
 }
 
 .books-app-footer__copyright {
-  display: flex;
-  gap: 8px;
+	display: flex;
+	gap: 8px;
 }
 
 .books-app-footer__logo {
-  font: var(--logo-font);
+	font: var(--logo-font);
 }
 
 .books-app-footer__github {
-  color: var(--on-surface-color);
+	color: var(--on-surface-color);
 }
 
 .books-app-footer__anchor {
-  color: var(--on-surface-color);
-  text-decoration: none;
+	color: var(--on-surface-color);
+	text-decoration: none;
 }
 
 @media screen and (max-width: 1919px) {
-  .main-wrapper {
-    width: 1200px;
-  }
+	.main-wrapper {
+		width: 1200px;
+	}
 
-  .filters-wrapper {
-    width: 276px;
-  }
+	.filters-wrapper {
+		width: 276px;
+	}
 
-  .filters {
-    width: 100%;
-  }
+	.filters {
+		width: 100%;
+	}
 }
 
 @media screen and (max-width: 1279px) {
-  .main-wrapper {
-    width: 738px;
-  }
+	.main-wrapper {
+		width: 738px;
+	}
 
-  .books-app-content {
-    flex-direction: column-reverse;
-    gap: 0;
-  }
+	.books-app-content {
+		flex-direction: column-reverse;
+		gap: 0;
+	}
 
-  .books {
-    grid-template-columns: repeat(4, 1fr);
-  }
+	.books {
+		grid-template-columns: repeat(4, 1fr);
+	}
 
-  .books-group__title {
-    top: 228px;
-  }
+	.books-group__title {
+		top: 228px;
+	}
 
-  .filters-wrapper {
-    width: 100%;
-    height: 120px;
-    border-bottom: 1px solid var(--border-color);
-    position: sticky;
-    top: 64px;
-    background-color: var(--surface-color);
-    padding: 24px 0;
-  }
+	.filters-wrapper {
+		width: 100%;
+		height: 120px;
+		border-bottom: 1px solid var(--border-color);
+		position: sticky;
+		top: 64px;
+		background-color: var(--surface-color);
+		padding: 24px 0;
+	}
 
-  .filters {
-    position: static;
-    width: 100%;
-  }
+	.filters {
+		position: static;
+		width: 100%;
+	}
 
-  .filters__inner-wrapper {
-    flex-direction: row;
-    gap: 32px;
-  }
+	.filters__inner-wrapper {
+		flex-direction: row;
+		gap: 32px;
+	}
 }
 
 @media screen and (max-width: 785px) {
-  .main-wrapper {
-    width: 312px;
-  }
+	.main-wrapper {
+		width: 312px;
+	}
 
-  .books {
-    grid-template-columns: repeat(2, 1fr);
-  }
+	.books {
+		grid-template-columns: repeat(2, 1fr);
+	}
 
-  .books p {
-    font-size: 16px;
-  }
+	.books p {
+		font-size: 16px;
+	}
 
-  .books-group__title {
-    top: 352px;
-  }
+	.books-group__title {
+		top: 352px;
+	}
 
-  .book {
-    width: 148px;
-  }
+	.book {
+		width: 148px;
+	}
 
-  .book__image {
-    width: 100%;
-  }
+	.book__image {
+		width: 100%;
+	}
 
-  .filters-wrapper {
-    height: 248px;
-  }
+	.filters-wrapper {
+		height: 248px;
+	}
 
-  .filters__inner-wrapper {
-    flex-direction: column;
-    gap: 24px;
-  }
+	.filters__inner-wrapper {
+		flex-direction: column;
+		gap: 24px;
+	}
 
-  .books-app-footer {
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 40px;
-  }
+	.books-app-footer {
+		flex-direction: column;
+		justify-content: flex-start;
+		gap: 40px;
+	}
 
-  .books-app-footer__contacts {
-    justify-content: space-between;
-  }
+	.books-app-footer__contacts {
+		justify-content: space-between;
+	}
 
-  .books-app-footer__anchor {
-    align-self: flex-end;
-  }
+	.books-app-footer__anchor {
+		align-self: flex-end;
+	}
 }
