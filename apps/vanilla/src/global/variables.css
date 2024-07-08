@@ -9,9 +9,9 @@
 	--primary-color: rgb(241 89 36 / 100%);
 	--on-primary-color: rgb(255 255 255);
 	--border-color: rgb(0 0 0 / 15%);
-	--subtitle-font: semibold 18px/24px inter, sans-serif;
+	--subtitle-font: 600 18px/24px inter, sans-serif;
 	--uppercase: uppercase;
-	--body-font: regular 20px/32px inter, sans-serif;
-	--body-small-font: medium 16px/24px inter, sans-serif;
-	--logo-font: bold 20px/24px inter, sans-serif;
+	--body-font: 400 20px/32px inter, sans-serif;
+	--body-small-font: 500 16px/24px inter, sans-serif;
+	--logo-font: 700 20px/24px inter, sans-serif;
 }
