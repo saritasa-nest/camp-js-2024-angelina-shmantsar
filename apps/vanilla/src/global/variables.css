@@ -10,8 +10,11 @@
 	--on-primary-color: rgb(255 255 255);
 	--border-color: rgb(0 0 0 / 15%);
 	--subtitle-font: 600 18px/24px inter, sans-serif;
-	--uppercase: uppercase;
+	--subtitle-text-transform: uppercase;
 	--body-font: 400 20px/32px inter, sans-serif;
 	--body-small-font: 500 16px/24px inter, sans-serif;
 	--logo-font: 700 20px/24px inter, sans-serif;
+	--header-height: 64px;
+	--main-wrapper-size: 1360px;
+	--border-width: 1px;
 }
