@@ -1,4 +1,5 @@
 @import url("../../global/index.css");
+@import url("variables.css");
 
 .title {
 	color: var(--heading-color-2);
@@ -7,14 +8,14 @@
 .fields {
 	display: flex;
 	flex-direction: column;
-	gap: 16px;
-	padding: 24px 0;
+	gap: var(--size-4);
+	padding: var(--size-6) 0;
 }
 
 .container {
-	max-width: 400px;
-	height: 40px;
-	padding-top: 10px;
+	max-width: var(--container-width);
+	height: var(--container-height);
+	padding-top: var(--size-2);
 	overflow-x: scroll;
 	white-space: nowrap;
 }
