@@ -1,6 +1,7 @@
 @import url("../../global/index.css");
+@import url("variables.css");
 
-.default-layout {
+.books-catalog-layout {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -111,7 +112,7 @@
 	border-radius: 16px;
 	border: none;
 	background-color: var(--surface-overlay-color);
-	background-image: url("../static/heroicons_magnifying-glass.png");
+	background-image: url("../static/heroicons_magnifying-glass.svg");
 	background-repeat: no-repeat;
 	background-position: 12px 12px;
 	font: var(--body-font);
@@ -130,7 +131,7 @@
 	font: var(--body-font);
 	padding-left: 16px;
 	appearance: none;
-	background-image: url("../static/heroicons_chevron-down.png");
+	background-image: url("../static/heroicons_chevron-down.svg");
 	background-repeat: no-repeat;
 	background-position: calc(100% - 12px) 12px;
 }
