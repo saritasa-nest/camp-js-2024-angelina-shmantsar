@@ -30,6 +30,10 @@
 	--filters-wrapper-width-md: 276px;
 	--filters-wrapper-width-lg: 320px;
 
+	/* Checkbox mark sizes */
+	--check-mark-width: 10px;
+	--check-mark-height: 10px;
+
 	/* Border sizes */
 	--border-width-md: 1px;
 	--border-width-lg: 2px;

@@ -70,6 +70,8 @@
 	overflow: hidden;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
+
+	/* Disable the rule because there is no any good way to truncate multiline string without -webkit-line-clamp */
 	/* stylelint-disable-next-line value-no-vendor-prefix */
 	display: -webkit-box;
 	font: var(--body-small-font);
@@ -85,11 +87,6 @@
 	position: relative;
 }
 
-.filters__header {
-	font: var(--subtitle-font);
-	text-transform: var(--subtitle-text-transform);
-}
-
 .filters {
 	width: var(--filters-wrapper-width-lg);
 	display: flex;
@@ -100,6 +97,11 @@
 	padding-top: var(--size-4);
 }
 
+.filters__header {
+	font: var(--subtitle-font);
+	text-transform: var(--subtitle-text-transform);
+}
+
 .filters__inner-wrapper {
 	display: flex;
 	flex-direction: column;
@@ -108,6 +110,7 @@
 
 .search-input {
 	height: var(--size-12);
+	width: 100%;
 	padding-left: var(--size-12);
 	border-radius: var(--size-md);
 	border: none;
@@ -143,7 +146,13 @@
 .checkbox-container {
 	position: relative;
 	display: flex;
+	align-items: center;
 	gap: var(--size-4);
+}
+
+.checkbox {
+	display: flex;
+	align-items: center;
 }
 
 .checkbox-input {
@@ -160,10 +169,10 @@
 
 .checkbox-input:checked ~ .check-mark {
 	position: absolute;
-	top: var(--size-2);
+	top: calc(var(--size-2) + 3px);
 	left: calc(var(--size-2) + 1px);
-	width: calc(var(--size-2) + 2px);
-	height: calc(var(--size-2) + 2px);
+	width: var(--check-mark-width);
+	height: var(--check-mark-height);
 	background-color: var(--primary-color);
 	border-radius: var(--border-width-lg);
 	display: block;
@@ -203,7 +212,7 @@
 	text-decoration: none;
 }
 
-@media screen and (max-width: 1919px) {
+@media screen and (max-width: 1920px) {
 	.main-wrapper {
 		max-width: 100%;
 	}
@@ -217,7 +226,7 @@
 	}
 }
 
-@media screen and (max-width: 1279px) {
+@media screen and (max-width: 1280px) {
 	.main-wrapper {
 		max-width: 100%;
 	}
@@ -257,7 +266,7 @@
 	}
 }
 
-@media screen and (max-width: 785px) {
+@media screen and (max-width: 786px) {
 	.main-wrapper {
 		max-width: 100%;
 	}
@@ -271,7 +280,7 @@
 	}
 }
 
-@media screen and (max-width: 735px) {
+@media screen and (max-width: 736px) {
 	.books-group__title {
 		top: calc(var(--filters-wrapper-height-md) + var(--header-height) + 2 * var(--size-6));
 	}
