@@ -4,7 +4,7 @@ import { Subscriber } from './subscriber';
 export type Publisher<T> = {
 
 	/**  Property representing a list of subscribers. */
-	subscribers: Subscriber<T>[];
+	subscribers: Set<Subscriber<T>>;
 
 	/**
 	 * @param {Subscriber<T>} s - Subscriber which want to subscribe.
