@@ -30,8 +30,6 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 	 * @param message - The message.
 	 */
 	public notify(message: PlayerTurnResult): void {
-		// eslint-disable-next-line no-console
-		console.log(message);
 		this.subscribers.forEach((s: Subscriber<PlayerTurnResult>) => s.update(message));
 	}
 
