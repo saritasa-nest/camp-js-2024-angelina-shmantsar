@@ -1,14 +1,17 @@
 import { Game } from './game';
 import { Player } from './player';
+import { ResultDisplayHandler } from './resultDisplayHandler';
 
 const game = new Game();
 const player1 = new Player(0);
 const player2 = new Player(1);
+const resultDisplayHandler = new ResultDisplayHandler();
 
 game.addPlayer(player1);
 game.addPlayer(player2);
 
 game.start();
+game.subscribe(resultDisplayHandler);
 
 /** Function that handles click on roll dice button. */
 function onClickRollButton(): void {

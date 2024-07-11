@@ -21,7 +21,7 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerRes
 	/** Property representing a list of subscribers. */
 	public subscribers: Set<Subscriber<PlayerResultInfo>> = new Set<Subscriber<PlayerResultInfo>>();
 
-	public constructor(private readonly playerIndex: number) {}
+	public constructor(public readonly playerIndex: number) {}
 
 	/**
 	 * @param s - The subscriber.
@@ -58,6 +58,11 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerRes
 
 		const playerResultInfo: PlayerResultInfo = this.makeResultInfo(diceResult);
 		this.notify(playerResultInfo);
+	}
+
+	/** Function that helps to get dice results. */
+	public getDiceResults(): number[] {
+		return this.diceResults;
 	}
 
 	private makeResultInfo(diceResult: number): PlayerResultInfo {
