@@ -26,18 +26,20 @@ export class DiceGenerator implements Publisher<number>, Subscriber<number> {
 	 * @param message - The message.
 	 */
 	public notify(message: number): void {
-		throw new Error(`${message}`);
+		this.subscribers.forEach((s: Subscriber<number>) => s.update(message));
 	}
 
 	/**
 	 * @param message - The message.
 	 */
 	public update(message: number): void {
-		throw new Error(`${message}`);
+		// eslint-disable-next-line no-console
+		console.log(message);
 	}
 
 	/** Function to get dice value. */
-	public roll(): number {
-		return Math.floor(Math.random() * this.sidesCount) + 1;
+	public roll(): void {
+		const rollResult = Math.floor(Math.random() * this.sidesCount) + 1;
+		this.notify(rollResult);
 	}
 }

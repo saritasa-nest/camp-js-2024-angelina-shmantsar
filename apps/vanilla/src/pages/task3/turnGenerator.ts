@@ -3,7 +3,7 @@ import { Subscriber } from './interfaces/subscriber';
 
 /** Class representing a turn generator. */
 export class TurnGenerator implements Publisher<number> {
-	public constructor(private readonly playersCount: number, private readonly currentPlayerIndex: number) {}
+	public constructor(private readonly playersCount: number, private currentPlayerIndex: number) {}
 
 	/**  Property representing a list of subscribers. */
 	public subscribers: Set<Subscriber<number>> = new Set();
@@ -26,11 +26,12 @@ export class TurnGenerator implements Publisher<number> {
 	 * @param message - The message.
 	 */
 	public notify(message: number): void {
-		throw new Error(`${message}`);
+		this.subscribers.forEach((s: Subscriber<number>) => s.update(message));
 	}
 
 	/** Function to get turn of current player. */
-	public next(): number {
-		return this.currentPlayerIndex % this.playersCount;
+	public next(): void {
+		this.notify(this.currentPlayerIndex % this.playersCount);
+		this.currentPlayerIndex += 1;
 	}
 }
