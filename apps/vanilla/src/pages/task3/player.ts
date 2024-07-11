@@ -41,8 +41,6 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerRes
 	 * @param message - The message.
 	 */
 	public notify(message: PlayerResultInfo): void {
-		// eslint-disable-next-line no-console
-		console.log(message);
 		this.subscribers.forEach((s: Subscriber<PlayerResultInfo>) => s.update(message));
 	}
 
