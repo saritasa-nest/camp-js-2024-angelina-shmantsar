@@ -8,6 +8,7 @@ turnGenerator.subscribe(diceGenerator);
 /** Function that handles click on roll dice button. */
 function onClickRollButton(): void {
 	turnGenerator.next();
+	diceGenerator.roll();
 }
 
 const rollDiceButton = document.querySelector('.roll-button');
