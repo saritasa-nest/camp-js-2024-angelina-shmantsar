@@ -46,7 +46,7 @@
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	gap: var(--size-6);
+	gap: var(--size-2);
 }
 
 .books-group__title {
@@ -271,10 +271,6 @@
 @media screen and (max-width: 786px) {
 	.main-wrapper {
 		max-width: 100%;
-	}
-
-	.books p {
-		font: var(--body-small-font);
 	}
 
 	.book__image {
