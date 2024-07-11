@@ -79,7 +79,7 @@
 
 .book__image {
 	width: 100%;
-	border-radius: var(--size-lg);
+	border-radius: var(--border-radius-lg);
 }
 
 .filters-wrapper {
@@ -112,7 +112,7 @@
 	height: var(--size-12);
 	width: 100%;
 	padding-left: var(--size-12);
-	border-radius: var(--size-md);
+	border-radius: var(--border-radius-md);
 	border: none;
 	background-color: var(--surface-overlay-color);
 	background-image: url("../static/heroicons_magnifying-glass.svg");
@@ -128,7 +128,7 @@
 .select-input {
 	height: var(--size-12);
 	width: 100%;
-	border-radius: var(--size-md);
+	border-radius: var(--border-radius-md);
 	border: none;
 	background-color: var(--surface-overlay-color);
 	font: var(--body-font);
@@ -160,7 +160,7 @@
 	width: var(--size-5);
 	height: var(--size-5);
 	border: var(--border-width-lg) solid var(--border-color);
-	border-radius: var(--size-xs);
+	border-radius: var(--border-radius-xs);
 }
 
 .checkbox-input:checked {

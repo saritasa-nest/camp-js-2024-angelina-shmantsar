@@ -50,10 +50,7 @@
 	--size-16: 64px;
 
 	/* Border-radius sizes */
-	--size-xs: 4px;
-	--size-sm: 8px;
-	--size-md: 16px;
-	--size-lg: 24px;
-	--size-xl: 32px;
-	--size-2xl: 40px;
+	--border-radius-xs: 4px;
+	--border-radius-md: 16px;
+	--border-radius-lg: 24px;
 }
