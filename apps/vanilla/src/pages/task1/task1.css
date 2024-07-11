@@ -1,6 +1,10 @@
 @import url("../../global/index.css");
 @import url("variables.css");
 
+* {
+	box-sizing: border-box;
+}
+
 .books-catalog-layout {
 	display: flex;
 	flex-direction: column;
@@ -49,8 +53,7 @@
 	display: flex;
 	gap: var(--size-2);
 	position: sticky;
-	top: calc(var(--header-height) + var(--border-width-md));
-	height: var(--size-6);
+	top: var(--header-height);
 	width: 100%;
 	padding: var(--size-4) 0;
 	background-color: var(--surface-color);
@@ -241,15 +244,14 @@
 	}
 
 	.books-group__title {
-		top: calc(var(--filters-wrapper-height-sm) + var(--header-height) + 2 * var(--size-6));
+		top: calc(var(--filters-wrapper-height-sm) + var(--header-height) + var(--size-10));
 	}
 
 	.filters-wrapper {
 		width: 100%;
-		height: var(--filters-wrapper-height-sm);
 		border-bottom: var(--border-width-md) solid var(--border-color);
 		position: sticky;
-		top: calc(var(--header-height) + var(--border-width-md));
+		top: var(--header-height);
 		background-color: var(--surface-color);
 		padding: var(--size-6) 0;
 	}
@@ -282,11 +284,7 @@
 
 @media screen and (max-width: 736px) {
 	.books-group__title {
-		top: calc(var(--filters-wrapper-height-md) + var(--header-height) + 2 * var(--size-6));
-	}
-
-	.filters-wrapper {
-		height: var(--filters-wrapper-height-md);
+		top: calc(var(--filters-wrapper-height-md) + var(--header-height) + var(--size-10));
 	}
 
 	.filters__inner-wrapper {
