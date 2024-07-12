@@ -4,10 +4,10 @@ export type PlayerTurnResult = {
 	/**
 	 * @property {number} playerIndex - Contains current player index.
 	 */
-	playerIndex: number;
+	readonly playerIndex: number;
 
 	/**
 	 * @property {number} diceResult - Contains current dice result.
 	 */
-	diceResult: number;
+	readonly diceResult: number;
 };

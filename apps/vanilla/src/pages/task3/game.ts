@@ -9,7 +9,7 @@ export type GameStateInfo = {
 	/**
 	 * @property {Player | null} winner - Contains winner.
 	 */
-	winner: Player | null;
+	readonly winner: Player | null;
 
 	/**
 	 * @property {number[]} rolls - Contains all dice results.
@@ -19,7 +19,7 @@ export type GameStateInfo = {
 	/**
 	 * @property {Player[]} players - Contains players.
 	 */
-	players: Player[];
+	readonly players: readonly Player[];
 };
 
 /** Represents a game. */
@@ -35,7 +35,7 @@ export class Game implements Subscriber<PlayerStateInfo>, Publisher<GameStateInf
 
 	private rolls: number[] = [];
 
-	private diceGenerator: DiceGenerator = new DiceGenerator();
+	private readonly diceGenerator: DiceGenerator = new DiceGenerator();
 
 	/**
 	 * @param player - Player which want to join the game.

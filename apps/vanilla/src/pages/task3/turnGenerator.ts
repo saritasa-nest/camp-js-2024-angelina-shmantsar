@@ -8,7 +8,7 @@ export class TurnGenerator implements Publisher<number> {
 	/**
 	 * @property {Set<Subscriber<number>>} subscribers - Contains subscribers.
 	 */
-	public subscribers: Set<Subscriber<number>> = new Set();
+	public subscribers: Set<Subscriber<number>> = new Set<Subscriber<number>>();
 
 	/**
 	 * @param s - Subscriber which want to subscribe.

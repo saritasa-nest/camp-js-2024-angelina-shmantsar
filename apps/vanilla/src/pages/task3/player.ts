@@ -8,7 +8,7 @@ type IsWinner = {
 	/**
 	 * @property {boolean} isWinner - Contains winner status.
 	 */
-	isWinner: boolean;
+	readonly isWinner: boolean;
 };
 
 /** Represents current player state. */

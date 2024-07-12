@@ -4,11 +4,11 @@ import { Player } from './player';
 
 /** Represents a UI handler. */
 export class ResultDisplayHandler implements Subscriber<GameStateInfo> {
-	private diceCapContainer: HTMLElement | null = document.querySelector('.dice-cap-container');
+	private readonly diceCapContainer: HTMLElement | null = document.querySelector('.dice-cap-container');
 
-	private firstContainer: HTMLElement | null = document.querySelector('.container1');
+	private readonly firstContainer: HTMLElement | null = document.querySelector('.container1');
 
-	private secondContainer: HTMLElement | null = document.querySelector('.container2');
+	private readonly secondContainer: HTMLElement | null = document.querySelector('.container2');
 
 	/**
 	 * @param message - The message to update with.
@@ -23,7 +23,7 @@ export class ResultDisplayHandler implements Subscriber<GameStateInfo> {
 			.forEach((p: Player) => this.updateField(p.getDiceResults(), p.playerIndex === 0 ? this.firstContainer : this.secondContainer));
 	}
 
-	private updateField(diceResults: number[], field: HTMLElement | null): void {
+	private updateField(diceResults: readonly number[], field: HTMLElement | null): void {
 		if (field) {
 			field.innerText = diceResults.join(' ');
 		}

@@ -6,7 +6,7 @@ export type Publisher<T> = {
 	/**
 	 * @property {Set<Subscriber<T>>} subscribers - Contains subscribers.
 	 */
-	subscribers: Set<Subscriber<T>>;
+	readonly subscribers: Set<Subscriber<T>>;
 
 	/**
 	 * @param {Subscriber<T>} s - Subscriber which want to subscribe.

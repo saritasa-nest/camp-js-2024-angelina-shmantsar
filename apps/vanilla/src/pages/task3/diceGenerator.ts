@@ -15,7 +15,7 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 	/**
 	 * @property {Set<Subscriber<PlayerTurnResult>>} subscribers - Contains subscribers.
 	 */
-	public subscribers: Set<Subscriber<PlayerTurnResult>> = new Set();
+	public subscribers: Set<Subscriber<PlayerTurnResult>> = new Set<Subscriber<PlayerTurnResult>>();
 
 	public constructor(private readonly sidesCount = 6) {
 		this.turnGenerator.subscribe(this);
