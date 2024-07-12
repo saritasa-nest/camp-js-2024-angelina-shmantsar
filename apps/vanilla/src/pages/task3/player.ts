@@ -2,50 +2,54 @@ import { PlayerTurnResult } from './interfaces/playerTurnResult';
 import { Publisher } from './interfaces/publisher';
 import { Subscriber } from './interfaces/subscriber';
 
-/** Type. */
+/** Represents whether there is a winner or not. */
 type IsWinner = {
 
-	/**  Property representing a winner status. */
+	/**
+	 * @property {boolean} isWinner - Contains winner status.
+	 */
 	isWinner: boolean;
 };
 
-/** Type representing. */
-export type PlayerResultInfo = PlayerTurnResult & IsWinner;
+/** Represents current player state. */
+export type PlayerStateInfo = PlayerTurnResult & IsWinner;
 
-/** Class representing a player. */
-export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerResultInfo> {
+/** Represents a player. */
+export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerStateInfo> {
 	private diceResults: number[] = [];
 
 	private isWinner = false;
 
-	/** Property representing a list of subscribers. */
-	public subscribers: Set<Subscriber<PlayerResultInfo>> = new Set<Subscriber<PlayerResultInfo>>();
+	/**
+	 * @property {Set<Subscriber<PlayerStateInfo>>} subscribers - Contains subscribers.
+	 */
+	public subscribers: Set<Subscriber<PlayerStateInfo>> = new Set<Subscriber<PlayerStateInfo>>();
 
 	public constructor(public readonly playerIndex: number) {}
 
 	/**
-	 * @param s - The subscriber.
+	 * @param s - Subscriber which want to subscribe.
 	 */
-	public subscribe(s: Subscriber<PlayerResultInfo>): void {
+	public subscribe(s: Subscriber<PlayerStateInfo>): void {
 		this.subscribers.add(s);
 	}
 
 	/**
-	 * @param s - The subscriber.
+	 * @param s - Subscriber which want to unsubscribe.
 	 */
-	public unsubscribe(s: Subscriber<PlayerResultInfo>): void {
+	public unsubscribe(s: Subscriber<PlayerStateInfo>): void {
 		this.subscribers.delete(s);
 	}
 
 	/**
-	 * @param message - The message.
+	 * @param message - The message to notify with.
 	 */
-	public notify(message: PlayerResultInfo): void {
-		this.subscribers.forEach((s: Subscriber<PlayerResultInfo>) => s.update(message));
+	public notify(message: PlayerStateInfo): void {
+		this.subscribers.forEach((s: Subscriber<PlayerStateInfo>) => s.update(message));
 	}
 
 	/**
-	 * @param message - The message.
+	 * @param message - The message to update with.
 	 */
 	public update(message: PlayerTurnResult): void {
 		const { playerIndex, diceResult } = message;
@@ -56,16 +60,16 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerRes
 		const totalPoints: number = this.diceResults.reduce((a, b) => a + b, 0);
 		this.isWinner = totalPoints >= 21;
 
-		const playerResultInfo: PlayerResultInfo = this.makeResultInfo(diceResult);
+		const playerResultInfo: PlayerStateInfo = this.makeResultInfo(diceResult);
 		this.notify(playerResultInfo);
 	}
 
-	/** Function that helps to get dice results. */
+	/** Function to get dice results. */
 	public getDiceResults(): number[] {
 		return this.diceResults;
 	}
 
-	private makeResultInfo(diceResult: number): PlayerResultInfo {
+	private makeResultInfo(diceResult: number): PlayerStateInfo {
 		return {
 			playerIndex: this.playerIndex,
 			diceResult,

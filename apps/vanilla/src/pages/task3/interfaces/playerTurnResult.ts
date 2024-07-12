@@ -1,9 +1,13 @@
 /** Represents result of one dice roll. */
 export type PlayerTurnResult = {
 
-	/** Property which contains current player index. */
+	/**
+	 * @property {number} playerIndex - Contains current player index.
+	 */
 	playerIndex: number;
 
-	/** Property which contains current dice result. */
+	/**
+	 * @property {number} diceResult - Contains current dice result.
+	 */
 	diceResult: number;
 };

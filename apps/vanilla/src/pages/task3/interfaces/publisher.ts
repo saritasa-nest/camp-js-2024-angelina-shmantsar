@@ -1,9 +1,11 @@
 import { Subscriber } from './subscriber';
 
-/**  Interface representing a publisher. */
+/**  Represents a publisher. */
 export type Publisher<T> = {
 
-	/**  Property representing a list of subscribers. */
+	/**
+	 * @property {Set<Subscriber<T>>} subscribers - Contains subscribers.
+	 */
 	subscribers: Set<Subscriber<T>>;
 
 	/**

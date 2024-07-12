@@ -3,14 +3,18 @@ import { Subscriber } from './interfaces/subscriber';
 import { PlayerTurnResult } from './interfaces/playerTurnResult';
 import { TurnGenerator } from './turnGenerator';
 
-/** Class representing a dice generator. */
+/** Represents a dice generator. */
 export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<number> {
-	/** Property representing current player index. */
+	/**
+	 * @property {number} currentPlayerIndex - Contains current player index.
+	 */
 	private currentPlayerIndex = 0;
 
 	private turnGenerator: TurnGenerator = new TurnGenerator(2, this.currentPlayerIndex);
 
-	/**  Property representing a list of subscribers. */
+	/**
+	 * @property {Set<Subscriber<PlayerTurnResult>>} subscribers - Contains subscribers.
+	 */
 	public subscribers: Set<Subscriber<PlayerTurnResult>> = new Set();
 
 	public constructor(private readonly sidesCount = 6) {
@@ -18,28 +22,28 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 	}
 
 	/**
-	 * @param s - The subscriber.
+	 * @param s - Subscriber which want to subscribe.
 	 */
 	public subscribe(s: Subscriber<PlayerTurnResult>): void {
 		this.subscribers.add(s);
 	}
 
 	/**
-	 * @param s - The subscriber.
+	 * @param s - Subscriber which want to subscribe.
 	 */
 	public unsubscribe(s: Subscriber<PlayerTurnResult>): void {
 		this.subscribers.delete(s);
 	}
 
 	/**
-	 * @param message - The message.
+	 * @param message - The message to notify with.
 	 */
 	public notify(message: PlayerTurnResult): void {
 		this.subscribers.forEach((s: Subscriber<PlayerTurnResult>) => s.update(message));
 	}
 
 	/**
-	 * @param message - The message.
+	 * @param message - Message to update with.
 	 */
 	public update(message: number): void {
 		this.currentPlayerIndex = message;

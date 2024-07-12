@@ -1,9 +1,9 @@
-import { GameResultInfo } from './game';
+import { GameStateInfo } from './game';
 import { Subscriber } from './interfaces/subscriber';
 import { Player } from './player';
 
-/** Class which represents a UI handler. */
-export class ResultDisplayHandler implements Subscriber<GameResultInfo> {
+/** Represents a UI handler. */
+export class ResultDisplayHandler implements Subscriber<GameStateInfo> {
 	private diceCapContainer: HTMLElement | null = document.querySelector('.dice-cap-container');
 
 	private firstContainer: HTMLElement | null = document.querySelector('.container1');
@@ -11,9 +11,9 @@ export class ResultDisplayHandler implements Subscriber<GameResultInfo> {
 	private secondContainer: HTMLElement | null = document.querySelector('.container2');
 
 	/**
-	 * @param message - The message.
+	 * @param message - The message to update with.
 	 */
-	public update(message: GameResultInfo): void {
+	public update(message: GameStateInfo): void {
 		const { winner, rolls, players } = message;
 		if (winner) {
 			this.colorWinnerField(winner.playerIndex);

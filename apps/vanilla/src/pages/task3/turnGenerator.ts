@@ -1,29 +1,31 @@
 import { Publisher } from './interfaces/publisher';
 import { Subscriber } from './interfaces/subscriber';
 
-/** Class representing a turn generator. */
+/** Represents a turn generator. */
 export class TurnGenerator implements Publisher<number> {
 	public constructor(private readonly playersCount: number, private currentPlayerIndex: number) {}
 
-	/**  Property representing a list of subscribers. */
+	/**
+	 * @property {Set<Subscriber<number>>} subscribers - Contains subscribers.
+	 */
 	public subscribers: Set<Subscriber<number>> = new Set();
 
 	/**
-	 * @param s - The subscriber.
+	 * @param s - Subscriber which want to subscribe.
 	 */
 	public subscribe(s: Subscriber<number>): void {
 		this.subscribers.add(s);
 	}
 
 	/**
-	 * @param s - The subscriber.
+	 * @param s - Subscriber which want to unsubscribe.
 	 */
 	public unsubscribe(s: Subscriber<number>): void {
 		this.subscribers.delete(s);
 	}
 
 	/**
-	 * @param message - The message.
+	 * @param message - The message to notify with.
 	 */
 	public notify(message: number): void {
 		this.subscribers.forEach((s: Subscriber<number>) => s.update(message));

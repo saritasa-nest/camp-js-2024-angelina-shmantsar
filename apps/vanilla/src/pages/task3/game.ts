@@ -1,25 +1,33 @@
 import { DiceGenerator } from './diceGenerator';
 import { Publisher } from './interfaces/publisher';
 import { Subscriber } from './interfaces/subscriber';
-import { Player, PlayerResultInfo } from './player';
+import { Player, PlayerStateInfo } from './player';
 
-/** Type representing. */
-export type GameResultInfo = {
+/** Represents current game state. */
+export type GameStateInfo = {
 
-	/**  Property representing a winner. */
+	/**
+	 * @property {Player | null} winner - Contains winner.
+	 */
 	winner: Player | null;
 
-	/**  Property representing dice results. */
+	/**
+	 * @property {number[]} rolls - Contains all dice results.
+	 */
 	rolls: number[];
 
-	/**  Property representing players. */
+	/**
+	 * @property {Player[]} players - Contains players.
+	 */
 	players: Player[];
 };
 
-/** Class representing game. */
-export class Game implements Subscriber<PlayerResultInfo>, Publisher<GameResultInfo> {
-	/**  Property representing a list of subscribers. */
-	public subscribers: Set<Subscriber<GameResultInfo>> = new Set<Subscriber<GameResultInfo>>();
+/** Represents a game. */
+export class Game implements Subscriber<PlayerStateInfo>, Publisher<GameStateInfo> {
+	/**
+	 * @property {Set<Subscriber<GameStateInfo>>} subscribers - Contains subscribers.
+	 */
+	public subscribers: Set<Subscriber<GameStateInfo>> = new Set<Subscriber<GameStateInfo>>();
 
 	private players: Player[] = [];
 
@@ -30,7 +38,7 @@ export class Game implements Subscriber<PlayerResultInfo>, Publisher<GameResultI
 	private diceGenerator: DiceGenerator = new DiceGenerator();
 
 	/**
-	 * @param player - The player.
+	 * @param player - Player which want to join the game.
 	 */
 	public addPlayer(player: Player): void {
 		if (!this.players.includes(player)) {
@@ -52,36 +60,36 @@ export class Game implements Subscriber<PlayerResultInfo>, Publisher<GameResultI
 	}
 
 	/**
-	 * @param s - The subscriber.
+	 * @param s - Subscriber which want to subscribe.
 	 */
-	public subscribe(s: Subscriber<GameResultInfo>): void {
+	public subscribe(s: Subscriber<GameStateInfo>): void {
 		this.subscribers.add(s);
 	}
 
 	/**
-	 * @param s - The subscriber.
+	 * @param s - Subscriber which want to unsubscribe.
 	 */
-	public unsubscribe(s: Subscriber<GameResultInfo>): void {
+	public unsubscribe(s: Subscriber<GameStateInfo>): void {
 		this.subscribers.delete(s);
 	}
 
 	/**
-	 * @param message - The message.
+	 * @param message - The message to notify with.
 	 */
-	public notify(message: GameResultInfo): void {
-		this.subscribers.forEach((s: Subscriber<GameResultInfo>) => s.update(message));
+	public notify(message: GameStateInfo): void {
+		this.subscribers.forEach((s: Subscriber<GameStateInfo>) => s.update(message));
 	}
 
 	/**
-	 * @param message - The message.
+	 * @param message - The message to update with.
 	 */
-	public update(message: PlayerResultInfo): void {
+	public update(message: PlayerStateInfo): void {
 		const { playerIndex, diceResult, isWinner } = message;
 		this.rolls.push(diceResult);
 		if (isWinner) {
 			this.winner = this.players.at(playerIndex) ?? null;
 		}
-		const gameResultInfo: GameResultInfo = {
+		const gameResultInfo: GameStateInfo = {
 			winner: this.winner,
 			rolls: this.rolls,
 			players: this.players,
