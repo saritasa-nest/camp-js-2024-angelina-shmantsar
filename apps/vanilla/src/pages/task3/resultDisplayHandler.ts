@@ -6,9 +6,15 @@ import { Player } from './player';
 export class ResultDisplayHandler implements Subscriber<GameStateInfo> {
 	private readonly diceCapContainer: HTMLElement | null = document.querySelector('.dice-cap-container');
 
+	private readonly generalSumContainer: HTMLElement | null = document.querySelector('.general-sum');
+
 	private readonly firstContainer: HTMLElement | null = document.querySelector('.container1');
 
+	private readonly firstSumContainer: HTMLElement | null = document.querySelector('.sum1');
+
 	private readonly secondContainer: HTMLElement | null = document.querySelector('.container2');
+
+	private readonly secondSumContainer: HTMLElement | null = document.querySelector('.sum2');
 
 	/**
 	 * @param message - The message to update with.
@@ -26,6 +32,21 @@ export class ResultDisplayHandler implements Subscriber<GameStateInfo> {
 	private updateField(diceResults: readonly number[], field: HTMLElement | null): void {
 		if (field) {
 			field.innerText = diceResults.join(' ');
+
+			const resultsSum = diceResults.reduce((a: number, b: number) => a + b, 0);
+			if (field === this.diceCapContainer) {
+				this.updateSum(resultsSum, this.generalSumContainer);
+			} else if (field === this.firstContainer) {
+				this.updateSum(resultsSum, this.firstSumContainer);
+			} else {
+				this.updateSum(resultsSum, this.secondSumContainer);
+			}
+		}
+	}
+
+	private updateSum(sum: number, field: HTMLElement | null): void {
+		if (field) {
+			field.innerText = String(sum);
 		}
 	}
 
