@@ -43,6 +43,10 @@
 	gap: var(--size-6);
 }
 
+.book-groups {
+	padding-top: var(--header-height);
+}
+
 .books-group {
 	position: relative;
 	display: flex;
