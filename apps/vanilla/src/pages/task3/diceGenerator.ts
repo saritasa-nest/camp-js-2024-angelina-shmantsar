@@ -54,8 +54,12 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 		this.turnGenerator.next();
 		const rollResult: PlayerTurnResult = {
 			playerIndex: this.currentPlayerIndex,
-			diceResult: Math.floor(Math.random() * this.sidesCount) + 1,
+			diceResult: this.getDiceResult(),
 		};
 		this.notify(rollResult);
+	}
+
+	private getDiceResult(): number {
+		return Math.floor(Math.random() * this.sidesCount) + 1;
 	}
 }
