@@ -1,0 +1,57 @@
+:root {
+	/* Page colors */
+	--surface-color: rgb(255 255 255 / 100%);
+	--surface-overlay-color: rgb(0 0 0 / 5%);
+	--on-surface-color: rgb(0 0 0 / 100%);
+	--on-surface-dim-color: rgb(0 0 0 / 50%);
+	--primary-color: rgb(241 89 36 / 100%);
+	--on-primary-color: rgb(255 255 255);
+	--border-color: rgb(0 0 0 / 15%);
+
+	/* Page fonts */
+	--subtitle-font: 600 18px/24px inter, sans-serif;
+	--subtitle-text-transform: uppercase;
+	--body-font: 400 20px/32px inter, sans-serif;
+	--body-small-font: 500 16px/24px inter, sans-serif;
+	--logo-font: 700 20px/24px inter, sans-serif;
+
+	/* Page components sizes */
+	--header-height: 64px;
+	--footer-height: 128px;
+	--main-wrapper-size: 1360px;
+
+	/* Books wrapper sizes */
+	--books-wrapper-width-md: 900px;
+	--books-wrapper-width-lg: 1200px;
+
+	/* Filters wrapper sizes */
+	--filters-wrapper-height-sm: 120px;
+	--filters-wrapper-height-md: 248px;
+	--filters-wrapper-width-md: 276px;
+	--filters-wrapper-width-lg: 320px;
+
+	/* Checkbox mark sizes */
+	--check-mark-width: 10px;
+	--check-mark-height: 10px;
+
+	/* Border sizes */
+	--border-width-md: 1px;
+	--border-width-lg: 2px;
+
+	/* Shift and some small components sizes */
+	--size-2: 8px;
+	--size-3: 12px;
+	--size-4: 16px;
+	--size-5: 20px;
+	--size-6: 24px;
+	--size-8: 32px;
+	--size-9: 36px;
+	--size-10: 40px;
+	--size-12: 48px;
+	--size-16: 64px;
+
+	/* Border-radius sizes */
+	--border-radius-xs: 4px;
+	--border-radius-md: 16px;
+	--border-radius-lg: 24px;
+}

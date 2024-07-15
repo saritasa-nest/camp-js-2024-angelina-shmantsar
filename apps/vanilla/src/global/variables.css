@@ -1,5 +1,5 @@
 :root {
-  --heading-color-1: #ffd700;
-  --heading-color-2: #e9967a;
-  --heading-color-3: #b0e0e6;
+	--heading-color-1: rgb(255 215 0);
+	--heading-color-2: rgb(233 150 122);
+	--heading-color-3: rgb(176 224 230);
 }
