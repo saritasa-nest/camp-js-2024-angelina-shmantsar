@@ -60,6 +60,8 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 	}
 
 	private getDiceResult(): number {
-		return Math.floor(Math.random() * this.sidesCount) + 1;
+		const buffer = new Uint8Array(1);
+		const crypto = window.crypto.getRandomValues(buffer);
+		return Math.floor(crypto[0] / 256 * this.sidesCount) + 1;
 	}
 }
