@@ -7,7 +7,7 @@ import { convertIsoToLocale } from '@js-camp/angular/core/utils/convertIsoToLoca
 
 /** Example component. */
 @Component({
-	selector: 'camp-example',
+	selector: 'anime-table',
 	templateUrl: './animeTable.component.html',
 	styleUrls: ['./animeTable.component.css'],
 	standalone: true,
@@ -25,7 +25,7 @@ export class AnimeTableComponent {
 	public constructor() {
 		this.animeService.getAllAnime()
 			.subscribe(value => {
-				this.anime = value.results.slice(0, 10).map(item => ({
+				this.anime = value.results.map(item => ({
 					...item,
 					aired: {
 						start: convertIsoToLocale(item.aired.start),
