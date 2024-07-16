@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./task1.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <title>Vite App</title>
+  </head>
+  <body class="books-catalog-layout">
+		<main class="main-wrapper">
+			<header class="books-app-header">📚 Books app</header>
+			<div id="top-anchor"></div>
+			<div class="books-app-content">
+				<div class="book-groups">
+					<section class="books-group">
+						<h2 class="books-group__title">
+							<span>2020</span>
+							<span>year</span>
+						</h2>
+						<div class="books">
+							<article class="book">
+								<img class="book__image" src="../static/image3.png" alt="Refactoring UI">
+								<h3 class="book__title">Refactoring UI</h3>
+							</article>
+							<article class="book">
+								<img class="book__image" src="../static/image1.png" alt="Master the Skill of Debugging CSS">
+								<h3 class="book__title">Master the Skill of Debugging CSS</h3>
+							</article>
+							<article class="book">
+								<img class="book__image" src="../static/image9.png" alt="Blue Period">
+								<h3 class="book__title">Blue Period</h3>
+							</article>
+						</div>
+					</section>
+					<section class="books-group">
+						<h2 class="books-group__title">
+							<span>1980</span>
+							<span>year</span>
+						</h2>
+						<div class="books">
+							<article class="book">
+								<img class="book__image" src="../static/image10.png" alt="Yokohama Kaidashi Kikou">
+								<h3 class="book__title">Yokohama Kaidashi Kikou</h3>
+							</article>
+							<article class="book">
+								<img class="book__image" src="../static/image4.png" alt="Learning JavaScript Design Patterns">
+								<h3 class="book__title">Learning JavaScript Design Patterns</h3>
+							</article>
+							<article class="book">
+								<img class="book__image" src="../static/image11.png" alt="Yotsuba to!">
+								<h3 class="book__title">Yotsuba to!</h3>
+							</article>
+							<article class="book">
+								<img class="book__image" src="../static/image5.png" alt="Domain-Driven Design">
+								<h3 class="book__title">Domain-Driven Design</h3>
+							</article>
+							<article class="book">
+								<img class="book__image" src="../static/image6.png" alt="Implementing Domain-Driven Design">
+								<h3 class="book__title">Implementing Domain-Driven Design</h3>
+							</article>
+							<article class="book">
+								<img class="book__image" src="../static/image8.png" alt="7 Навыков высокэффективных людей">
+								<h3 class="book__title">7 Навыков высокэффективных людей</h3>
+							</article>
+						</div>
+					</section>
+				</div>
+				<div class="filters-wrapper">
+					<section class="filters">
+						<h2 class="filters__header">filters</h2>
+						<div class="filters__inner-wrapper">
+							<input class="search-input" type="search" placeholder="e.g. “Refactoring”">
+							<select class="select-input" required>
+								<option value="" selected hidden>Choose sort field</option>
+								<option value="length">Length</option>
+							</select>
+							<label class="checkbox-container">
+								<span class="checkbox">
+									<input type="checkbox" class="checkbox-input">
+									<span class="check-mark"></span>
+								</span>
+								Show comics
+							</label>
+						</div>
+					</section>
+				</div>
+			</div>
+			<footer class="books-app-footer">
+				<span class="books-app-footer__contacts">
+					<span class="books-app-footer__copyright">
+						<span class="books-app-footer__logo">Books app</span>
+						<span>© 2023</span>
+					</span>
+					<a class="books-app-footer__github" href="https://github.com/saritasa-nest/camp-js-2024-angelina-shmantsar">Github</a>
+				</span>
+				<a class="books-app-footer__anchor" href="#top-anchor">Go to top ↑</a>
+			</footer>
+		</main>
+  </body>
+</html>
