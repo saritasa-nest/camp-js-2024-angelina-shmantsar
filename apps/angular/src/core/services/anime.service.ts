@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { BASE_API_URL } from '../constants/backendConst';
 
-import { GetAnimeDto } from '../interfaces/getAnimeDto';
+import { GetAnimeResponseDto } from '../dtos/getAnimeResponse.dto';
 
 /** Represents anime fetch service. */
 @Injectable({
@@ -18,9 +18,11 @@ export class AnimeService {
 	public constructor() {}
 
 	/** Method. */
-	public getAllAnime(): Observable<GetAnimeDto> {
-		return this.httpClient.get<GetAnimeDto>(`${this.baseAnimeUrl}anime/`, {
+	public getAllAnime(): Observable<GetAnimeResponseDto> {
+		return this.httpClient.get<GetAnimeResponseDto>(`${this.baseAnimeUrl}anime/`, {
 			headers: {
+				// Json specific naming
+				// eslint-disable-next-line @typescript-eslint/naming-convention
 				'Api-Key': 'a392e76c-bd9b-4e37-a0cb-82f6aa60bb72',
 			},
 		});

@@ -1,10 +1,12 @@
-import { AnimeStatusEnum } from '../enums/animeStatusEnum';
-import { AnimeTypeEnum } from '../enums/animeTypeEnum';
+// Because we get this type from backend
+/* eslint-disable @typescript-eslint/naming-convention */
+import { DateTimeRangeField } from '../interfaces/dateTimeRangeField';
 
-import { DateTimeRangeField } from './dateTimeRangeField';
+import { AnimeStatusEnum } from './backendEnums/animeStatusEnum';
+import { AnimeTypeEnum } from './backendEnums/animeTypeEnum';
 
 /** Represents anime. */
-export type Anime = {
+export type AnimeDto = {
 
 	/** Hi. */
 	id: number;

@@ -1,7 +1,7 @@
 
 import { Component, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { Anime } from '@js-camp/angular/core/interfaces/anime';
+import { AnimeDto } from '@js-camp/angular/core/dtos/anime.dto';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { convertIsoToLocale } from '@js-camp/angular/core/utils/convertIsoToLocale';
 
@@ -17,7 +17,7 @@ export class AnimeTableComponent {
 	private animeService = inject(AnimeService);
 
 	/** Hi. */
-	public anime: Anime[] = [];
+	public anime: AnimeDto[] = [];
 
 	/** Hi. */
 	public displayedColumns: string[] = ['image', 'title_eng', 'title_jpn', 'aired_start', 'type', 'status'];

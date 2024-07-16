@@ -1,7 +1,7 @@
-import { Anime } from './anime';
+import { AnimeDto } from './anime.dto';
 
 /** Type. */
-export type GetAnimeDto = {
+export type GetAnimeResponseDto = {
 
 	/** Hi. */
 	count: number;
@@ -13,5 +13,5 @@ export type GetAnimeDto = {
 	previous: string;
 
 	/** Hi. */
-	results: Anime[];
+	results: AnimeDto[];
 };
