@@ -19,6 +19,10 @@ export class AnimeService {
 
 	/** Method. */
 	public getAllAnime(): Observable<GetAnimeDto> {
-		return this.httpClient.get<GetAnimeDto>(`${this.baseAnimeUrl}anime/`);
+		return this.httpClient.get<GetAnimeDto>(`${this.baseAnimeUrl}anime/`, {
+			headers: {
+				'Api-Key': 'a392e76c-bd9b-4e37-a0cb-82f6aa60bb72',
+			},
+		});
 	}
 }
