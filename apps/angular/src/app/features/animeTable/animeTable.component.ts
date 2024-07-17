@@ -1,4 +1,3 @@
-
 import { Component, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { Anime } from '@js-camp/angular/core/models/anime';
@@ -8,7 +7,7 @@ import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 @Component({
 	selector: 'anime-table',
 	templateUrl: './animeTable.component.html',
-	styleUrls: ['./animeTable.component.css'],
+	styleUrl: './animeTable.component.css',
 	standalone: true,
 	imports: [MatTableModule],
 })
