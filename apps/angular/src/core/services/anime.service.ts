@@ -9,7 +9,7 @@ import { AnimeDto } from '../dtos/anime.dto';
 import { AnimeMapper } from '../mappers/anime.mapper';
 import { Anime } from '../models/anime';
 
-/** Represents anime fetch service. */
+/** Represents anime fetch and transform service. */
 @Injectable({
 	providedIn: 'root',
 })
@@ -20,7 +20,7 @@ export class AnimeService {
 
 	public constructor() {}
 
-	/** Method. */
+	/** Fetch all anime from backend. */
 	public getAllAnime(): Observable<GetAnimeResponseDto> {
 		return this.httpClient.get<GetAnimeResponseDto>(`${this.baseAnimeUrl}anime/`, {
 			headers: {

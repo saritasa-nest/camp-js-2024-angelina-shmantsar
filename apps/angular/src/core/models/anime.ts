@@ -11,40 +11,40 @@ export class Anime {
 	/** Id. */
 	public readonly id: number;
 
-	/** Name. */
+	/** Created. */
 	public readonly created: string;
 
-	/** Id. */
+	/** Modified. */
 	public readonly modified: string;
 
-	/** Name. */
+	/** Anime title in English. */
 	public readonly titleEng: string;
 
-	/** Id. */
+	/** Anime title in Japanese. */
 	public readonly titleJpn: string;
 
-	/** Name. */
+	/** Image - anime poster. */
 	public readonly image: string;
 
-	/** Id. */
+	/** Aired. */
 	public readonly aired: DateTimeRangeField;
 
-	/** Name. */
+	/** Type. */
 	public readonly type: AnimeTypeEnum;
 
-	/** Id. */
+	/** Status. */
 	public readonly status: AnimeStatusEnum;
 
-	/** Name. */
+	/** Score. */
 	public readonly score: number;
 
-	/** Id. */
+	/** User score. */
 	public readonly userScore: number;
 
-	/** Name. */
+	/** Studios. */
 	public readonly studios: number[];
 
-	/** Name. */
+	/** Genres. */
 	public readonly genres: number[];
 
 	public constructor(data: AnimeConstructorData) {

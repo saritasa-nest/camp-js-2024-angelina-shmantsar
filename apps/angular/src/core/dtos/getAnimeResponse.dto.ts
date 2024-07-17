@@ -1,17 +1,17 @@
 import { AnimeDto } from './anime.dto';
 
-/** Type. */
+/** Represents backend response with anime list. */
 export type GetAnimeResponseDto = {
 
-	/** Hi. */
+	/** Total count of anime. */
 	count: number;
 
-	/** Hi. */
+	/** Reference to next page with anime. */
 	next: string;
 
-	/** Hi. */
+	/** Reference to previous page with anime. */
 	previous: string;
 
-	/** Hi. */
+	/** Anime list. */
 	results: AnimeDto[];
 };

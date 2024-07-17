@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
-/** Represents app header. */
+/** App header component. */
 @Component({
 	selector: 'app-header',
 	standalone: true,

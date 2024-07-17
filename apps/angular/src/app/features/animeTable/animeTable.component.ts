@@ -5,7 +5,7 @@ import { Anime } from '@js-camp/angular/core/models/anime';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { convertIsoToLocale } from '@js-camp/angular/core/utils/convertIsoToLocale';
 
-/** Example component. */
+/** Anime table component. */
 @Component({
 	selector: 'anime-table',
 	templateUrl: './animeTable.component.html',
@@ -16,10 +16,10 @@ import { convertIsoToLocale } from '@js-camp/angular/core/utils/convertIsoToLoca
 export class AnimeTableComponent {
 	private animeService = inject(AnimeService);
 
-	/** Hi. */
+	/** Represents anime list. */
 	public anime: Anime[] = [];
 
-	/** Hi. */
+	/** Represents table columns. */
 	public displayedColumns: string[] = ['image', 'title_eng', 'title_jpn', 'aired_start', 'type', 'status'];
 
 	public constructor() {

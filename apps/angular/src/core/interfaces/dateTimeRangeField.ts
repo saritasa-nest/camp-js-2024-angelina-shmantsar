@@ -1,9 +1,9 @@
-/** Type. */
+/** Represents date-time interval. */
 export type DateTimeRangeField = {
 
-	/** Hi. */
+	/** Start. */
 	start: string;
 
-	/** Hi. */
+	/** End. */
 	end: string;
 };

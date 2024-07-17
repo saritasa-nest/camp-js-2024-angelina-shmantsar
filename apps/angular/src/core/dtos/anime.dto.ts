@@ -5,45 +5,45 @@ import { DateTimeRangeField } from '../interfaces/dateTimeRangeField';
 import { AnimeStatusEnum } from './backendEnums/animeStatusEnum';
 import { AnimeTypeEnum } from './backendEnums/animeTypeEnum';
 
-/** Represents anime. */
+/** Represents anime in backend. */
 export type AnimeDto = {
 
-	/** Hi. */
+	/** Anime id. */
 	id: number;
 
-	/** Hi. */
+	/** Created. */
 	created: string;
 
-	/** Hi. */
+	/** Modified. */
 	modified: string;
 
-	/** Hi. */
+	/** Anime title in English. */
 	title_eng: string;
 
-	/** Hi. */
+	/** Anime title in Japanese. */
 	title_jpn: string;
 
-	/** Hi. */
+	/** Image - anime poster. */
 	image: string;
 
-	/** Hi. */
+	/** Aired. */
 	aired: DateTimeRangeField;
 
-	/** Hi. */
+	/** Type. */
 	type: AnimeTypeEnum;
 
-	/** Hi. */
+	/** Status. */
 	status: AnimeStatusEnum;
 
-	/** Hi. */
+	/** Score. */
 	score: number;
 
-	/** Hi. */
+	/** User score. */
 	user_score: number;
 
-	/** Hi. */
+	/** Studios. */
 	studios: number[];
 
-	/** Hi. */
+	/** Genres. */
 	genres: number[];
 };
