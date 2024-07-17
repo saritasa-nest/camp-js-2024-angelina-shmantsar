@@ -1,9 +1,17 @@
 .header {
+	position: sticky;
+	top: 0;
 	display: flex;
+	justify-content: space-between;
 	align-items: center;
-	padding-left: 20px;
-	height: 64px;
+	padding: 0 20px;
+	height: 72px;
 	background-color: rgb(138 43 226 / 80%);
 	color: rgb(255 255 255);
 	font-size: 32px;
+}
+
+.app-title {
+	font-size: 32px;
+	font-weight: 500;
 }
