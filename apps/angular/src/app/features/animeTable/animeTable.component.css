@@ -1,24 +1,24 @@
 table {
 	width: 100%;
-	background-color: rgb(238 130 238);
-	padding: 0 10px;
+	background-color: var(--table-color);
+	padding: 0 var(--size-3);
 }
 
 td,
 th {
 	text-align: center;
 	vertical-align: middle;
-	font-size: 20px;
-	border-bottom: 1px solid rgb(138 43 226);
-	padding: 10px;
+	font-size: var(--font-size-md);
+	border-bottom: var(--border-sm) solid var(--table-border-color);
+	padding: var(--size-3);
 }
 
 tr:hover {
-	background-color: rgb(240 98 240);
+	background-color: var(--table-hover-color);
 }
 
 .table-image {
-	width: 150px;
-	height: 150px;
+	width: var(--table-image-width);
+	height: var(--table-image-height);
 	object-fit: contain;
 }

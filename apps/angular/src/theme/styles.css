@@ -1,4 +1,9 @@
 /* Global styles. */
+@import url("variables.css");
+
+* {
+	box-sizing: border-box;
+}
 
 html,
 body {

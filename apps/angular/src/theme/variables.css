@@ -1,0 +1,32 @@
+:root {
+	/* Header colors */
+	--header-color: rgb(138 43 226 / 80%);
+	--header-text-color: rgb(255 255 255);
+
+	/* Header sizes */
+	--header-height: 72px;
+
+	/* Table colors */
+	--table-color: rgb(238 130 238);
+	--table-hover-color: rgb(240 98 240);
+	--table-border-color: rgb(138 43 226);
+
+	/* Table sizes */
+	--table-image-width: 150px;
+	--table-image-height: 150px;
+
+	/* Border sizes */
+	--border-sm: 1px;
+
+	/* Small component sizes */
+	--space-base: 4px;
+	--size-3: 12px;
+	--size-5: 20px;
+
+	/* Font sizes */
+	--font-size-md: 20px;
+	--font-size-lg: 32px;
+
+	/* Font weights */
+	--font-weight-medium: 500;
+}
