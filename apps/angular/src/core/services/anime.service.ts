@@ -41,9 +41,6 @@ export class AnimeService {
 		);
 	}
 
-	/**
-	 * @param dto - Anime dto.
-	 */
 	private mapAnimeDto(dto: AnimeDto[]): Anime[] {
 		return dto.map(item => AnimeMapper.fromDto(item));
 	}
