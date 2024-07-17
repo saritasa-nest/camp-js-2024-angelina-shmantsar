@@ -5,6 +5,7 @@ import {
 
 import { genresSlice } from './genre/slice';
 
+/** Store. */
 export const store = configureStore({
 	reducer: {
 		genres: genresSlice.reducer,
@@ -17,9 +18,14 @@ export const store = configureStore({
 	}),
 });
 
+/** Root state type. */
 export type RootState = ReturnType<typeof store.getState>;
+
+/** App dispatch type. */
 export type AppDispatch = typeof store.dispatch;
 
 /** Typed `useDispatch` hook. */
 export const useAppDispatch = (): AppDispatch => useDispatch<AppDispatch>();
+
+/** Typed `useSelector` hook. */
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
