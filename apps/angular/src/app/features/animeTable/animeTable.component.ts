@@ -3,7 +3,6 @@ import { Component, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { Anime } from '@js-camp/angular/core/models/anime';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
-import { convertIsoToLocale } from '@js-camp/angular/core/utils/convertIsoToLocale';
 
 /** Anime table component. */
 @Component({
@@ -24,15 +23,6 @@ export class AnimeTableComponent {
 
 	public constructor() {
 		this.animeService.getAllAnime()
-			.subscribe(value => {
-				this.anime = this.animeService.mapAnimeDto(value.results)
-					.map(item => ({
-						...item,
-						aired: {
-							start: convertIsoToLocale(item.aired.start),
-							end: item.aired.end,
-						},
-					}));
-			});
+			.subscribe(value => (this.anime = value));
 	}
 }
