@@ -5,6 +5,9 @@ import { Observable } from 'rxjs';
 import { BASE_API_URL } from '../constants/backendConst';
 
 import { GetAnimeResponseDto } from '../dtos/getAnimeResponse.dto';
+import { AnimeDto } from '../dtos/anime.dto';
+import { AnimeMapper } from '../mappers/anime.mapper';
+import { Anime } from '../models/anime';
 
 /** Represents anime fetch service. */
 @Injectable({
@@ -26,5 +29,12 @@ export class AnimeService {
 				'Api-Key': 'a392e76c-bd9b-4e37-a0cb-82f6aa60bb72',
 			},
 		});
+	}
+
+	/**
+	 * @param dto - Anime dto.
+	 */
+	public mapAnimeDto(dto: AnimeDto[]): Anime[] {
+		return dto.map(item => AnimeMapper.fromDto(item));
 	}
 }

@@ -1,7 +1,7 @@
 
 import { Component, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { AnimeDto } from '@js-camp/angular/core/dtos/anime.dto';
+import { Anime } from '@js-camp/angular/core/models/anime';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { convertIsoToLocale } from '@js-camp/angular/core/utils/convertIsoToLocale';
 
@@ -17,7 +17,7 @@ export class AnimeTableComponent {
 	private animeService = inject(AnimeService);
 
 	/** Hi. */
-	public anime: AnimeDto[] = [];
+	public anime: Anime[] = [];
 
 	/** Hi. */
 	public displayedColumns: string[] = ['image', 'title_eng', 'title_jpn', 'aired_start', 'type', 'status'];
@@ -25,13 +25,14 @@ export class AnimeTableComponent {
 	public constructor() {
 		this.animeService.getAllAnime()
 			.subscribe(value => {
-				this.anime = value.results.map(item => ({
-					...item,
-					aired: {
-						start: convertIsoToLocale(item.aired.start),
-						end: item.aired.end,
-					},
-				}));
+				this.anime = this.animeService.mapAnimeDto(value.results)
+					.map(item => ({
+						...item,
+						aired: {
+							start: convertIsoToLocale(item.aired.start),
+							end: item.aired.end,
+						},
+					}));
 			});
 	}
 }
