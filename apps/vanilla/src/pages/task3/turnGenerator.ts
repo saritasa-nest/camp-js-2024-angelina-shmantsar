@@ -5,33 +5,25 @@ import { Subscriber } from './interfaces/subscriber';
 export class TurnGenerator implements Publisher<number> {
 	public constructor(private readonly playersCount: number, private currentPlayerIndex: number) {}
 
-	/**
-	 * @property {Set<Subscriber<number>>} subscribers - Contains subscribers.
-	 */
+	/** @inheritdoc */
 	public subscribers: Set<Subscriber<number>> = new Set<Subscriber<number>>();
 
-	/**
-	 * @param s - Subscriber which want to subscribe.
-	 */
-	public subscribe(s: Subscriber<number>): void {
-		this.subscribers.add(s);
+	/** @inheritdoc */
+	public subscribe(subscriber: Subscriber<number>): void {
+		this.subscribers.add(subscriber);
 	}
 
-	/**
-	 * @param s - Subscriber which want to unsubscribe.
-	 */
-	public unsubscribe(s: Subscriber<number>): void {
-		this.subscribers.delete(s);
+	/** @inheritdoc */
+	public unsubscribe(subscriber: Subscriber<number>): void {
+		this.subscribers.delete(subscriber);
 	}
 
-	/**
-	 * @param message - The message to notify with.
-	 */
+	/** @inheritdoc */
 	public notify(message: number): void {
-		this.subscribers.forEach((s: Subscriber<number>) => s.update(message));
+		this.subscribers.forEach((subscriber: Subscriber<number>) => subscriber.update(message));
 	}
 
-	/** Function to get turn of current player. */
+	/** Get turn of current player. */
 	public next(): void {
 		this.notify(this.currentPlayerIndex % this.playersCount);
 		this.currentPlayerIndex += 1;

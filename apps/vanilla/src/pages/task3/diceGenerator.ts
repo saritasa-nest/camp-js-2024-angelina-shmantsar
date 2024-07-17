@@ -5,51 +5,39 @@ import { TurnGenerator } from './turnGenerator';
 
 /** Represents a dice generator. */
 export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<number> {
-	/**
-	 * @property {number} currentPlayerIndex - Contains current player index.
-	 */
+	/** Contains current player index. */
 	private currentPlayerIndex = 0;
 
 	private turnGenerator: TurnGenerator = new TurnGenerator(2, this.currentPlayerIndex);
 
-	/**
-	 * @property {Set<Subscriber<PlayerTurnResult>>} subscribers - Contains subscribers.
-	 */
+	/** @inheritdoc */
 	public subscribers: Set<Subscriber<PlayerTurnResult>> = new Set<Subscriber<PlayerTurnResult>>();
 
 	public constructor(private readonly sidesCount = 6) {
 		this.turnGenerator.subscribe(this);
 	}
 
-	/**
-	 * @param s - Subscriber which want to subscribe.
-	 */
-	public subscribe(s: Subscriber<PlayerTurnResult>): void {
-		this.subscribers.add(s);
+	/** @inheritdoc */
+	public subscribe(subscriber: Subscriber<PlayerTurnResult>): void {
+		this.subscribers.add(subscriber);
 	}
 
-	/**
-	 * @param s - Subscriber which want to subscribe.
-	 */
-	public unsubscribe(s: Subscriber<PlayerTurnResult>): void {
-		this.subscribers.delete(s);
+	/** @inheritdoc */
+	public unsubscribe(subscriber: Subscriber<PlayerTurnResult>): void {
+		this.subscribers.delete(subscriber);
 	}
 
-	/**
-	 * @param message - The message to notify with.
-	 */
+	/** @inheritdoc */
 	public notify(message: PlayerTurnResult): void {
-		this.subscribers.forEach((s: Subscriber<PlayerTurnResult>) => s.update(message));
+		this.subscribers.forEach((subscriber: Subscriber<PlayerTurnResult>) => subscriber.update(message));
 	}
 
-	/**
-	 * @param message - Message to update with.
-	 */
+	/** @inheritdoc */
 	public update(message: number): void {
 		this.currentPlayerIndex = message;
 	}
 
-	/** Function to get dice value. */
+	/** Call notify method with current dice result and player index. */
 	public roll(): void {
 		this.turnGenerator.next();
 		const rollResult: PlayerTurnResult = {

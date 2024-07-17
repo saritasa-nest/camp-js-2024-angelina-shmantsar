@@ -5,9 +5,7 @@ import { Subscriber } from './interfaces/subscriber';
 /** Represents whether there is a winner or not. */
 type IsWinner = {
 
-	/**
-	 * @property {boolean} isWinner - Contains winner status.
-	 */
+	/** Contains winner status. */
 	readonly isWinner: boolean;
 };
 
@@ -20,51 +18,41 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerSta
 
 	private isWinner = false;
 
-	/**
-	 * @property {Set<Subscriber<PlayerStateInfo>>} subscribers - Contains subscribers.
-	 */
+	/** @inheritdoc */
 	public subscribers: Set<Subscriber<PlayerStateInfo>> = new Set<Subscriber<PlayerStateInfo>>();
 
 	public constructor(public readonly playerIndex: number) {}
 
-	/**
-	 * @param s - Subscriber which want to subscribe.
-	 */
-	public subscribe(s: Subscriber<PlayerStateInfo>): void {
-		this.subscribers.add(s);
+	/** @inheritdoc */
+	public subscribe(subscriber: Subscriber<PlayerStateInfo>): void {
+		this.subscribers.add(subscriber);
 	}
 
-	/**
-	 * @param s - Subscriber which want to unsubscribe.
-	 */
-	public unsubscribe(s: Subscriber<PlayerStateInfo>): void {
-		this.subscribers.delete(s);
+	/** @inheritdoc */
+	public unsubscribe(subscriber: Subscriber<PlayerStateInfo>): void {
+		this.subscribers.delete(subscriber);
 	}
 
-	/**
-	 * @param message - The message to notify with.
-	 */
+	/** @inheritdoc */
 	public notify(message: PlayerStateInfo): void {
-		this.subscribers.forEach((s: Subscriber<PlayerStateInfo>) => s.update(message));
+		this.subscribers.forEach((subscriber: Subscriber<PlayerStateInfo>) => subscriber.update(message));
 	}
 
-	/**
-	 * @param message - The message to update with.
-	 */
+	/** @inheritdoc */
 	public update(message: PlayerTurnResult): void {
 		const { playerIndex, diceResult } = message;
 		if (this.playerIndex !== playerIndex) {
 			return;
 		}
 		this.diceResults.push(diceResult);
-		const totalPoints: number = this.diceResults.reduce((a, b) => a + b, 0);
+		const totalPoints = this.diceResults.reduce((a, b) => a + b, 0);
 		this.isWinner = totalPoints >= 21;
 
 		const playerResultInfo: PlayerStateInfo = this.makeResultInfo(diceResult);
 		this.notify(playerResultInfo);
 	}
 
-	/** Function to get dice results. */
+	/** Get dice results. */
 	public getDiceResults(): number[] {
 		return this.diceResults;
 	}

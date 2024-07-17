@@ -16,9 +16,7 @@ export class ResultDisplayHandler implements Subscriber<GameStateInfo> {
 
 	private readonly secondSumContainer: HTMLElement | null = document.querySelector('.sum2');
 
-	/**
-	 * @param message - The message to update with.
-	 */
+	/** @inheritdoc */
 	public update(message: GameStateInfo): void {
 		const { winner, rolls, players } = message;
 		if (winner) {
@@ -26,7 +24,8 @@ export class ResultDisplayHandler implements Subscriber<GameStateInfo> {
 		}
 		this.updateField(rolls, this.diceCapContainer);
 		players
-			.forEach((p: Player) => this.updateField(p.getDiceResults(), p.playerIndex === 0 ? this.firstContainer : this.secondContainer));
+			.forEach((player: Player) =>
+				this.updateField(player.getDiceResults(), player.playerIndex === 0 ? this.firstContainer : this.secondContainer));
 	}
 
 	private updateField(diceResults: readonly number[], field: HTMLElement | null): void {

@@ -13,7 +13,7 @@ game.addPlayer(player2);
 game.start();
 game.subscribe(resultDisplayHandler);
 
-/** Function that handles click on roll dice button. */
+/** Handles click on roll dice button. */
 function onClickRollButton(): void {
 	game.makeMove();
 }
