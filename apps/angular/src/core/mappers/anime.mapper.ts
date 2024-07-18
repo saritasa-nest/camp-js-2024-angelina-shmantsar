@@ -1,5 +1,6 @@
 import { AnimeDto } from '../dtos/anime.dto';
 import { Anime } from '../models/anime';
+import { convertIsoToLocale } from '../utils/convertIsoToLocale';
 
 export namespace AnimeMapper {
 
@@ -15,7 +16,10 @@ export namespace AnimeMapper {
 			titleEng: dto.title_eng,
 			titleJpn: dto.title_jpn,
 			image: dto.image,
-			aired: dto.aired,
+			aired: {
+				start: convertIsoToLocale(dto.aired.start),
+				end: dto.aired.end,
+			},
 			type: dto.type,
 			status: dto.status,
 			score: dto.score,

@@ -3,10 +3,8 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
 import { GetAnimeResponseDto } from '../dtos/getAnimeResponse.dto';
-import { AnimeDto } from '../dtos/anime.dto';
 import { AnimeMapper } from '../mappers/anime.mapper';
 import { Anime } from '../models/anime';
-import { convertIsoToLocale } from '../utils/convertIsoToLocale';
 
 import { UrlService } from './url.service';
 
@@ -26,18 +24,7 @@ export class AnimeService {
 	/** Fetch all anime from backend. */
 	public getAllAnime(): Observable<Anime[]> {
 		return this.httpClient.get<GetAnimeResponseDto>(this.animeUrl).pipe(
-			map(value => this.mapAnimeDto(value.results)),
-			map(value => value.map(item => ({
-				...item,
-				aired: {
-					start: convertIsoToLocale(item.aired.start),
-					end: item.aired.end,
-				},
-			}))),
+			map(value => value.results.map(item => AnimeMapper.fromDto(item))),
 		);
-	}
-
-	private mapAnimeDto(dto: AnimeDto[]): Anime[] {
-		return dto.map(item => AnimeMapper.fromDto(item));
 	}
 }
