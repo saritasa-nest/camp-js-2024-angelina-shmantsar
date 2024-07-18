@@ -1,11 +1,7 @@
-import { AnimeDto } from '../dtos/anime.dto';
-import { AnimeStatus } from '../dtos/backendEnums/animeStatus';
-import { AnimeType } from '../dtos/backendEnums/animeType';
+import { AnimeStatus } from './animeStatus';
+import { AnimeType } from './animeType';
 
 import { DateTimeRange } from './dateTimeRange';
-
-/** Type for anime class constructor. */
-export type AnimeConstructorData = AnimeDto;
 
 /** Represents anime. */
 export type Anime = {

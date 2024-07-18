@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { DateTimeRange } from '../models/dateTimeRange';
 
-import { AnimeStatus } from './backendEnums/animeStatus';
-import { AnimeType } from './backendEnums/animeType';
+import { AnimeStatusDto } from './backendEnums/animeStatus.dto';
+import { AnimeTypeDto } from './backendEnums/animeType.dto';
 
 /** Represents anime in backend. */
 export type AnimeDto = {
@@ -30,10 +30,10 @@ export type AnimeDto = {
 	readonly aired: DateTimeRange;
 
 	/** Type. */
-	readonly type: AnimeType;
+	readonly type: AnimeTypeDto;
 
 	/** Status. */
-	readonly status: AnimeStatus;
+	readonly status: AnimeStatusDto;
 
 	/** Score. */
 	readonly score: number;
