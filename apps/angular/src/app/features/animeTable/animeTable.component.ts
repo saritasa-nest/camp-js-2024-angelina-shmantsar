@@ -24,8 +24,6 @@ export class AnimeTableComponent implements OnInit {
 	/** Represents table columns. */
 	protected readonly displayedColumns: string[] = ['image', 'title_eng', 'title_jpn', 'aired_start', 'type', 'status'];
 
-	public constructor() {}
-
 	/** @inheritdoc */
 	public ngOnInit(): void {
 		this.anime$ = this.animeService.getAll();

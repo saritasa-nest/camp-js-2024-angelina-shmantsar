@@ -2,7 +2,7 @@ import { AnimeDto } from '../dtos/anime.dto';
 import { AnimeStatus } from '../dtos/backendEnums/animeStatus';
 import { AnimeType } from '../dtos/backendEnums/animeType';
 
-import { DateTimeRangeField } from './dateTimeRangeField';
+import { DateTimeRange } from './dateTimeRange';
 
 /** Type for anime class constructor. */
 export type AnimeConstructorData = AnimeDto;
@@ -14,10 +14,10 @@ export type Anime = {
 	readonly id: number;
 
 	/** Created. */
-	readonly created: string;
+	readonly created: Date;
 
 	/** Modified. */
-	readonly modified: string;
+	readonly modified: Date;
 
 	/** Anime title in English. */
 	readonly titleEng: string;
@@ -29,7 +29,7 @@ export type Anime = {
 	readonly image: string;
 
 	/** Aired. */
-	readonly aired: DateTimeRangeField;
+	readonly aired: DateTimeRange;
 
 	/** Type. */
 	readonly type: AnimeType;
