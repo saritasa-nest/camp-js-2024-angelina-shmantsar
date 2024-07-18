@@ -1,7 +1,9 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, DatePipe, LowerCasePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { Anime } from '@js-camp/angular/core/models/anime';
+import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
+import { RemoveUnderscorePipe } from '@js-camp/angular/core/pipes/removeUnderscore.pipe';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Observable } from 'rxjs';
 
@@ -11,7 +13,7 @@ import { Observable } from 'rxjs';
 	templateUrl: './animeTable.component.html',
 	styleUrl: './animeTable.component.css',
 	standalone: true,
-	imports: [MatTableModule, AsyncPipe],
+	imports: [MatTableModule, AsyncPipe, DatePipe, LowerCasePipe, RemoveUnderscorePipe, EmptyPipe],
 })
 export class AnimeTableComponent implements OnInit {
 	private animeService = inject(AnimeService);
@@ -24,7 +26,7 @@ export class AnimeTableComponent implements OnInit {
 
 	public constructor() {}
 
-	/** Replaces initial anime value with the one received from the server. */
+	/** @inheritdoc */
 	public ngOnInit(): void {
 		this.anime$ = this.animeService.getAllAnime();
 	}

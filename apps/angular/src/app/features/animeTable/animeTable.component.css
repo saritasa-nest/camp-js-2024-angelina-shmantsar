@@ -3,14 +3,14 @@
 	overflow-x: auto;
 }
 
-table {
+.anime-table {
 	width: 100%;
 	background-color: var(--table-color);
 	padding: 0 var(--size-3);
 }
 
-td,
-th {
+[mat-header-cell],
+[mat-cell] {
 	text-align: center;
 	vertical-align: middle;
 	font-size: var(--font-size-md);
@@ -18,7 +18,11 @@ th {
 	padding: var(--size-3);
 }
 
-tr:hover {
+[mat-header-cell] {
+	font-size: calc(var(--font-size-md) * 1.2);
+}
+
+[mat-row]:hover {
 	background-color: var(--table-hover-color);
 }
 
