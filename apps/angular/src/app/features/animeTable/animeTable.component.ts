@@ -13,7 +13,14 @@ import { Observable } from 'rxjs';
 	templateUrl: './animeTable.component.html',
 	styleUrl: './animeTable.component.css',
 	standalone: true,
-	imports: [MatTableModule, AsyncPipe, DatePipe, LowerCasePipe, RemoveUnderscorePipe, EmptyPipe],
+	imports: [
+		MatTableModule,
+		AsyncPipe,
+		DatePipe,
+		LowerCasePipe,
+		RemoveUnderscorePipe,
+		EmptyPipe,
+	],
 })
 export class AnimeTableComponent implements OnInit {
 	private readonly animeService = inject(AnimeService);
@@ -22,7 +29,7 @@ export class AnimeTableComponent implements OnInit {
 	protected anime$: Observable<Anime[]> | undefined;
 
 	/** Represents table columns. */
-	protected readonly displayedColumns: string[] = ['image', 'title_eng', 'title_jpn', 'aired_start', 'type', 'status'];
+	protected readonly displayedColumns: readonly string[] = ['image', 'title_eng', 'title_jpn', 'aired_start', 'type', 'status'];
 
 	/** @inheritdoc */
 	public ngOnInit(): void {

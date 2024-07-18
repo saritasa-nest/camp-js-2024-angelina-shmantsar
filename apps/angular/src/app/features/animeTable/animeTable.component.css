@@ -21,7 +21,7 @@
 }
 
 [mat-header-cell] {
-	font-size: calc(var(--font-size-md) * 1.2);
+	font-size: var(--table-header-font-size);
 }
 
 [mat-row]:hover {
