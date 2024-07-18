@@ -1,6 +1,6 @@
 import { AnimeDto } from '../dtos/anime.dto';
-import { AnimeStatusEnum } from '../dtos/backendEnums/animeStatusEnum';
-import { AnimeTypeEnum } from '../dtos/backendEnums/animeTypeEnum';
+import { AnimeStatus } from '../dtos/backendEnums/animeStatus';
+import { AnimeType } from '../dtos/backendEnums/animeType';
 import { DateTimeRangeField } from '../interfaces/dateTimeRangeField';
 
 /** Type for anime class constructor. */
@@ -30,10 +30,10 @@ export class Anime {
 	public readonly aired: DateTimeRangeField;
 
 	/** Type. */
-	public readonly type: AnimeTypeEnum;
+	public readonly type: AnimeType;
 
 	/** Status. */
-	public readonly status: AnimeStatusEnum;
+	public readonly status: AnimeStatus;
 
 	/** Score. */
 	public readonly score: number;

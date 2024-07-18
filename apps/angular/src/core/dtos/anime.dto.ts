@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { DateTimeRangeField } from '../interfaces/dateTimeRangeField';
 
-import { AnimeStatusEnum } from './backendEnums/animeStatusEnum';
-import { AnimeTypeEnum } from './backendEnums/animeTypeEnum';
+import { AnimeStatus } from './backendEnums/animeStatus';
+import { AnimeType } from './backendEnums/animeType';
 
 /** Represents anime in backend. */
 export type AnimeDto = {
@@ -30,10 +30,10 @@ export type AnimeDto = {
 	aired: DateTimeRangeField;
 
 	/** Type. */
-	type: AnimeTypeEnum;
+	type: AnimeType;
 
 	/** Status. */
-	status: AnimeStatusEnum;
+	status: AnimeStatus;
 
 	/** Score. */
 	score: number;
