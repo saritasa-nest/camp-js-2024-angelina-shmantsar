@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 
-import { BASE_API_URL } from '../constants/backendConst';
+import { environment } from '@js-camp/angular/environments/environment';
 
 /** Creates urls. */
 @Injectable({
 	providedIn: 'root',
 })
 export class UrlService {
-	private readonly baseAnimeUrl = `${BASE_API_URL}anime/`;
+	private readonly baseApiUrl = environment.baseApiUrl;
+
+	private readonly baseAnimeUrl = `${this.baseApiUrl}anime/`;
 
 	/** Get anime endpoint url. */
 	public getAnimeUrl(): string {
