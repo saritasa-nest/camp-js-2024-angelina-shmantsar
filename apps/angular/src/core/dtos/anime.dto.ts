@@ -1,6 +1,6 @@
 // Because we get this type from backend
 /* eslint-disable @typescript-eslint/naming-convention */
-import { DateTimeRangeField } from '../interfaces/dateTimeRangeField';
+import { DateTimeRangeField } from '../models/dateTimeRangeField';
 
 import { AnimeStatus } from './backendEnums/animeStatus';
 import { AnimeType } from './backendEnums/animeType';
