@@ -25,13 +25,7 @@ export class AnimeService {
 
 	/** Fetch all anime from backend. */
 	public getAllAnime(): Observable<Anime[]> {
-		return this.httpClient.get<GetAnimeResponseDto>(this.animeUrl, {
-			headers: {
-				// Json specific naming
-				// eslint-disable-next-line @typescript-eslint/naming-convention
-				'Api-Key': 'a392e76c-bd9b-4e37-a0cb-82f6aa60bb72',
-			},
-		}).pipe(
+		return this.httpClient.get<GetAnimeResponseDto>(this.animeUrl).pipe(
 			map(value => this.mapAnimeDto(value.results)),
 			map(value => value.map(item => ({
 				...item,
