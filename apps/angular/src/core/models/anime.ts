@@ -44,8 +44,8 @@ export type Anime = {
 	readonly userScore: number;
 
 	/** Studios. */
-	readonly studios: number[];
+	readonly studios: readonly number[];
 
 	/** Genres. */
-	readonly genres: number[];
+	readonly genres: readonly number[];
 };

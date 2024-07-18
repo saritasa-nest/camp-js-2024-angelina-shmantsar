@@ -4,14 +4,14 @@ import { AnimeDto } from './anime.dto';
 export type GetAnimeResponseDto = {
 
 	/** Total count of anime. */
-	count: number;
+	readonly count: number;
 
 	/** Reference to next page with anime. */
-	next: string;
+	readonly next: string;
 
 	/** Reference to previous page with anime. */
-	previous: string;
+	readonly previous: string;
 
 	/** Anime list. */
-	results: AnimeDto[];
+	readonly results: readonly AnimeDto[];
 };

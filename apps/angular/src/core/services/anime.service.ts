@@ -13,16 +13,16 @@ import { UrlService } from './url.service';
 	providedIn: 'root',
 })
 export class AnimeService {
-	private httpClient = inject(HttpClient);
+	private readonly httpClient = inject(HttpClient);
 
-	private urlService = inject(UrlService);
+	private readonly urlService = inject(UrlService);
 
-	private animeUrl = this.urlService.getAnimeUrl();
+	private readonly animeUrl = this.urlService.getAnimeUrl();
 
 	public constructor() {}
 
 	/** Fetch all anime from backend. */
-	public getAllAnime(): Observable<Anime[]> {
+	public getAll(): Observable<Anime[]> {
 		return this.httpClient.get<GetAnimeResponseDto>(this.animeUrl).pipe(
 			map(value => value.results.map(item => AnimeMapper.fromDto(item))),
 		);

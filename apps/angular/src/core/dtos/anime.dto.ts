@@ -9,41 +9,41 @@ import { AnimeType } from './backendEnums/animeType';
 export type AnimeDto = {
 
 	/** Anime id. */
-	id: number;
+	readonly id: number;
 
 	/** Created. */
-	created: string;
+	readonly created: string;
 
 	/** Modified. */
-	modified: string;
+	readonly modified: string;
 
 	/** Anime title in English. */
-	title_eng: string;
+	readonly title_eng: string;
 
 	/** Anime title in Japanese. */
-	title_jpn: string;
+	readonly title_jpn: string;
 
 	/** Image - anime poster. */
-	image: string;
+	readonly image: string;
 
 	/** Aired. */
-	aired: DateTimeRangeField;
+	readonly aired: DateTimeRangeField;
 
 	/** Type. */
-	type: AnimeType;
+	readonly type: AnimeType;
 
 	/** Status. */
-	status: AnimeStatus;
+	readonly status: AnimeStatus;
 
 	/** Score. */
-	score: number;
+	readonly score: number;
 
 	/** User score. */
-	user_score: number;
+	readonly user_score: number;
 
 	/** Studios. */
-	studios: number[];
+	readonly studios: readonly number[];
 
 	/** Genres. */
-	genres: number[];
+	readonly genres: readonly number[];
 };

@@ -2,8 +2,8 @@
 export type DateTimeRangeField = {
 
 	/** Start. */
-	start: string;
+	readonly start: string;
 
 	/** End. */
-	end: string;
+	readonly end: string;
 };

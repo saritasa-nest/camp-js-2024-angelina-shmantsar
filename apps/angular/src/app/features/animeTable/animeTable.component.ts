@@ -16,18 +16,18 @@ import { Observable } from 'rxjs';
 	imports: [MatTableModule, AsyncPipe, DatePipe, LowerCasePipe, RemoveUnderscorePipe, EmptyPipe],
 })
 export class AnimeTableComponent implements OnInit {
-	private animeService = inject(AnimeService);
+	private readonly animeService = inject(AnimeService);
 
 	/** Represents anime list. */
-	public anime$: Observable<Anime[]> | undefined;
+	protected anime$: Observable<Anime[]> | undefined;
 
 	/** Represents table columns. */
-	public displayedColumns: string[] = ['image', 'title_eng', 'title_jpn', 'aired_start', 'type', 'status'];
+	protected readonly displayedColumns: string[] = ['image', 'title_eng', 'title_jpn', 'aired_start', 'type', 'status'];
 
 	public constructor() {}
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.anime$ = this.animeService.getAllAnime();
+		this.anime$ = this.animeService.getAll();
 	}
 }

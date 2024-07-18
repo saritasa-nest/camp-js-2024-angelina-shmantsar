@@ -7,7 +7,7 @@ import { BASE_API_URL } from '../constants/backendConst';
 	providedIn: 'root',
 })
 export class UrlService {
-	private baseAnimeUrl = `${BASE_API_URL}anime/`;
+	private readonly baseAnimeUrl = `${BASE_API_URL}anime/`;
 
 	/** Get anime endpoint url. */
 	public getAnimeUrl(): string {
