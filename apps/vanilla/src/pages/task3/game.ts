@@ -17,7 +17,7 @@ export type GameStateInfo = {
 };
 
 /** Represents a game. */
-export class Game implements Subscriber<PlayerStateInfo>, Publisher<GameStateInfo> {
+export class Game extends Publisher<GameStateInfo> implements Subscriber<PlayerStateInfo> {
 	/** @inheritdoc */
 	public subscribers = new Set<Subscriber<GameStateInfo>>();
 
@@ -50,21 +50,6 @@ export class Game implements Subscriber<PlayerStateInfo>, Publisher<GameStateInf
 		if (!this.winner) {
 			this.diceGenerator.roll();
 		}
-	}
-
-	/** @inheritdoc */
-	public subscribe(subscriber: Subscriber<GameStateInfo>): void {
-		this.subscribers.add(subscriber);
-	}
-
-	/** @inheritdoc */
-	public unsubscribe(subscriber: Subscriber<GameStateInfo>): void {
-		this.subscribers.delete(subscriber);
-	}
-
-	/** @inheritdoc */
-	public notify(message: GameStateInfo): void {
-		this.subscribers.forEach(subscriber => subscriber.update(message));
 	}
 
 	/** @inheritdoc */

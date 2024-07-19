@@ -13,7 +13,7 @@ type IsWinner = {
 export type PlayerStateInfo = PlayerTurnResult & IsWinner;
 
 /** Represents a player. */
-export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerStateInfo> {
+export class Player extends Publisher<PlayerStateInfo> implements Subscriber<PlayerTurnResult> {
 	private diceResults: number[] = [];
 
 	private isWinner = false;
@@ -23,21 +23,8 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerSta
 	/** @inheritdoc */
 	public subscribers = new Set<Subscriber<PlayerStateInfo>>();
 
-	public constructor(public readonly playerIndex: number) {}
-
-	/** @inheritdoc */
-	public subscribe(subscriber: Subscriber<PlayerStateInfo>): void {
-		this.subscribers.add(subscriber);
-	}
-
-	/** @inheritdoc */
-	public unsubscribe(subscriber: Subscriber<PlayerStateInfo>): void {
-		this.subscribers.delete(subscriber);
-	}
-
-	/** @inheritdoc */
-	public notify(message: PlayerStateInfo): void {
-		this.subscribers.forEach(subscriber => subscriber.update(message));
+	public constructor(public readonly playerIndex: number) {
+		super();
 	}
 
 	/** @inheritdoc */

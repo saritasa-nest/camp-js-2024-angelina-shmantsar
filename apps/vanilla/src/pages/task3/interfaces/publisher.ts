@@ -1,26 +1,32 @@
 import { Subscriber } from './subscriber';
 
 /**  Represents a publisher. */
-export type Publisher<T> = {
+export abstract class Publisher<T> {
 
 	/** Contains subscribers. */
-	readonly subscribers: Set<Subscriber<T>>;
+	protected abstract subscribers: Set<Subscriber<T>>;
 
 	/**
 	 * Add new subscriber to subscribers.
-	 * @param {Subscriber<T>} subscriber - Subscriber which want to subscribe.
+	 * @param subscriber - Subscriber which want to subscribe.
 	 */
-	subscribe(subscriber: Subscriber<T>): void;
+	public subscribe(subscriber: Subscriber<T>): void {
+		this.subscribers.add(subscriber);
+	}
 
 	/**
 	 * Remove subscriber from subscribers.
-	 * @param {Subscriber<T>} subscriber - Subscriber which want to unsubscribe.
+	 * @param subscriber - Subscriber which want to unsubscribe.
 	 */
-	unsubscribe(subscriber: Subscriber<T>): void;
+	public unsubscribe(subscriber: Subscriber<T>): void {
+		this.subscribers.delete(subscriber);
+	}
 
 	/**
 	 * Notifies subscribers.
 	 * @param message - The message to notify with.
 	 */
-	notify(message: T): void;
-};
+	protected notify(message: T): void {
+		this.subscribers.forEach(subscriber => subscriber.update(message));
+	}
+}

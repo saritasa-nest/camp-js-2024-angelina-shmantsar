@@ -4,7 +4,7 @@ import { PlayerTurnResult } from './interfaces/playerTurnResult';
 import { TurnGenerator } from './turnGenerator';
 
 /** Represents a dice generator. */
-export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<number> {
+export class DiceGenerator extends Publisher<PlayerTurnResult> implements Subscriber<number> {
 	/** Contains current player index. */
 	private currentPlayerIndex = 0;
 
@@ -14,22 +14,8 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 	public subscribers = new Set<Subscriber<PlayerTurnResult>>();
 
 	public constructor(private readonly sidesCount = 6) {
+		super();
 		this.turnGenerator.subscribe(this);
-	}
-
-	/** @inheritdoc */
-	public subscribe(subscriber: Subscriber<PlayerTurnResult>): void {
-		this.subscribers.add(subscriber);
-	}
-
-	/** @inheritdoc */
-	public unsubscribe(subscriber: Subscriber<PlayerTurnResult>): void {
-		this.subscribers.delete(subscriber);
-	}
-
-	/** @inheritdoc */
-	public notify(message: PlayerTurnResult): void {
-		this.subscribers.forEach(subscriber => subscriber.update(message));
 	}
 
 	/** @inheritdoc */
