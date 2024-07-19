@@ -1,4 +1,16 @@
-@import url("variables.css");
+:host {
+	/* Table colors */
+	--table-color: rgb(238 130 238);
+	--table-hover-color: rgb(240 98 240);
+	--table-border-color: rgb(138 43 226);
+
+	/* Table sizes */
+	--table-image-width: 150px;
+	--table-image-height: 150px;
+
+	/* Table header font size */
+	--table-header-font-size: 24px;
+}
 
 .anime-table-wrapper {
 	width: 100%;
