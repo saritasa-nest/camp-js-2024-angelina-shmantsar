@@ -1,8 +1,7 @@
-import { AsyncPipe, DatePipe, LowerCasePipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
-import { RemoveUnderscorePipe } from '@js-camp/angular/core/pipes/removeUnderscore.pipe';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 
 /** Anime table component. */
@@ -15,8 +14,6 @@ import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 		MatTableModule,
 		AsyncPipe,
 		DatePipe,
-		LowerCasePipe,
-		RemoveUnderscorePipe,
 		EmptyPipe,
 	],
 })

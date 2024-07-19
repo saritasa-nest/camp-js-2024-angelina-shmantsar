@@ -1,12 +1,12 @@
-/** Anime statuses. */
-export type AnimeStatus = {
+/** Anime statuses model. */
+export enum AnimeStatus {
 
 	/** Airing. */
-	readonly airing: 'AIRING';
+	Airing = 'airing',
 
 	/** Finished. */
-	readonly finished: 'FINISHED';
+	Finished = 'finished',
 
 	/** Not yet aired. */
-	readonly notYetAired: 'NOT_YET_AIRED';
-};
+	NotYetAired = 'not yet aired',
+}

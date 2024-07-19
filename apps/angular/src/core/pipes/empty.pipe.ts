@@ -13,5 +13,4 @@ export class EmptyPipe implements PipeTransform {
 		}
 		return '—';
 	}
-
 }

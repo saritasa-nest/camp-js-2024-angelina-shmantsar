@@ -1,12 +1,12 @@
-/** Anime statuses. */
-export type AnimeStatusDto = {
+/** Anime statuses dto. */
+export enum AnimeStatusDto {
 
 	/** Airing. */
-	readonly airing: 'AIRING';
+	Airing = 'AIRING',
 
 	/** Finished. */
-	readonly finished: 'FINISHED';
+	Finished = 'FINISHED',
 
 	/** Not yet aired. */
-	readonly notYetAired: 'NOT_YET_AIRED';
-};
+	NotYetAired = 'NOT_YET_AIRED',
+}

@@ -1,18 +1,24 @@
+import { Injectable } from '@angular/core';
+
 import { AnimeStatusDto } from '../dtos/backendEnums/animeStatus.dto';
 import { AnimeStatus } from '../models/animeStatus';
 
-export namespace AnimeStatusMapper {
+/** Anime status transform service. */
+@Injectable({
+	providedIn: 'root',
+})
+export class AnimeStatusMapper {
+	private readonly fromAnimeStatusDto: Readonly<Record<AnimeStatusDto, AnimeStatus>> = {
+		[AnimeStatusDto.Airing]: AnimeStatus.Airing,
+		[AnimeStatusDto.Finished]: AnimeStatus.Finished,
+		[AnimeStatusDto.NotYetAired]: AnimeStatus.NotYetAired,
+	};
 
 	/**
 	 * Maps dto to model.
 	 * @param dto Anime dto.
 	 */
-	export function fromDto(dto: AnimeStatusDto): AnimeStatus {
-		const animeStatus: AnimeStatus = {
-			airing: dto.airing,
-			finished: dto.finished,
-			notYetAired: dto.notYetAired,
-		};
-		return animeStatus;
+	public fromDto(dto: AnimeStatusDto): AnimeStatus {
+		return this.fromAnimeStatusDto[dto];
 	}
 }

@@ -39,9 +39,9 @@ export type Anime = {
 	/** User score. */
 	readonly userScore: number;
 
-	/** Studios. */
-	readonly studios: readonly number[];
+	/** Studio IDs. */
+	readonly studioIds: readonly number[];
 
-	/** Genres. */
-	readonly genres: readonly number[];
+	/** Genre IDs. */
+	readonly genreIds: readonly number[];
 };

@@ -1,27 +1,27 @@
-/** Anime types. */
-export type AnimeType = {
+/** Anime types model. */
+export enum AnimeType {
 
 	/** Tv. */
-	readonly tv: 'TV';
+	Tv = 'TV',
 
 	/** Ova. */
-	readonly ova: 'OVA';
+	Ova = 'OVA',
 
 	/** Movie. */
-	readonly movie: 'MOVIE';
+	Movie = 'movie',
 
 	/** Special. */
-	readonly special: 'SPECIAL';
+	Special = 'special',
 
 	/** Ona. */
-	readonly ona: 'ONA';
+	Ona = 'ONA',
 
 	/** Music. */
-	readonly music: 'MUSIC';
+	Music = 'music',
 
 	/** Promotional videos. */
-	readonly promotionalVideos: 'PROMOTIONAL_VIDEOS';
+	PromotionalVideos = 'promotional videos',
 
 	/** Unknown. */
-	readonly unknown: 'UNKNOWN';
-};
+	Unknown = 'unknown',
+}

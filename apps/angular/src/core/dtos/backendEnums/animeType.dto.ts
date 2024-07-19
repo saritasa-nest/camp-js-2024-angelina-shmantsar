@@ -1,27 +1,27 @@
-/** Anime types. */
-export type AnimeTypeDto = {
+/** Anime types dto. */
+export enum AnimeTypeDto {
 
 	/** Tv. */
-	readonly tv: 'TV';
+	Tv = 'TV',
 
 	/** Ova. */
-	readonly ova: 'OVA';
+	Ova = 'OVA',
 
 	/** Movie. */
-	readonly movie: 'MOVIE';
+	Movie = 'MOVIE',
 
 	/** Special. */
-	readonly special: 'SPECIAL';
+	Special = 'SPECIAL',
 
 	/** Ona. */
-	readonly ona: 'ONA';
+	Ona = 'ONA',
 
 	/** Music. */
-	readonly music: 'MUSIC';
+	Music = 'MUSIC',
 
 	/** Promotional videos. */
-	readonly promotionalVideos: 'PROMOTIONAL_VIDEOS';
+	PromotionalVideos = 'PROMOTIONAL_VIDEOS',
 
 	/** Unknown. */
-	readonly unknown: 'UNKNOWN';
-};
+	Unknown = 'UNKNOWN',
+}

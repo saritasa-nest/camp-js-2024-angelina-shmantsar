@@ -6,13 +6,15 @@ import { environment } from '@js-camp/angular/environments/environment';
 @Injectable({
 	providedIn: 'root',
 })
-export class UrlService {
+export class ApiUrlService {
 	private readonly baseApiUrl = environment.baseApiUrl;
 
 	private readonly baseAnimeUrl = `${this.baseApiUrl}anime/`;
 
+	private readonly _allAnimeUrl = `${this.baseAnimeUrl}anime/`;
+
 	/** Get anime endpoint url. */
-	public getAnimeUrl(): string {
-		return `${this.baseAnimeUrl}anime/`;
+	public get allAnimeUrl(): string {
+		return this._allAnimeUrl;
 	}
 }

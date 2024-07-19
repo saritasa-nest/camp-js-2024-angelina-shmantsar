@@ -1,23 +1,29 @@
+import { Injectable } from '@angular/core';
+
 import { AnimeTypeDto } from '../dtos/backendEnums/animeType.dto';
 import { AnimeType } from '../models/animeType';
 
-export namespace AnimeTypeMapper {
+/** Anime type transform service. */
+@Injectable({
+	providedIn: 'root',
+})
+export class AnimeTypeMapper {
+	private readonly fromAnimeTypeDto: Readonly<Record<AnimeTypeDto, AnimeType>> = {
+		[AnimeTypeDto.Tv]: AnimeType.Tv,
+		[AnimeTypeDto.Ova]: AnimeType.Ova,
+		[AnimeTypeDto.Movie]: AnimeType.Movie,
+		[AnimeTypeDto.Special]: AnimeType.Special,
+		[AnimeTypeDto.Ona]: AnimeType.Ona,
+		[AnimeTypeDto.Music]: AnimeType.Music,
+		[AnimeTypeDto.PromotionalVideos]: AnimeType.PromotionalVideos,
+		[AnimeTypeDto.Unknown]: AnimeType.Unknown,
+	};
 
 	/**
 	 * Maps dto to model.
 	 * @param dto Anime dto.
 	 */
-	export function fromDto(dto: AnimeTypeDto): AnimeType {
-		const animeStatus: AnimeType = {
-			tv: dto.tv,
-			ova: dto.ova,
-			movie: dto.movie,
-			special: dto.special,
-			ona: dto.ona,
-			music: dto.music,
-			promotionalVideos: dto.promotionalVideos,
-			unknown: dto.unknown,
-		};
-		return animeStatus;
+	public fromDto(dto: AnimeTypeDto): AnimeType {
+		return this.fromAnimeTypeDto[dto];
 	}
 }

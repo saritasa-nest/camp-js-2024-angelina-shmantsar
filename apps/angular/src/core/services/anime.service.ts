@@ -9,7 +9,7 @@ import { Anime } from '../models/anime';
 
 import { AnimeDto } from '../dtos/anime.dto';
 
-import { UrlService } from './url.service';
+import { ApiUrlService } from './apiUrl.service';
 
 /** Anime fetch and transform service. */
 @Injectable({
@@ -18,14 +18,16 @@ import { UrlService } from './url.service';
 export class AnimeService {
 	private readonly httpClient = inject(HttpClient);
 
-	private readonly urlService = inject(UrlService);
+	private readonly urlService = inject(ApiUrlService);
 
-	private readonly animeUrl = this.urlService.getAnimeUrl();
+	private readonly animeMapper = inject(AnimeMapper);
+
+	private readonly allAnimeUrl = this.urlService.allAnimeUrl;
 
 	/** Fetch all anime from backend. */
 	public getAll(): Observable<Anime[]> {
-		return this.httpClient.get<PaginationDto<AnimeDto>>(this.animeUrl).pipe(
-			map(value => value.results.map(item => AnimeMapper.fromDto(item))),
-		);
+		return this.httpClient
+			.get<PaginationDto<AnimeDto>>(this.allAnimeUrl)
+			.pipe(map(value => value.results.map(item => this.animeMapper.fromDto(item))));
 	}
 }

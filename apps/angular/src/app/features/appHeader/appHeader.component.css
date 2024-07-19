@@ -1,4 +1,11 @@
-@import url("variables.css");
+:host {
+	/* Header colors */
+	--header-color: rgb(138 43 226 / 80%);
+	--header-text-color: rgb(255 255 255);
+
+	/* Header sizes */
+	--header-height: 72px;
+}
 
 .header {
 	position: sticky;
