@@ -1,20 +1,19 @@
 import { GameStateInfo } from './game';
 import { Subscriber } from './interfaces/subscriber';
-import { Player } from './player';
 
 /** Represents a UI handler. */
 export class ResultDisplayHandler implements Subscriber<GameStateInfo> {
-	private readonly diceCapContainer: HTMLElement | null = document.querySelector('.dice-cap-container');
+	private readonly diceCapContainer = document.querySelector<HTMLElement>('.dice-cap-container');
 
-	private readonly generalSumContainer: HTMLElement | null = document.querySelector('.general-sum');
+	private readonly generalSumContainer = document.querySelector<HTMLElement>('.general-sum');
 
-	private readonly firstContainer: HTMLElement | null = document.querySelector('.container1');
+	private readonly firstContainer = document.querySelector<HTMLElement>('.container1');
 
-	private readonly firstSumContainer: HTMLElement | null = document.querySelector('.sum1');
+	private readonly firstSumContainer = document.querySelector<HTMLElement>('.sum1');
 
-	private readonly secondContainer: HTMLElement | null = document.querySelector('.container2');
+	private readonly secondContainer = document.querySelector<HTMLElement>('.container2');
 
-	private readonly secondSumContainer: HTMLElement | null = document.querySelector('.sum2');
+	private readonly secondSumContainer = document.querySelector<HTMLElement>('.sum2');
 
 	/** @inheritdoc */
 	public update(message: GameStateInfo): void {
@@ -24,7 +23,7 @@ export class ResultDisplayHandler implements Subscriber<GameStateInfo> {
 		}
 		this.updateField(rolls, this.diceCapContainer);
 		players
-			.forEach((player: Player) =>
+			.forEach(player =>
 				this.updateField(player.getDiceResults(), player.playerIndex === 0 ? this.firstContainer : this.secondContainer));
 	}
 
@@ -32,7 +31,7 @@ export class ResultDisplayHandler implements Subscriber<GameStateInfo> {
 		if (field) {
 			field.innerText = diceResults.join(' ');
 
-			const resultsSum = diceResults.reduce((a: number, b: number) => a + b, 0);
+			const resultsSum = diceResults.reduce((a, b) => a + b, 0);
 			if (field === this.diceCapContainer) {
 				this.updateSum(resultsSum, this.generalSumContainer);
 			} else if (field === this.firstContainer) {
@@ -53,7 +52,7 @@ export class ResultDisplayHandler implements Subscriber<GameStateInfo> {
 		const winnerContainer = playerIndex === 0 ? this.firstContainer : this.secondContainer;
 		const parentElement = winnerContainer?.parentElement;
 		if (parentElement) {
-			parentElement.style.backgroundColor = 'rgb(255,204,204)';
+			parentElement.classList.add('winner');
 		}
 	}
 }

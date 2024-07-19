@@ -6,7 +6,7 @@ export class TurnGenerator implements Publisher<number> {
 	public constructor(private readonly playersCount: number, private currentPlayerIndex: number) {}
 
 	/** @inheritdoc */
-	public subscribers: Set<Subscriber<number>> = new Set<Subscriber<number>>();
+	public subscribers = new Set<Subscriber<number>>();
 
 	/** @inheritdoc */
 	public subscribe(subscriber: Subscriber<number>): void {
@@ -20,7 +20,7 @@ export class TurnGenerator implements Publisher<number> {
 
 	/** @inheritdoc */
 	public notify(message: number): void {
-		this.subscribers.forEach((subscriber: Subscriber<number>) => subscriber.update(message));
+		this.subscribers.forEach(subscriber => subscriber.update(message));
 	}
 
 	/** Get turn of current player. */

@@ -12,6 +12,10 @@
 	padding: var(--size-6) 0;
 }
 
+.winner {
+	background-color: var(--winner-field-color);
+}
+
 .container {
 	max-width: var(--container-width);
 	height: var(--container-height);

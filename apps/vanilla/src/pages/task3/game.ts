@@ -19,7 +19,7 @@ export type GameStateInfo = {
 /** Represents a game. */
 export class Game implements Subscriber<PlayerStateInfo>, Publisher<GameStateInfo> {
 	/** @inheritdoc */
-	public subscribers: Set<Subscriber<GameStateInfo>> = new Set<Subscriber<GameStateInfo>>();
+	public subscribers = new Set<Subscriber<GameStateInfo>>();
 
 	private players: Player[] = [];
 
@@ -27,7 +27,7 @@ export class Game implements Subscriber<PlayerStateInfo>, Publisher<GameStateInf
 
 	private rolls: number[] = [];
 
-	private readonly diceGenerator: DiceGenerator = new DiceGenerator();
+	private readonly diceGenerator = new DiceGenerator();
 
 	/**
 	 * Add new player to game.
@@ -42,7 +42,7 @@ export class Game implements Subscriber<PlayerStateInfo>, Publisher<GameStateInf
 
 	/** Start the game. */
 	public start(): void {
-		this.players.forEach((p: Player) => p.subscribe(this));
+		this.players.forEach(player => player.subscribe(this));
 	}
 
 	/** Make one move. */
@@ -64,7 +64,7 @@ export class Game implements Subscriber<PlayerStateInfo>, Publisher<GameStateInf
 
 	/** @inheritdoc */
 	public notify(message: GameStateInfo): void {
-		this.subscribers.forEach((subscriber: Subscriber<GameStateInfo>) => subscriber.update(message));
+		this.subscribers.forEach(subscriber => subscriber.update(message));
 	}
 
 	/** @inheritdoc */

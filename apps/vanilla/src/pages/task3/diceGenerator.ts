@@ -8,10 +8,10 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 	/** Contains current player index. */
 	private currentPlayerIndex = 0;
 
-	private turnGenerator: TurnGenerator = new TurnGenerator(2, this.currentPlayerIndex);
+	private turnGenerator = new TurnGenerator(2, this.currentPlayerIndex);
 
 	/** @inheritdoc */
-	public subscribers: Set<Subscriber<PlayerTurnResult>> = new Set<Subscriber<PlayerTurnResult>>();
+	public subscribers = new Set<Subscriber<PlayerTurnResult>>();
 
 	public constructor(private readonly sidesCount = 6) {
 		this.turnGenerator.subscribe(this);
@@ -29,7 +29,7 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 
 	/** @inheritdoc */
 	public notify(message: PlayerTurnResult): void {
-		this.subscribers.forEach((subscriber: Subscriber<PlayerTurnResult>) => subscriber.update(message));
+		this.subscribers.forEach(subscriber => subscriber.update(message));
 	}
 
 	/** @inheritdoc */

@@ -18,8 +18,10 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerSta
 
 	private isWinner = false;
 
+	private readonly sumToWin = 21;
+
 	/** @inheritdoc */
-	public subscribers: Set<Subscriber<PlayerStateInfo>> = new Set<Subscriber<PlayerStateInfo>>();
+	public subscribers = new Set<Subscriber<PlayerStateInfo>>();
 
 	public constructor(public readonly playerIndex: number) {}
 
@@ -35,7 +37,7 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerSta
 
 	/** @inheritdoc */
 	public notify(message: PlayerStateInfo): void {
-		this.subscribers.forEach((subscriber: Subscriber<PlayerStateInfo>) => subscriber.update(message));
+		this.subscribers.forEach(subscriber => subscriber.update(message));
 	}
 
 	/** @inheritdoc */
@@ -46,15 +48,15 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerSta
 		}
 		this.diceResults.push(diceResult);
 		const totalPoints = this.diceResults.reduce((a, b) => a + b, 0);
-		this.isWinner = totalPoints >= 21;
+		this.isWinner = totalPoints >= this.sumToWin;
 
-		const playerResultInfo: PlayerStateInfo = this.makeResultInfo(diceResult);
+		const playerResultInfo = this.makeResultInfo(diceResult);
 		this.notify(playerResultInfo);
 	}
 
 	/** Get dice results. */
 	public getDiceResults(): number[] {
-		return this.diceResults;
+		return [...this.diceResults];
 	}
 
 	private makeResultInfo(diceResult: number): PlayerStateInfo {
