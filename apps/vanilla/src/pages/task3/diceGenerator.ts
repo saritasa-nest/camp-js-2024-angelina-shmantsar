@@ -10,9 +10,6 @@ export class DiceGenerator extends Publisher<PlayerTurnResult> implements Subscr
 
 	private turnGenerator = new TurnGenerator(2, this.currentPlayerIndex);
 
-	/** @inheritdoc */
-	public subscribers = new Set<Subscriber<PlayerTurnResult>>();
-
 	public constructor(private readonly sidesCount = 6) {
 		super();
 		this.turnGenerator.subscribe(this);

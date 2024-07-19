@@ -28,17 +28,17 @@ export class ResultDisplayHandler implements Subscriber<GameStateInfo> {
 	}
 
 	private updateField(diceResults: readonly number[], field: HTMLElement | null): void {
-		if (field) {
-			field.innerText = diceResults.join(' ');
-
-			const resultsSum = diceResults.reduce((a, b) => a + b, 0);
-			if (field === this.diceCapContainer) {
-				this.updateSum(resultsSum, this.generalSumContainer);
-			} else if (field === this.firstContainer) {
-				this.updateSum(resultsSum, this.firstSumContainer);
-			} else {
-				this.updateSum(resultsSum, this.secondSumContainer);
-			}
+		if (field == null) {
+			return;
+		}
+		field.innerText = diceResults.join(' ');
+		const resultsSum = diceResults.reduce((a, b) => a + b, 0);
+		if (field === this.diceCapContainer) {
+			this.updateSum(resultsSum, this.generalSumContainer);
+		} else if (field === this.firstContainer) {
+			this.updateSum(resultsSum, this.firstSumContainer);
+		} else {
+			this.updateSum(resultsSum, this.secondSumContainer);
 		}
 	}
 

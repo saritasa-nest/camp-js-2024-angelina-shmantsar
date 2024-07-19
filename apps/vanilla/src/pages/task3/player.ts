@@ -20,9 +20,6 @@ export class Player extends Publisher<PlayerStateInfo> implements Subscriber<Pla
 
 	private readonly sumToWin = 21;
 
-	/** @inheritdoc */
-	public subscribers = new Set<Subscriber<PlayerStateInfo>>();
-
 	public constructor(public readonly playerIndex: number) {
 		super();
 	}

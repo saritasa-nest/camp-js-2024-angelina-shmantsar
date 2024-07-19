@@ -18,9 +18,6 @@ export type GameStateInfo = {
 
 /** Represents a game. */
 export class Game extends Publisher<GameStateInfo> implements Subscriber<PlayerStateInfo> {
-	/** @inheritdoc */
-	public subscribers = new Set<Subscriber<GameStateInfo>>();
-
 	private players: Player[] = [];
 
 	private winner: Player | null = null;

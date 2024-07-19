@@ -4,7 +4,11 @@ import { Subscriber } from './subscriber';
 export abstract class Publisher<T> {
 
 	/** Contains subscribers. */
-	protected abstract subscribers: Set<Subscriber<T>>;
+	protected subscribers: Set<Subscriber<T>>;
+
+	public constructor() {
+		this.subscribers = new Set<Subscriber<T>>();
+	}
 
 	/**
 	 * Add new subscriber to subscribers.
