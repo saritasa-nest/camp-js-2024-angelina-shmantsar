@@ -13,13 +13,13 @@ export type AnimeDto = {
 
 	/**
 	 * Created.
-	 * @type {/\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/}
+	 * @type {string} - String in ISO date format.
 	 */
 	readonly created: string;
 
 	/**
 	 * Modified.
-	 * @type {/\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/}
+	 * @type {string} - String in ISO date format.
 	 * */
 	readonly modified: string;
 

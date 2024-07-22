@@ -11,7 +11,7 @@ import { AnimeDto } from '../dtos/anime.dto';
 
 import { ApiUrlService } from './api-url.service';
 
-/** Anime fetch and transform service. */
+/** Anime service. */
 @Injectable({ providedIn: 'root' })
 export class AnimeService {
 	private readonly httpClient = inject(HttpClient);
