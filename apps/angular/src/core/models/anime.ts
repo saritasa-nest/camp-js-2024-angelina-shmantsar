@@ -9,11 +9,17 @@ export type Anime = {
 	/** Id. */
 	readonly id: number;
 
-	/** Created. */
-	readonly created: Date;
+	/**
+	 * Created.
+	 * @type {/\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/}
+	 */
+	readonly created: string;
 
-	/** Modified. */
-	readonly modified: Date;
+	/**
+	 * Modified.
+	 * @type {/\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/}
+	 * */
+	readonly modified: string;
 
 	/** Anime title in English. */
 	readonly titleEng: string;

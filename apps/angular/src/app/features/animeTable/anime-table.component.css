@@ -1,6 +1,6 @@
 :host {
 	/* Table colors */
-	--table-color: rgb(238 130 238);
+	--table-background-color: rgb(238 130 238);
 	--table-hover-color: rgb(240 98 240);
 	--table-border-color: rgb(138 43 226);
 
@@ -16,9 +16,15 @@
 	overflow-x: auto;
 }
 
+.table-image {
+	width: var(--table-image-width);
+	height: var(--table-image-height);
+	object-fit: contain;
+}
+
 .anime-table {
 	width: 100%;
-	background-color: var(--table-color);
+	background-color: var(--table-background-color);
 	padding: 0 var(--size-3);
 }
 
@@ -37,10 +43,4 @@
 
 [mat-row]:hover {
 	background-color: var(--table-hover-color);
-}
-
-.table-image {
-	width: var(--table-image-width);
-	height: var(--table-image-height);
-	object-fit: contain;
 }
