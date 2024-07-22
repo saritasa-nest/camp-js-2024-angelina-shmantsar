@@ -9,12 +9,10 @@ import { Anime } from '../models/anime';
 
 import { AnimeDto } from '../dtos/anime.dto';
 
-import { ApiUrlService } from './apiUrl.service';
+import { ApiUrlService } from './api-url.service';
 
 /** Anime fetch and transform service. */
-@Injectable({
-	providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AnimeService {
 	private readonly httpClient = inject(HttpClient);
 
@@ -24,7 +22,7 @@ export class AnimeService {
 
 	private readonly allAnimeUrl = this.urlService.allAnimeUrl;
 
-	/** Fetch all anime from backend. */
+	/** Fetch all anime. */
 	public getAll(): Observable<Anime[]> {
 		return this.httpClient
 			.get<PaginationDto<AnimeDto>>(this.allAnimeUrl)

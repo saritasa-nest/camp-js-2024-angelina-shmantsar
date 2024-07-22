@@ -7,8 +7,8 @@ import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 /** Anime table component. */
 @Component({
 	selector: 'anime-table',
-	templateUrl: './animeTable.component.html',
-	styleUrl: './animeTable.component.css',
+	templateUrl: './anime-table.component.html',
+	styleUrl: './anime-table.component.css',
 	standalone: true,
 	imports: [
 		MatTableModule,
@@ -24,5 +24,5 @@ export class AnimeTableComponent {
 	protected readonly anime$ = this.animeService.getAll();
 
 	/** Represents table columns. */
-	protected readonly displayedColumns: readonly string[] = ['image', 'title_eng', 'title_jpn', 'aired_start', 'type', 'status'];
+	protected readonly displayedColumns: readonly string[] = ['image', 'titleEng', 'titleJpn', 'airedStart', 'type', 'status'];
 }

@@ -1,7 +1,7 @@
-import { AnimeStatus } from './animeStatus';
-import { AnimeType } from './animeType';
+import { AnimeStatus } from './anime-status';
+import { AnimeType } from './anime-type';
 
-import { DateTimeRange } from './dateTimeRange';
+import { DateTimeRange } from './date-time-range';
 
 /** Represents anime. */
 export type Anime = {

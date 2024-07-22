@@ -1,9 +1,9 @@
 // Because we get this type from backend
 /* eslint-disable @typescript-eslint/naming-convention */
-import { DateTimeRange } from '../models/dateTimeRange';
+import { DateTimeRange } from '../models/date-time-range';
 
-import { AnimeStatusDto } from './backendEnums/animeStatus.dto';
-import { AnimeTypeDto } from './backendEnums/animeType.dto';
+import { AnimeStatusDto } from './backend-enums/anime-status.dto';
+import { AnimeTypeDto } from './backend-enums/anime-type.dto';
 
 /** Represents anime in backend. */
 export type AnimeDto = {

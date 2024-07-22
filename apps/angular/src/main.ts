@@ -9,7 +9,7 @@ import { appRoutes } from './app/app.routes';
 
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
-import { apiKeyInterceptor } from './core/interceptors/apiKey.interceptor';
+import { apiKeyInterceptor } from './core/interceptors/api-key.interceptor';
 
 if (environment.production) {
 	enableProdMode();

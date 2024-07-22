@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 	selector: 'app-header',
 	standalone: true,
 	imports: [CommonModule, MatIconModule, MatButtonModule],
-	templateUrl: './appHeader.component.html',
-	styleUrls: ['./appHeader.component.css'],
+	templateUrl: './app-header.component.html',
+	styleUrls: ['./app-header.component.css'],
 })
 export class AppHeaderComponent {}

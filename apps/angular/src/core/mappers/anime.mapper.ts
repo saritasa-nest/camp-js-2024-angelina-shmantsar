@@ -3,13 +3,11 @@ import { Injectable, inject } from '@angular/core';
 import { AnimeDto } from '../dtos/anime.dto';
 import { Anime } from '../models/anime';
 
-import { AnimeStatusMapper } from './animeStatus.mapper';
-import { AnimeTypeMapper } from './animeType.mapper';
+import { AnimeStatusMapper } from './anime-status.mapper';
+import { AnimeTypeMapper } from './anime-type.mapper';
 
-/** Anime dto transform service. */
-@Injectable({
-	providedIn: 'root',
-})
+/** Anime mapper. */
+@Injectable({ providedIn: 'root' })
 export class AnimeMapper {
 	private readonly animeStatusMapper = inject(AnimeStatusMapper);
 

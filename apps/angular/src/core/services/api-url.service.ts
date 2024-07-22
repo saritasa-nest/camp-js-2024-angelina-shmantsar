@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '@js-camp/angular/environments/environment';
 
 /** Creates urls. */
-@Injectable({
-	providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class ApiUrlService {
 	private readonly baseApiUrl = environment.baseApiUrl;
 
