@@ -10,4 +10,9 @@ export class AppConfigService {
 	public get baseApiUrl(): string {
 		return this.variables.baseApiUrl;
 	}
+
+	/** Get apiKey environment variable. */
+	public get apiKey(): string {
+		return this.variables.apiKey;
+	}
 }

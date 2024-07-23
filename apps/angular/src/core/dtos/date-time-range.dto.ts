@@ -1,4 +1,4 @@
-/** Represents date-time interval dto. */
+/** Date-time range dto. */
 export type DateTimeRangeDto = {
 
 	/**

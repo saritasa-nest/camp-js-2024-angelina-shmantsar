@@ -1,4 +1,4 @@
-/** Represents date-time interval. */
+/** Date-time range. */
 export type DateTimeRange = {
 
 	/** Start. */

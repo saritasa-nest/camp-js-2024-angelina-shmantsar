@@ -1,6 +1,8 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
-import { environment } from '@js-camp/angular/environments/environment';
+import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
+
+import { AppConfigService } from '../services/app-config.service';
 
 /**
  * Add 'Api-Key' header to request.
@@ -8,10 +10,11 @@ import { Observable } from 'rxjs';
  * @param next - Next interceptor.
  */
 export function apiKeyInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+	const appConfigService = inject(AppConfigService);
 	const apiKeyReq = req.clone({
 		headers: req.headers.set(
 			'Api-Key',
-			environment.apiKey,
+			appConfigService.apiKey,
 		),
 	});
 	return next(apiKeyReq);
