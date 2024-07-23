@@ -1,18 +1,10 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
+import { Column } from '@js-camp/angular/core/models/table-column';
+import { ColumnKey } from '@js-camp/angular/core/models/table-column-key';
 import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
-
-/** Defines column. */
-type Column = {
-
-	/** Key. */
-	key: string;
-
-	/** Header. */
-	header: string;
-};
 
 /** Anime table component. */
 @Component({
@@ -35,12 +27,12 @@ export class AnimeTableComponent {
 
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly Column[] = [
-		{ key: 'image', header: 'Image' },
-		{ key: 'titleEng', header: 'English title' },
-		{ key: 'titleJpn', header: 'Japanese title' },
-		{ key: 'airedStart', header: 'Aired start' },
-		{ key: 'type', header: 'Type' },
-		{ key: 'status', header: 'Status' },
+		{ key: ColumnKey.Image, header: 'Image' },
+		{ key: ColumnKey.TitleEng, header: 'English title' },
+		{ key: ColumnKey.TitleJpn, header: 'Japanese title' },
+		{ key: ColumnKey.AiredStart, header: 'Aired start' },
+		{ key: ColumnKey.Type, header: 'Type' },
+		{ key: ColumnKey.Status, header: 'Status' },
 	];
 
 	/** Header row definition. */
