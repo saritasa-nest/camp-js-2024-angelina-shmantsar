@@ -1,21 +1,24 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
-import { environment } from '@js-camp/angular/environments/environment';
-
-/** Endpoints. */
-enum Endpoints {
-	Anime = 'anime/anime/',
-}
-
-const { baseApiUrl } = environment;
+import { AppConfigService } from './app-config.service';
 
 /** Creates urls. */
 @Injectable({ providedIn: 'root' })
 export class ApiUrlService {
-	private readonly _allAnimeUrl = `${baseApiUrl}${Endpoints.Anime}`;
+	private readonly appConfigService = inject(AppConfigService);
+
+	private readonly baseApiUrl = this.appConfigService.baseApiUrl;
+
+	private readonly anime: Readonly<Record<string, string>> = {
+		list: this.constructUrl('anime/anime/'),
+	};
 
 	/** Get anime endpoint url. */
 	public get allAnimeUrl(): string {
-		return this._allAnimeUrl;
+		return this.anime['list'];
+	}
+
+	private constructUrl(endpoint: string): string {
+		return `${this.baseApiUrl}${endpoint}`;
 	}
 }
