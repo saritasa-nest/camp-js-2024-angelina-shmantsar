@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { AnimeTypeDto } from '../dtos/backend-enums/anime-type.dto';
 import { AnimeType } from '../models/anime-type';
 
-const fromAnimeTypeDto: Readonly<Record<AnimeTypeDto, AnimeType>> = {
+const FROM_DTO: Readonly<Record<AnimeTypeDto, AnimeType>> = {
 	[AnimeTypeDto.Tv]: AnimeType.Tv,
 	[AnimeTypeDto.Ova]: AnimeType.Ova,
 	[AnimeTypeDto.Movie]: AnimeType.Movie,
@@ -22,6 +22,6 @@ export class AnimeTypeMapper {
 	 * @param dto Anime dto.
 	 */
 	public fromDto(dto: AnimeTypeDto): AnimeType {
-		return fromAnimeTypeDto[dto];
+		return FROM_DTO[dto];
 	}
 }

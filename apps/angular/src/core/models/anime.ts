@@ -9,17 +9,11 @@ export type Anime = {
 	/** Id. */
 	readonly id: number;
 
-	/**
-	 * Created.
-	 * @type {string} - String in ISO date format.
-	 */
-	readonly created: string;
+	/** Created. */
+	readonly created: Date;
 
-	/**
-	 * Modified.
-	 * @type {string} - String in ISO date format.
-	 * */
-	readonly modified: string;
+	/** Modified. */
+	readonly modified: Date;
 
 	/** Anime title in English. */
 	readonly titleEng: string;

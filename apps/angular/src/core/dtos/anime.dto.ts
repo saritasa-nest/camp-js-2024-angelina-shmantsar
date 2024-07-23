@@ -1,9 +1,8 @@
 // Because we get this type from backend
 /* eslint-disable @typescript-eslint/naming-convention */
-import { DateTimeRange } from '../models/date-time-range';
-
 import { AnimeStatusDto } from './backend-enums/anime-status.dto';
 import { AnimeTypeDto } from './backend-enums/anime-type.dto';
+import { DateTimeRangeDto } from './date-time-range.dto';
 
 /** Represents anime in backend. */
 export type AnimeDto = {
@@ -33,7 +32,7 @@ export type AnimeDto = {
 	readonly image: string;
 
 	/** Aired. */
-	readonly aired: DateTimeRange;
+	readonly aired: DateTimeRangeDto;
 
 	/** Type. */
 	readonly type: AnimeTypeDto;

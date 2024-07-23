@@ -5,6 +5,7 @@ import { Anime } from '../models/anime';
 
 import { AnimeStatusMapper } from './anime-status.mapper';
 import { AnimeTypeMapper } from './anime-type.mapper';
+import { DateTimeRangeMapper } from './date-time-range.mapper';
 
 /** Anime mapper. */
 @Injectable({ providedIn: 'root' })
@@ -13,6 +14,8 @@ export class AnimeMapper {
 
 	private readonly animeTypeMapper = inject(AnimeTypeMapper);
 
+	private readonly dateTimeRangeMapper = inject(DateTimeRangeMapper);
+
 	/**
 	 * Maps dto to model.
 	 * @param dto Anime dto.
@@ -20,12 +23,12 @@ export class AnimeMapper {
 	public fromDto(dto: AnimeDto): Anime {
 		return {
 			id: dto.id,
-			created: dto.created,
-			modified: dto.modified,
+			created: new Date(dto.created),
+			modified: new Date(dto.modified),
 			titleEng: dto.title_eng,
 			titleJpn: dto.title_jpn,
 			image: dto.image,
-			aired: dto.aired,
+			aired: this.dateTimeRangeMapper.fromDto(dto.aired),
 			type: this.animeTypeMapper.fromDto(dto.type),
 			status: this.animeStatusMapper.fromDto(dto.status),
 			score: dto.score,

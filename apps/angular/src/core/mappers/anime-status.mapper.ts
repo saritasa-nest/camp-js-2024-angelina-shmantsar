@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { AnimeStatusDto } from '../dtos/backend-enums/anime-status.dto';
 import { AnimeStatus } from '../models/anime-status';
 
-const fromAnimeStatusDto: Readonly<Record<AnimeStatusDto, AnimeStatus>> = {
+const FROM_DTO: Readonly<Record<AnimeStatusDto, AnimeStatus>> = {
 	[AnimeStatusDto.Airing]: AnimeStatus.Airing,
 	[AnimeStatusDto.Finished]: AnimeStatus.Finished,
 	[AnimeStatusDto.NotYetAired]: AnimeStatus.NotYetAired,
@@ -17,6 +17,6 @@ export class AnimeStatusMapper {
 	 * @param dto Anime dto.
 	 */
 	public fromDto(dto: AnimeStatusDto): AnimeStatus {
-		return fromAnimeStatusDto[dto];
+		return FROM_DTO[dto];
 	}
 }

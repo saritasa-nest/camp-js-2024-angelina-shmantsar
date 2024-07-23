@@ -1,4 +1,4 @@
-/** Anime types model. */
+/** Anime types. */
 export enum AnimeType {
 
 	/** Tv. */
