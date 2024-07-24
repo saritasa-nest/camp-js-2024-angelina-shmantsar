@@ -12,5 +12,6 @@
 	--font-size-lg: 32px;
 
 	/* Font weights */
+	--font-weight-regular: 400;
 	--font-weight-medium: 500;
 }
