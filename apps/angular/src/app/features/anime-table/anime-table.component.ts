@@ -40,5 +40,8 @@ export class AnimeTableComponent {
 	];
 
 	/** Header row definition. */
-	protected readonly headerRowDef = this.displayedColumns.map(column => column.key);
+	protected readonly headerRowDefinitions = this.displayedColumns.map(column => column.key);
+
+	/** Column key. */
+	protected columnKey = ColumnKey;
 }
