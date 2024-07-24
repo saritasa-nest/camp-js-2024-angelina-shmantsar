@@ -8,7 +8,7 @@ export class DiceGenerator extends Publisher<PlayerTurnResult> implements Subscr
 	/** Contains current player index. */
 	private currentPlayerIndex = 0;
 
-	private turnGenerator = new TurnGenerator(2, this.currentPlayerIndex);
+	private readonly turnGenerator = new TurnGenerator(2, this.currentPlayerIndex);
 
 	public constructor(private readonly sidesCount = 6) {
 		super();

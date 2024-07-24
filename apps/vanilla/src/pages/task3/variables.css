@@ -1,10 +1,5 @@
 :root {
-	/* Results container sizes */
-	--container-width: 400px;
-	--container-height: 40px;
-
 	/* Shifts and small components sizes */
-	--size-2: 8px;
 	--size-4: 16px;
 	--size-6: 24px;
 

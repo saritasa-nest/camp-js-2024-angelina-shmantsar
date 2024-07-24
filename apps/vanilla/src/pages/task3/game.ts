@@ -10,7 +10,7 @@ export type GameStateInfo = {
 	readonly winner: Player | null;
 
 	/** Contains all dice results. */
-	rolls: number[];
+	readonly rolls: number[];
 
 	/** Contains players. */
 	readonly players: readonly Player[];
@@ -18,23 +18,25 @@ export type GameStateInfo = {
 
 /** Represents a game. */
 export class Game extends Publisher<GameStateInfo> implements Subscriber<PlayerStateInfo> {
-	private players: Player[] = [];
+	private readonly players: Player[] = [];
 
 	private winner: Player | null = null;
 
-	private rolls: number[] = [];
+	private readonly rolls: number[] = [];
 
 	private readonly diceGenerator = new DiceGenerator();
 
 	/**
 	 * Add new player to game.
-	 * @param player - Player which want to join the game.
+	 * @param players - Players which want to join the game.
 	 */
-	public addPlayer(player: Player): void {
-		if (!this.players.includes(player)) {
-			this.players.push(player);
+	public addPlayers(players: readonly Player[]): void {
+		for (const player of players) {
+			if (!this.players.includes(player)) {
+				this.players.push(player);
+			}
+			this.diceGenerator.subscribe(player);
 		}
-		this.diceGenerator.subscribe(player);
 	}
 
 	/** Start the game. */

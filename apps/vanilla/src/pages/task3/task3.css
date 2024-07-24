@@ -17,9 +17,5 @@
 }
 
 .container {
-	max-width: var(--container-width);
-	height: var(--container-height);
-	padding-top: var(--size-2);
-	overflow-x: auto;
 	white-space: nowrap;
 }

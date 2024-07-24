@@ -14,7 +14,7 @@ export type PlayerStateInfo = PlayerTurnResult & IsWinner;
 
 /** Represents a player. */
 export class Player extends Publisher<PlayerStateInfo> implements Subscriber<PlayerTurnResult> {
-	private diceResults: number[] = [];
+	private readonly diceResults: number[] = [];
 
 	private isWinner = false;
 
