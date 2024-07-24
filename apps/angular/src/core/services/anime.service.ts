@@ -24,8 +24,10 @@ export class AnimeService {
 
 	/**
 	 * Fetch all anime.
+	 * @param limit - Limit.
+	 * @param offset - Offset.
 	 * */
-	public getPaginatedAnime(limit = '25', offset: string = '0'): Observable<Pagination<Anime>> {
+	public getPaginatedAnime(limit: string, offset: string): Observable<Pagination<Anime>> {
 		const params = {
 			limit,
 			offset,
@@ -33,6 +35,6 @@ export class AnimeService {
 		const allAnimeUrl = `${this.urlService.anime.list}?${this.urlService.constructQueryParams(params)}`;
 		return this.httpClient
 			.get<PaginationDto<AnimeDto>>(allAnimeUrl)
-			.pipe(map((value) => this.animePaginationMapper.fromDto(value)));
+			.pipe(map(value => this.animePaginationMapper.fromDto(value)));
 	}
 }

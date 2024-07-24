@@ -61,12 +61,14 @@
 	font-family: Manrope, sans-serif;
 }
 
-/* Use !important to override Material styles. */
+/* Use !important to override Material styles. Disable rule for the same reason */
+/* stylelint-disable-next-line selector-pseudo-element-no-unknown */
 ::ng-deep .mat-mdc-paginator-icon {
 	fill: var(--paginator-buttons-color) !important;
 }
 
-/* Use !important to override Material styles. */
+/* Use !important to override Material styles. Disable rule for the same reason */
+/* stylelint-disable-next-line selector-pseudo-element-no-unknown */
 ::ng-deep .mat-mdc-icon-button[disabled] .mat-mdc-paginator-icon {
 	fill: var(--paginator-disabled-buttons-color) !important;
 }
