@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="(anime$ | async) ?? []" class="anime-table">
+<table mat-table [dataSource]="dataSource" class="anime-table">
 	@for (column of displayedColumns; track $index) {
 		<ng-container [matColumnDef]="column.key">
 			<th mat-header-cell *matHeaderCellDef>{{column.header}}</th>
@@ -25,8 +25,8 @@
 </table>
 <mat-paginator
   #paginator
-  [length]="5"
-  [pageSize]="25"
+  [length]="totalCount"
+  [pageSize]="pageSize"
   showFirstLastButtons
 	class="paginator"
 ></mat-paginator>

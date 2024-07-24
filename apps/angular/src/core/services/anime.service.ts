@@ -4,11 +4,12 @@ import { Observable, map } from 'rxjs';
 
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 
-import { AnimeMapper } from '../mappers/anime.mapper';
-
 import { AnimeDto } from '../dtos/anime.dto';
 
 import { Anime } from '../models/anime';
+
+import { AnimePaginationMapper } from '../mappers/anime-pagination.mapper';
+import { Pagination } from '../models/pagination';
 
 import { ApiUrlService } from './api-url.service';
 
@@ -19,14 +20,19 @@ export class AnimeService {
 
 	private readonly urlService = inject(ApiUrlService);
 
-	private readonly animeMapper = inject(AnimeMapper);
+	private readonly animePaginationMapper = inject(AnimePaginationMapper);
 
-	private readonly allAnimeUrl = this.urlService.anime.list;
-
-	/** Fetch all anime. */
-	public getAll(): Observable<Anime[]> {
+	/**
+	 * Fetch all anime.
+	 * */
+	public getPaginatedAnime(limit = '25', offset: string = '0'): Observable<Pagination<Anime>> {
+		const params = {
+			limit,
+			offset,
+		};
+		const allAnimeUrl = `${this.urlService.anime.list}?${this.urlService.constructQueryParams(params)}`;
 		return this.httpClient
-			.get<PaginationDto<AnimeDto>>(this.allAnimeUrl)
-			.pipe(map(value => value.results.map(item => this.animeMapper.fromDto(item))));
+			.get<PaginationDto<AnimeDto>>(allAnimeUrl)
+			.pipe(map((value) => this.animePaginationMapper.fromDto(value)));
 	}
 }
