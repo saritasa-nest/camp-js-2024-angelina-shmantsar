@@ -5,9 +5,10 @@ import { Observable, map } from 'rxjs';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 
 import { AnimeMapper } from '../mappers/anime.mapper';
-import { Anime } from '../models/anime';
 
 import { AnimeDto } from '../dtos/anime.dto';
+
+import { Anime } from '../models/anime';
 
 import { ApiUrlService } from './api-url.service';
 
@@ -20,7 +21,7 @@ export class AnimeService {
 
 	private readonly animeMapper = inject(AnimeMapper);
 
-	private readonly allAnimeUrl = this.urlService.allAnimeUrl;
+	private readonly allAnimeUrl = this.urlService.anime.list;
 
 	/** Fetch all anime. */
 	public getAll(): Observable<Anime[]> {

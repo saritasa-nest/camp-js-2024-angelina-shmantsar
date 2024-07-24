@@ -1,10 +1,8 @@
-import { ColumnKey } from './table-column-key';
-
 /** Defines column. */
-export type Column = {
+export type TableColumn<T> = {
 
 	/** Key. */
-	readonly key: ColumnKey;
+	readonly key: T;
 
 	/** Header. */
 	readonly header: string;

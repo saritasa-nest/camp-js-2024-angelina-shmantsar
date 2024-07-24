@@ -1,10 +1,19 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { Column } from '@js-camp/angular/core/models/table-column';
-import { ColumnKey } from '@js-camp/angular/core/models/table-column-key';
+import { TableColumn } from '@js-camp/angular/core/models/table-column';
 import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
+
+/** Column key values. */
+enum ColumnKey {
+	Image = 'image',
+	TitleEng = 'titleEng',
+	TitleJpn = 'titleJpn',
+	AiredStart = 'airedStart',
+	Type = 'type',
+	Status = 'status',
+}
 
 /** Anime table component. */
 @Component({
@@ -12,12 +21,7 @@ import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 	templateUrl: './anime-table.component.html',
 	styleUrl: './anime-table.component.css',
 	standalone: true,
-	imports: [
-		MatTableModule,
-		AsyncPipe,
-		DatePipe,
-		EmptyPipe,
-	],
+	imports: [MatTableModule, AsyncPipe, DatePipe, EmptyPipe],
 })
 export class AnimeTableComponent {
 	private readonly animeService = inject(AnimeService);
@@ -26,7 +30,7 @@ export class AnimeTableComponent {
 	protected readonly anime$ = this.animeService.getAll();
 
 	/** Represents table columns. */
-	protected readonly displayedColumns: readonly Column[] = [
+	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
 		{ key: ColumnKey.Image, header: 'Image' },
 		{ key: ColumnKey.TitleEng, header: 'English title' },
 		{ key: ColumnKey.TitleJpn, header: 'Japanese title' },

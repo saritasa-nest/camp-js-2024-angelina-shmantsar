@@ -9,14 +9,10 @@ export class ApiUrlService {
 
 	private readonly baseApiUrl = this.appConfigService.baseApiUrl;
 
-	private readonly anime: Readonly<Record<string, string>> = {
+	/** List of anime endpoints. */
+	public readonly anime = {
 		list: this.constructUrl('anime/anime/'),
 	};
-
-	/** Get anime endpoint url. */
-	public get allAnimeUrl(): string {
-		return this.anime['list'];
-	}
 
 	private constructUrl(endpoint: string): string {
 		return `${this.baseApiUrl}${endpoint}`;
