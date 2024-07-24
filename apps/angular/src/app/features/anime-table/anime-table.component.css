@@ -12,6 +12,10 @@
 	/* Table header font size */
 	--table-header-font-size: 20px;
 
+	/* Paginator colors */
+	--paginator-background-color: rgb(171 192 216);
+	--paginator-text-color: rgb(0 49 106);
+
 	display: block;
 	overflow-x: auto;
 }
@@ -46,4 +50,11 @@
 
 [mat-row]:hover {
 	background-color: var(--table-hover-color);
+}
+
+.paginator {
+	background-color: var(--paginator-background-color);
+	font-size: var(--font-size-md);
+	color: var(--paginator-text-color);
+	font-family: Manrope, sans-serif;
 }

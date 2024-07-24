@@ -1,6 +1,8 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
+import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { Anime } from '@js-camp/angular/core/models/anime';
 import { TableColumn } from '@js-camp/angular/core/models/table-column';
 import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
@@ -21,9 +23,9 @@ enum ColumnKey {
 	templateUrl: './anime-table.component.html',
 	styleUrl: './anime-table.component.css',
 	standalone: true,
-	imports: [MatTableModule, AsyncPipe, DatePipe, EmptyPipe],
+	imports: [MatTableModule, MatPaginatorModule, AsyncPipe, DatePipe, EmptyPipe],
 })
-export class AnimeTableComponent {
+export class AnimeTableComponent implements AfterViewInit {
 	private readonly animeService = inject(AnimeService);
 
 	/** Represents anime list. */
@@ -44,4 +46,16 @@ export class AnimeTableComponent {
 
 	/** Column key. */
 	protected columnKey = ColumnKey;
+
+	/** Data source. */
+	protected dataSource = new MatTableDataSource<Anime>();
+
+	/** Paginator. */
+	@ViewChild(MatPaginator)
+	private paginator!: MatPaginator;
+
+	/** @inheritdoc */
+	public ngAfterViewInit(): void {
+		this.dataSource.paginator = this.paginator;
+	}
 }

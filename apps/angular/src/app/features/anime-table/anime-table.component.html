@@ -23,3 +23,10 @@
 	<tr mat-header-row *matHeaderRowDef="headerRowDefinitions"></tr>
 	<tr mat-row *matRowDef="let row; columns: headerRowDefinitions;"></tr>
 </table>
+<mat-paginator
+  #paginator
+  [length]="5"
+  [pageSize]="25"
+  showFirstLastButtons
+	class="paginator"
+></mat-paginator>
