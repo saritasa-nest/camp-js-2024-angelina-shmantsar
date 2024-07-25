@@ -10,6 +10,8 @@ import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
 import { AnimeService, GetPaginatedAnimeData } from '@js-camp/angular/core/services/anime.service';
 import { Observable, catchError, map, merge, of, startWith, switchMap } from 'rxjs';
 
+import { SearchFormComponent } from '../search-form/search-form.component';
+
 /** Column key values. */
 enum ColumnKey {
 	Image = 'image',
@@ -32,7 +34,15 @@ const COLUMN_TO_QUERY_PARAM: Readonly<Record<string, string>> = {
 	templateUrl: './anime-table.component.html',
 	styleUrl: './anime-table.component.css',
 	standalone: true,
-	imports: [MatTableModule, MatPaginatorModule, AsyncPipe, DatePipe, EmptyPipe, MatSortModule],
+	imports: [
+		MatTableModule,
+		MatPaginatorModule,
+		AsyncPipe,
+		DatePipe,
+		EmptyPipe,
+		MatSortModule,
+		SearchFormComponent,
+	],
 })
 export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	private readonly animeService = inject(AnimeService);
