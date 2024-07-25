@@ -18,6 +18,9 @@
 	--paginator-buttons-color: rgb(0 49 106);
 	--paginator-disabled-buttons-color: rgb(0 49 106 / 50%);
 
+	/* Sort color */
+	--sort-color: rgb(0 49 106);
+
 	display: block;
 	overflow-x: auto;
 }
@@ -71,4 +74,10 @@
 /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
 ::ng-deep .mat-mdc-icon-button[disabled] .mat-mdc-paginator-icon {
 	fill: var(--paginator-disabled-buttons-color) !important;
+}
+
+/* Use !important to override Material styles. Disable rule for the same reason */
+/* stylelint-disable-next-line selector-pseudo-element-no-unknown */
+::ng-deep .mat-sort-header-arrow {
+	color: var(--sort-color) !important;
 }

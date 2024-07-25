@@ -1,13 +1,14 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { AfterViewInit, Component, OnDestroy, ViewChild, inject } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Anime } from '@js-camp/angular/core/models/anime';
 import { Pagination } from '@js-camp/angular/core/models/pagination';
 import { TableColumn } from '@js-camp/angular/core/models/table-column';
 import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
-import { AnimeService } from '@js-camp/angular/core/services/anime.service';
-import { Observable, catchError, map, of, startWith, switchMap } from 'rxjs';
+import { AnimeService, GetPaginatedAnimeData } from '@js-camp/angular/core/services/anime.service';
+import { Observable, catchError, map, merge, of, startWith, switchMap } from 'rxjs';
 
 /** Column key values. */
 enum ColumnKey {
@@ -19,19 +20,25 @@ enum ColumnKey {
 	Status = 'status',
 }
 
+const COLUMN_TO_QUERY_PARAM: Readonly<Record<string, string>> = {
+	airedStart: 'aired__startswith',
+	titleEng: 'title_eng',
+	status: 'status',
+};
+
 /** Anime table component. */
 @Component({
 	selector: 'anime-table',
 	templateUrl: './anime-table.component.html',
 	styleUrl: './anime-table.component.css',
 	standalone: true,
-	imports: [MatTableModule, MatPaginatorModule, AsyncPipe, DatePipe, EmptyPipe],
+	imports: [MatTableModule, MatPaginatorModule, AsyncPipe, DatePipe, EmptyPipe, MatSortModule],
 })
 export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	private readonly animeService = inject(AnimeService);
 
-	private getAllAnime(limit: number, offset: number): Observable<Pagination<Anime>> {
-		return this.animeService.getPaginatedAnime(String(limit), String(offset));
+	private getAllAnime(params: GetPaginatedAnimeData): Observable<Pagination<Anime>> {
+		return this.animeService.getPaginatedAnime(params);
 	}
 
 	private anime: readonly Anime[] = [];
@@ -61,21 +68,30 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	/** Total count. */
 	protected totalCount = 0;
 
-	/** Paginator. */
+	/** Sortable fields. */
+	protected sortableFields = [ColumnKey.TitleEng, ColumnKey.AiredStart, ColumnKey.Status];
+
 	@ViewChild(MatPaginator)
 	private paginator!: MatPaginator;
+
+	@ViewChild(MatSort)
+	private sort!: MatSort;
 
 	/** @inheritdoc */
 	public ngAfterViewInit(): void {
 		this.dataSource.paginator = this.paginator;
+		this.dataSource.sort = this.sort;
 
-		this.paginator.page
+		merge(this.sort.sortChange, this.paginator.page)
 			.pipe(
 				startWith({}),
-				switchMap(() => this.getAllAnime(
-					this.pageSize,
-					this.paginator.pageSize * this.paginator.pageIndex,
-				).pipe(catchError(() => of(null)))),
+				switchMap(() => this.getAllAnime({
+					limit: String(this.pageSize),
+					offset: String(this.paginator.pageSize * this.paginator.pageIndex),
+					ordering: this.sort.direction === 'asc' ?
+						COLUMN_TO_QUERY_PARAM[this.sort.active] :
+						`-${COLUMN_TO_QUERY_PARAM[this.sort.active]}`,
+				}).pipe(catchError(() => of(null)))),
 				map(value => {
 					if (value == null) {
 						return [];

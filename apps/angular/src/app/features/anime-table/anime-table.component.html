@@ -1,7 +1,11 @@
-<table mat-table [dataSource]="dataSource" class="anime-table">
+<table mat-table [dataSource]="dataSource" class="anime-table" matSort matSortDisableClear>
 	@for (column of displayedColumns; track $index) {
 		<ng-container [matColumnDef]="column.key">
-			<th mat-header-cell *matHeaderCellDef>{{column.header}}</th>
+			@if (sortableFields.includes(column.key)) {
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>{{column.header}}</th>
+			} @else {
+				<th mat-header-cell *matHeaderCellDef>{{column.header}}</th>
+			}
 			<td mat-cell *matCellDef="let element">
 				@switch (column.key) {
 					@case (columnKey.Image) {
