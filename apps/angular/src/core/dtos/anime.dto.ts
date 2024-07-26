@@ -1,10 +1,8 @@
-// Because we get this type from backend
-/* eslint-disable @typescript-eslint/naming-convention */
 import { AnimeStatusDto } from './backend-enums/anime-status.dto';
 import { AnimeTypeDto } from './backend-enums/anime-type.dto';
 import { DateTimeRangeDto } from './date-time-range.dto';
 
-/** Represents anime in backend. */
+/** Anime. */
 export type AnimeDto = {
 
 	/** Anime id. */
@@ -12,13 +10,13 @@ export type AnimeDto = {
 
 	/**
 	 * Created.
-	 * @type {string} - String in ISO date format.
+	 * String in ISO date format.
 	 */
 	readonly created: string;
 
 	/**
 	 * Modified.
-	 * @type {string} - String in ISO date format.
+	 * String in ISO date format.
 	 * */
 	readonly modified: string;
 
@@ -28,7 +26,7 @@ export type AnimeDto = {
 	/** Anime title in Japanese. */
 	readonly title_jpn: string;
 
-	/** Image - anime poster. */
+	/** Anime poster image URL. */
 	readonly image: string;
 
 	/** Aired. */
@@ -46,9 +44,9 @@ export type AnimeDto = {
 	/** User score. */
 	readonly user_score: number;
 
-	/** Studios. */
+	/** Studio IDs. */
 	readonly studios: readonly number[];
 
-	/** Genres. */
+	/** Genre IDs. */
 	readonly genres: readonly number[];
 };

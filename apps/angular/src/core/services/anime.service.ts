@@ -19,14 +19,12 @@ export class AnimeService {
 
 	private readonly urlService = inject(ApiUrlService);
 
-	private readonly animeMapper = inject(AnimeMapper);
-
 	private readonly allAnimeUrl = this.urlService.anime.list;
 
 	/** Fetch all anime. */
 	public getAll(): Observable<Anime[]> {
 		return this.httpClient
 			.get<PaginationDto<AnimeDto>>(this.allAnimeUrl)
-			.pipe(map(value => value.results.map(item => this.animeMapper.fromDto(item))));
+			.pipe(map(value => value.results.map(item => AnimeMapper.fromDto(item))));
 	}
 }

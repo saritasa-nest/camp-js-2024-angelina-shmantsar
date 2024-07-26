@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 /** App header component. */
 @Component({
-	selector: 'app-header',
+	selector: 'camp-app-header',
 	standalone: true,
 	imports: [CommonModule, MatIconModule, MatButtonModule],
 	templateUrl: './app-header.component.html',

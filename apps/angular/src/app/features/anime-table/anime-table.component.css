@@ -28,8 +28,8 @@
 	padding: 0 var(--size-3);
 }
 
-[mat-header-cell],
-[mat-cell] {
+.mat-header-cell,
+.mat-cell {
 	text-align: center;
 	vertical-align: middle;
 	font-size: var(--font-size-md);
@@ -37,10 +37,10 @@
 	padding: var(--size-3);
 }
 
-[mat-header-cell] {
+.mat-header-cell {
 	font-size: var(--table-header-font-size);
 }
 
-[mat-row]:hover {
+.mat-row:hover {
 	background-color: var(--table-hover-color);
 }

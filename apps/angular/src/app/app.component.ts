@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { AppHeaderComponent } from './features/app-header/app-header.component';
+import { AppHeaderComponent } from '../shared/components/app-header/app-header.component';
 
 /** App component. */
 @Component({

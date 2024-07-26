@@ -3,7 +3,7 @@ import { AnimeType } from './anime-type';
 
 import { DateTimeRange } from './date-time-range';
 
-/** Represents anime. */
+/** Anime. */
 export type Anime = {
 
 	/** Id. */
@@ -16,12 +16,12 @@ export type Anime = {
 	readonly modified: Date;
 
 	/** Anime title in English. */
-	readonly titleEng: string;
+	readonly titleEnglish: string;
 
 	/** Anime title in Japanese. */
-	readonly titleJpn: string;
+	readonly titleJapanese: string;
 
-	/** Image - anime poster. */
+	/** Anime poster image URL. */
 	readonly image: string;
 
 	/** Aired. */
@@ -33,8 +33,8 @@ export type Anime = {
 	/** Status. */
 	readonly status: AnimeStatus;
 
-	/** Score. */
-	readonly score: number;
+	/** Critic score. */
+	readonly criticScore: number;
 
 	/** User score. */
 	readonly userScore: number;

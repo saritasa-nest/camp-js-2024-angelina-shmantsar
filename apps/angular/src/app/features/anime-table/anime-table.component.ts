@@ -4,12 +4,13 @@ import { MatTableModule } from '@angular/material/table';
 import { TableColumn } from '@js-camp/angular/core/models/table-column';
 import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
+import { DATE_FORMAT } from '@js-camp/angular/shared/constants/date-format';
 
 /** Column key values. */
 enum ColumnKey {
 	Image = 'image',
-	TitleEng = 'titleEng',
-	TitleJpn = 'titleJpn',
+	TitleEnglish = 'titleEnglish',
+	TitleJapanese = 'titleJapanese',
 	AiredStart = 'airedStart',
 	Type = 'type',
 	Status = 'status',
@@ -17,7 +18,7 @@ enum ColumnKey {
 
 /** Anime table component. */
 @Component({
-	selector: 'anime-table',
+	selector: 'camp-anime-table',
 	templateUrl: './anime-table.component.html',
 	styleUrl: './anime-table.component.css',
 	standalone: true,
@@ -32,8 +33,8 @@ export class AnimeTableComponent {
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
 		{ key: ColumnKey.Image, header: 'Image' },
-		{ key: ColumnKey.TitleEng, header: 'English title' },
-		{ key: ColumnKey.TitleJpn, header: 'Japanese title' },
+		{ key: ColumnKey.TitleEnglish, header: 'English title' },
+		{ key: ColumnKey.TitleJapanese, header: 'Japanese title' },
 		{ key: ColumnKey.AiredStart, header: 'Aired start' },
 		{ key: ColumnKey.Type, header: 'Type' },
 		{ key: ColumnKey.Status, header: 'Status' },
@@ -43,5 +44,8 @@ export class AnimeTableComponent {
 	protected readonly headerRowDefinitions = this.displayedColumns.map(column => column.key);
 
 	/** Column key. */
-	protected columnKey = ColumnKey;
+	protected readonly columnKey = ColumnKey;
+
+	/** Date format. */
+	protected readonly dateFormat = DATE_FORMAT;
 }

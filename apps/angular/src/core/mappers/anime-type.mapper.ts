@@ -1,5 +1,3 @@
-import { Injectable } from '@angular/core';
-
 import { AnimeTypeDto } from '../dtos/backend-enums/anime-type.dto';
 import { AnimeType } from '../models/anime-type';
 
@@ -14,14 +12,13 @@ const FROM_DTO: Readonly<Record<AnimeTypeDto, AnimeType>> = {
 	[AnimeTypeDto.Unknown]: AnimeType.Unknown,
 };
 
-/** Anime type mapper. */
-@Injectable({ providedIn: 'root' })
-export class AnimeTypeMapper {
+export namespace AnimeTypeMapper {
+
 	/**
 	 * Maps dto to model.
 	 * @param dto Anime dto.
 	 */
-	public fromDto(dto: AnimeTypeDto): AnimeType {
+	export function fromDto(dto: AnimeTypeDto): AnimeType {
 		return FROM_DTO[dto];
 	}
 }
