@@ -1,4 +1,12 @@
-<search-form></search-form>
+<div class="controls">
+	<mat-form-field appearance="outline">
+		<mat-label class="mat-label">Filter</mat-label>
+		<mat-select>
+			<mat-option value="type" class="mat-option">Type</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<search-form></search-form>
+</div>
 <table mat-table [dataSource]="dataSource" class="anime-table" matSort matSortDisableClear>
 	@for (column of displayedColumns; track $index) {
 		<ng-container [matColumnDef]="column.key">

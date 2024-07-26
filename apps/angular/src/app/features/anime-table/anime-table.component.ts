@@ -3,6 +3,7 @@ import { AfterViewInit, Component, OnDestroy, ViewChild, inject } from '@angular
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
 import { Anime } from '@js-camp/angular/core/models/anime';
 import { Pagination } from '@js-camp/angular/core/models/pagination';
 import { TableColumn } from '@js-camp/angular/core/models/table-column';
@@ -42,6 +43,7 @@ const COLUMN_TO_QUERY_PARAM: Readonly<Record<string, string>> = {
 		EmptyPipe,
 		MatSortModule,
 		SearchFormComponent,
+		MatSelectModule,
 	],
 })
 export class AnimeTableComponent implements AfterViewInit, OnDestroy {
