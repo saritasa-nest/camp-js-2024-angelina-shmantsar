@@ -3,13 +3,14 @@ import { AfterViewInit, Component, OnDestroy, ViewChild, inject, signal } from '
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { Anime } from '@js-camp/angular/core/models/anime';
 import { Pagination } from '@js-camp/angular/core/models/pagination';
 import { TableColumn } from '@js-camp/angular/core/models/table-column';
 import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
 import { AnimeService, GetPaginatedAnimeData } from '@js-camp/angular/core/services/anime.service';
 import { Observable, catchError, map, merge, of, startWith, switchMap } from 'rxjs';
+import { AnimeTypeDto } from '@js-camp/angular/core/dtos/backend-enums/anime-type.dto';
 
 import { SearchFormComponent } from '../search-form/search-form.component';
 
@@ -58,6 +59,8 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
 	private readonly search = signal<string | undefined>(undefined);
 
+	private readonly filter = signal<AnimeTypeDto | undefined>(undefined);
+
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
 		{ key: ColumnKey.Image, header: 'Image' },
@@ -95,6 +98,9 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	@ViewChild(SearchFormComponent)
 	private searchForm!: SearchFormComponent;
 
+	@ViewChild(MatSelect)
+	private typeFilter!: MatSelect;
+
 	/**
 	 * Get value from search form.
 	 * @param searchValue - Search value.
@@ -103,12 +109,20 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 		this.search.set(searchValue ?? undefined);
 	}
 
+	/**
+	 * Change filter.
+	 * @param value - Selected value.
+	 */
+	protected changeFilter(value: AnimeTypeDto): void {
+		this.filter.set(value ?? undefined);
+	}
+
 	/** @inheritdoc */
 	public ngAfterViewInit(): void {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
 
-		merge(this.searchForm.searchValue, this.sort.sortChange, this.paginator.page)
+		merge(this.typeFilter.selectionChange, this.searchForm.searchValue, this.sort.sortChange, this.paginator.page)
 			.pipe(
 				startWith({}),
 				switchMap(() => this.getAllAnime({
@@ -118,6 +132,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 						COLUMN_TO_QUERY_PARAM[this.sort.active] :
 						`-${COLUMN_TO_QUERY_PARAM[this.sort.active]}`,
 					search: this.search(),
+					type: this.filter(),
 				}).pipe(catchError(() => of(null)))),
 				map(value => {
 					if (value == null) {
