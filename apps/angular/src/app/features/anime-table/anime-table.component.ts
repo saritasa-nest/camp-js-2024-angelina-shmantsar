@@ -1,5 +1,5 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewChild, inject, signal } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -50,10 +50,13 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	private readonly animeService = inject(AnimeService);
 
 	private getAllAnime(params: GetPaginatedAnimeData): Observable<Pagination<Anime>> {
-		return this.animeService.getPaginatedAnime(params);
+		const clearedParams: GetPaginatedAnimeData = JSON.parse(JSON.stringify(params));
+		return this.animeService.getPaginatedAnime(clearedParams);
 	}
 
 	private anime: readonly Anime[] = [];
+
+	private readonly search = signal<string | undefined>(undefined);
 
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
@@ -89,12 +92,23 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	@ViewChild(MatSort)
 	private sort!: MatSort;
 
+	@ViewChild(SearchFormComponent)
+	private searchForm!: SearchFormComponent;
+
+	/**
+	 * Get value from search form.
+	 * @param searchValue - Search value.
+	 * */
+	protected getSearchValue(searchValue?: string | null): void {
+		this.search.set(searchValue ?? undefined);
+	}
+
 	/** @inheritdoc */
 	public ngAfterViewInit(): void {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
 
-		merge(this.sort.sortChange, this.paginator.page)
+		merge(this.searchForm.searchValue, this.sort.sortChange, this.paginator.page)
 			.pipe(
 				startWith({}),
 				switchMap(() => this.getAllAnime({
@@ -103,6 +117,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 					ordering: this.sort.direction === 'asc' ?
 						COLUMN_TO_QUERY_PARAM[this.sort.active] :
 						`-${COLUMN_TO_QUERY_PARAM[this.sort.active]}`,
+					search: this.search(),
 				}).pipe(catchError(() => of(null)))),
 				map(value => {
 					if (value == null) {

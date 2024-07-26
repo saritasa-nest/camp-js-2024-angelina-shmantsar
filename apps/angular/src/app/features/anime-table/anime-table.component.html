@@ -5,7 +5,7 @@
 			<mat-option value="type" class="mat-option">Type</mat-option>
 		</mat-select>
 	</mat-form-field>
-	<search-form></search-form>
+	<search-form (searchValue)="getSearchValue($event)"></search-form>
 </div>
 <table mat-table [dataSource]="dataSource" class="anime-table" matSort matSortDisableClear>
 	@for (column of displayedColumns; track $index) {

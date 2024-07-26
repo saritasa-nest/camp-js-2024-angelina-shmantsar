@@ -1,9 +1,11 @@
 <form
 	class="search-form"
+	[formGroup]="form"
+	(ngSubmit)="onSubmit()"
 >
 	<mat-form-field appearance="outline" class="search-field">
 		<mat-label class="search-title">Search by title</mat-label>
-		<input matInput placeholder="One Piece" type="search" class="search-input">
+		<input matInput placeholder="One Piece" type="search" class="search-input" formControlName="search">
 	</mat-form-field>
 	<button mat-fab type="submit" class="search-button">
 		<mat-icon>search</mat-icon>
