@@ -1,0 +1,8 @@
+:root {
+	/* Shifts and small components sizes */
+	--size-4: 16px;
+	--size-6: 24px;
+
+	/* Winner field color */
+	--winner-field-color: rgb(255 204 204);
+}
