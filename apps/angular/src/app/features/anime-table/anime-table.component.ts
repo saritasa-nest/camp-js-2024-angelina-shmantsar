@@ -74,6 +74,16 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
 	private readonly filter = signal<AnimeTypeDto[] | undefined>(undefined);
 
+	private getQueryParams(): void {
+		this.activatedRoute.queryParams.pipe(
+			tap(value => {
+				this.search.set(value['search']);
+				this.ordering.set(value['ordering']);
+				this.filter.set(value['type']?.split(','));
+			}),
+		).subscribe();
+	}
+
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
 		{ key: ColumnKey.Image, header: 'Image' },
@@ -127,6 +137,10 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 			`-${COLUMN_TO_QUERY_PARAM[this.sort.active]}`));
 
 		this.typeFilter.filter.subscribe(value => this.filter.set(value));
+	}
+
+	public constructor() {
+		this.getQueryParams();
 	}
 
 	/** @inheritdoc */
