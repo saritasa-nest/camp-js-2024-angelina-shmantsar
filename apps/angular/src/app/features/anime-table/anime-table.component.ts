@@ -7,10 +7,11 @@ import { Anime } from '@js-camp/angular/core/models/anime';
 import { Pagination } from '@js-camp/angular/core/models/pagination';
 import { TableColumn } from '@js-camp/angular/core/models/table-column';
 import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
-import { AnimeService, GetPaginatedAnimeData } from '@js-camp/angular/core/services/anime.service';
+import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Observable, catchError, map, merge, of, startWith, switchMap, tap } from 'rxjs';
 import { AnimeTypeDto } from '@js-camp/angular/core/dtos/backend-enums/anime-type.dto';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AnimeManagementParams } from '@js-camp/angular/core/models/anime-management-params';
 
 import { SearchFormComponent } from '../search-form/search-form.component';
 import { AnimeTypeFilterComponent } from '../anime-type-filter/anime-type-filter.component';
@@ -29,7 +30,6 @@ const COLUMN_TO_QUERY_PARAM: Readonly<Record<string, string>> = {
 	airedStart: 'aired__startswith',
 	titleEng: 'title_eng',
 	status: 'status',
-	type: 'type__in',
 };
 
 /** Anime table component. */
@@ -56,14 +56,14 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
 	private readonly router = inject(Router);
 
-	private getAllAnime(params: GetPaginatedAnimeData): Observable<Pagination<Anime>> {
-		const clearedParams: GetPaginatedAnimeData = JSON.parse(JSON.stringify(params));
+	private getAllAnime(params: AnimeManagementParams): Observable<Pagination<Anime>> {
+		const clearedParams: AnimeManagementParams = JSON.parse(JSON.stringify(params));
 		this.activatedRoute.queryParams.pipe(
 			tap(() => this.router.navigate([''], {
 				queryParams: clearedParams,
 			})),
 		).subscribe();
-		return this.animeService.getPaginatedAnime(clearedParams);
+		return this.animeService.getPaginatedAnime(params);
 	}
 
 	private anime: readonly Anime[] = [];
@@ -145,8 +145,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 						offset: String(this.paginator.pageSize * this.paginator.pageIndex),
 						ordering: this.ordering(),
 						search: this.search(),
-						// eslint-disable-next-line @typescript-eslint/naming-convention
-						type__in: this.filter()?.join(','),
+						type: this.filter()?.join(','),
 					}).pipe(catchError(() => of(null)))),
 				map(value => {
 					if (value == null) {

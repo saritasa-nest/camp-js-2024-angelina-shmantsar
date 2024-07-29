@@ -10,28 +10,10 @@ import { Anime } from '../models/anime';
 
 import { AnimePaginationMapper } from '../mappers/anime-pagination.mapper';
 import { Pagination } from '../models/pagination';
+import { AnimeManagementParams } from '../models/anime-management-params';
+import { AnimeManagementParamsMapper } from '../mappers/anime-management-params.mapper';
 
 import { ApiUrlService } from './api-url.service';
-
-/** Data for getPaginatedAnime function. */
-export type GetPaginatedAnimeData = {
-
-	/** Limit. */
-	readonly limit: string;
-
-	/** Offset. */
-	readonly offset: string;
-
-	/** Ordering. */
-	readonly ordering?: string;
-
-	/** Search. */
-	readonly search?: string;
-
-	/** Type. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
-	readonly type__in?: string;
-};
 
 /** Anime service. */
 @Injectable({ providedIn: 'root' })
@@ -46,8 +28,9 @@ export class AnimeService {
 	 * Fetch all anime.
 	 * @param params - Params.
 	 * */
-	public getPaginatedAnime(params: GetPaginatedAnimeData): Observable<Pagination<Anime>> {
-		const queryParams = this.urlService.constructQueryParams(params);
+	public getPaginatedAnime(params: AnimeManagementParams): Observable<Pagination<Anime>> {
+		const clearedParams = JSON.parse(JSON.stringify(AnimeManagementParamsMapper.toDto(params)));
+		const queryParams = this.urlService.constructQueryParams(clearedParams);
 		const allAnimeUrl = `${this.urlService.anime.list}?${queryParams}`;
 		return this.httpClient
 			.get<PaginationDto<AnimeDto>>(allAnimeUrl)
