@@ -68,6 +68,8 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
 	private anime: readonly Anime[] = [];
 
+	private readonly offset = signal<string>('0');
+
 	private readonly search = signal<string | undefined>(undefined);
 
 	private readonly ordering = signal<string | undefined>(undefined);
@@ -77,6 +79,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	private getQueryParams(): void {
 		this.activatedRoute.queryParams.pipe(
 			tap(value => {
+				this.offset.set(value['offset']);
 				this.search.set(value['search']);
 				this.ordering.set(value['ordering']);
 				this.filter.set(value['type']?.split(','));
@@ -125,18 +128,23 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	private readonly typeFilter!: AnimeTypeFilterComponent;
 
 	private subscribeToControls(): void {
+		this.paginator.page.subscribe(() => {
+			this.offset.set(String(this.paginator.pageSize * this.paginator.pageIndex));
+		});
+
 		this.searchForm.searchValue.subscribe(value => {
 			this.paginator.pageIndex = 0;
 			this.search.set(value ?? undefined);
 		});
 
-		this.typeFilter.filter.subscribe(() => (this.paginator.pageIndex = 0));
+		this.typeFilter.filter.subscribe(value => {
+			this.paginator.pageIndex = 0;
+			this.filter.set(value && value?.length > 0 ? value : undefined);
+		});
 
 		this.sort.sortChange.subscribe(() => this.ordering.set(this.sort.direction === 'asc' ?
 			COLUMN_TO_QUERY_PARAM[this.sort.active] :
 			`-${COLUMN_TO_QUERY_PARAM[this.sort.active]}`));
-
-		this.typeFilter.filter.subscribe(value => this.filter.set(value));
 	}
 
 	public constructor() {
@@ -156,7 +164,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 				switchMap(() =>
 					this.getAllAnime({
 						limit: String(this.pageSize),
-						offset: String(this.paginator.pageSize * this.paginator.pageIndex),
+						offset: this.offset(),
 						ordering: this.ordering(),
 						search: this.search(),
 						type: this.filter()?.join(','),
@@ -166,6 +174,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 						return [];
 					}
 					this.totalCount = value.count;
+					this.paginator.pageIndex = Math.round(Number(this.offset()) / this.pageSize);
 					return value.results;
 				}),
 			)
