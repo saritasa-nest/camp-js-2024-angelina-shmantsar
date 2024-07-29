@@ -103,16 +103,16 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	protected readonly sortableFields = [ColumnKey.TitleEng, ColumnKey.AiredStart, ColumnKey.Status];
 
 	@ViewChild(MatPaginator)
-	private paginator!: MatPaginator;
+	private readonly paginator!: MatPaginator;
 
 	@ViewChild(MatSort)
-	private sort!: MatSort;
+	private readonly sort!: MatSort;
 
 	@ViewChild(SearchFormComponent)
-	private searchForm!: SearchFormComponent;
+	private readonly searchForm!: SearchFormComponent;
 
 	@ViewChild(AnimeTypeFilterComponent)
-	private typeFilter!: AnimeTypeFilterComponent;
+	private readonly typeFilter!: AnimeTypeFilterComponent;
 
 	private subscribeToControls(): void {
 		this.searchForm.searchValue.subscribe(value => {

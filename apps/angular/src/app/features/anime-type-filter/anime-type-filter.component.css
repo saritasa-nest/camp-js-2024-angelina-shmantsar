@@ -1,3 +1,24 @@
+/* stylelint-disable selector-pseudo-element-no-unknown */
 :host {
 	display: block;
+}
+
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-floating-label {
+	color: rgb(0 49 106) !important;
+}
+
+::ng-deep .mat-mdc-option {
+	color: rgb(0 49 106) !important;
+}
+
+::ng-deep .mat-pseudo-checkbox-full {
+	border-color: rgb(0 49 106) !important;
+}
+
+::ng-deep .mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked {
+	background-color: rgb(171 192 216) !important;
+}
+
+::ng-deep .mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked::after {
+	color: rgb(0 49 106) !important;
 }
