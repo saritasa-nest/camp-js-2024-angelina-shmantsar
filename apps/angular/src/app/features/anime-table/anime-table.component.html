@@ -1,15 +1,10 @@
 <div class="controls">
 	<mat-form-field appearance="outline">
 		<mat-label class="mat-label">Type</mat-label>
-		<mat-select (valueChange)="changeFilter($event)">
-			<mat-option value="TV" class="mat-option">TV</mat-option>
-			<mat-option value="OVA" class="mat-option">OVA</mat-option>
-			<mat-option value="MOVIE" class="mat-option">Movie</mat-option>
-			<mat-option value="SPECIAL" class="mat-option">Special</mat-option>
-			<mat-option value="ONA" class="mat-option">ONA</mat-option>
-			<mat-option value="MUSIC" class="mat-option">Music</mat-option>
-			<mat-option value="PROMOTIONAL_VIDEOS" class="mat-option">Promotional videos</mat-option>
-			<mat-option value="UNKNOWN" class="mat-option">Unknown</mat-option>
+		<mat-select (valueChange)="changeFilter($event)" multiple>
+			@for (option of filterOptions; track $index) {
+				<mat-option [value]="option.value" class="mat-option">{{option.title}}</mat-option>
+			}
 		</mat-select>
 	</mat-form-field>
 	<search-form (searchValue)="getSearchValue($event)"></search-form>

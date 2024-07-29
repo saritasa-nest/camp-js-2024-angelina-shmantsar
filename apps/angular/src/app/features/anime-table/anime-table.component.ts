@@ -30,6 +30,16 @@ const COLUMN_TO_QUERY_PARAM: Readonly<Record<string, string>> = {
 	status: 'status',
 };
 
+/** Filter option. */
+type FilterOption = {
+
+	/** Value. */
+	value: AnimeTypeDto;
+
+	/** Title. */
+	title: string;
+};
+
 /** Anime table component. */
 @Component({
 	selector: 'anime-table',
@@ -59,7 +69,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
 	private readonly search = signal<string | undefined>(undefined);
 
-	private readonly filter = signal<AnimeTypeDto | undefined>(undefined);
+	private readonly filter = signal<AnimeTypeDto[] | undefined>(undefined);
 
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
@@ -75,7 +85,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	protected readonly headerRowDefinitions = this.displayedColumns.map(column => column.key);
 
 	/** Column key. */
-	protected columnKey = ColumnKey;
+	protected readonly columnKey = ColumnKey;
 
 	/** Data source. */
 	protected dataSource = new MatTableDataSource<Anime>();
@@ -87,7 +97,19 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	protected totalCount = 0;
 
 	/** Sortable fields. */
-	protected sortableFields = [ColumnKey.TitleEng, ColumnKey.AiredStart, ColumnKey.Status];
+	protected readonly sortableFields = [ColumnKey.TitleEng, ColumnKey.AiredStart, ColumnKey.Status];
+
+	/** Filter options. */
+	protected readonly filterOptions: readonly FilterOption[] = [
+		{ value: AnimeTypeDto.Movie, title: 'Movie' },
+		{ value: AnimeTypeDto.Music, title: 'Music' },
+		{ value: AnimeTypeDto.Ona, title: 'ONA' },
+		{ value: AnimeTypeDto.Ova, title: 'OVA' },
+		{ value: AnimeTypeDto.PromotionalVideos, title: 'Promotional videos' },
+		{ value: AnimeTypeDto.Special, title: 'Special' },
+		{ value: AnimeTypeDto.Tv, title: 'TV' },
+		{ value: AnimeTypeDto.Unknown, title: 'Unknown' },
+	];
 
 	@ViewChild(MatPaginator)
 	private paginator!: MatPaginator;
@@ -113,7 +135,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	 * Change filter.
 	 * @param value - Selected value.
 	 */
-	protected changeFilter(value: AnimeTypeDto): void {
+	protected changeFilter(value: AnimeTypeDto[]): void {
 		this.filter.set(value ?? undefined);
 	}
 
@@ -125,15 +147,18 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 		merge(this.typeFilter.selectionChange, this.searchForm.searchValue, this.sort.sortChange, this.paginator.page)
 			.pipe(
 				startWith({}),
-				switchMap(() => this.getAllAnime({
-					limit: String(this.pageSize),
-					offset: String(this.paginator.pageSize * this.paginator.pageIndex),
-					ordering: this.sort.direction === 'asc' ?
-						COLUMN_TO_QUERY_PARAM[this.sort.active] :
-						`-${COLUMN_TO_QUERY_PARAM[this.sort.active]}`,
-					search: this.search(),
-					type: this.filter(),
-				}).pipe(catchError(() => of(null)))),
+				switchMap(() =>
+					this.getAllAnime({
+						limit: String(this.pageSize),
+						offset: String(this.paginator.pageSize * this.paginator.pageIndex),
+						ordering:
+							this.sort.direction === 'asc' ?
+								COLUMN_TO_QUERY_PARAM[this.sort.active] :
+								`-${COLUMN_TO_QUERY_PARAM[this.sort.active]}`,
+						search: this.search(),
+						// eslint-disable-next-line @typescript-eslint/naming-convention
+						type__in: this.filter()?.join(','),
+					}).pipe(catchError(() => of(null)))),
 				map(value => {
 					if (value == null) {
 						return [];

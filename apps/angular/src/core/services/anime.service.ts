@@ -11,8 +11,6 @@ import { Anime } from '../models/anime';
 import { AnimePaginationMapper } from '../mappers/anime-pagination.mapper';
 import { Pagination } from '../models/pagination';
 
-import { AnimeTypeDto } from '../dtos/backend-enums/anime-type.dto';
-
 import { ApiUrlService } from './api-url.service';
 
 /** Data for getPaginatedAnime function. */
@@ -31,7 +29,8 @@ export type GetPaginatedAnimeData = {
 	readonly search?: string;
 
 	/** Type. */
-	readonly type?: AnimeTypeDto;
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	readonly type__in?: string;
 };
 
 /** Anime service. */
