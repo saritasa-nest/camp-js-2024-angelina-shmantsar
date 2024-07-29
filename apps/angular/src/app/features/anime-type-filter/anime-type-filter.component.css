@@ -1,13 +1,35 @@
 /* stylelint-disable selector-pseudo-element-no-unknown */
 :host {
+	--select-text-color: rgb(0 49 106);
+
 	display: block;
 }
 
+.mat-label {
+	color: var(--select-text-color);
+}
+
+.mat-option {
+	color: var(--select-text-color);
+}
+
+::ng-deep .mat-mdc-select {
+	color: var(--select-text-color) !important;
+}
+
+::ng-deep div.mat-mdc-select-panel {
+	background-color: rgb(171 192 216) !important;
+}
+
 ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-floating-label {
-	color: rgb(0 49 106) !important;
+	color: var(--select-text-color) !important;
 }
 
 ::ng-deep .mat-mdc-option {
+	color: rgb(0 49 106) !important;
+}
+
+::ng-deep .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
 	color: rgb(0 49 106) !important;
 }
 
@@ -21,4 +43,8 @@
 
 ::ng-deep .mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked::after {
 	color: rgb(0 49 106) !important;
+}
+
+::ng-deep .mat-mdc-select-arrow svg {
+	fill: rgb(0 49 106) !important;
 }
