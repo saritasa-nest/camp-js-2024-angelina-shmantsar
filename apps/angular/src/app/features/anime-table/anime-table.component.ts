@@ -70,11 +70,13 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
 	private readonly offset = signal<string>('0');
 
-	private readonly search = signal<string | undefined>(undefined);
+	/** Search input value. */
+	protected readonly search = signal<string | undefined>(undefined);
 
 	private readonly ordering = signal<string | undefined>(undefined);
 
-	private readonly filter = signal<AnimeTypeDto[] | undefined>(undefined);
+	/** Select filter values. */
+	protected readonly filter = signal<AnimeTypeDto[] | undefined>(undefined);
 
 	private getQueryParams(): void {
 		this.activatedRoute.queryParams.pipe(

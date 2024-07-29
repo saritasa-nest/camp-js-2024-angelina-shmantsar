@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	EventEmitter,
+	Input,
+	OnChanges,
+	Output,
+	SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -15,13 +23,16 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 	styleUrl: './search-form.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchFormComponent {
+export class SearchFormComponent implements OnChanges {
+	/** Value of search input. */
+	@Input() public value: string | undefined = undefined;
+
 	/** Search value. */
 	@Output() public readonly searchValue = new EventEmitter<string | null>();
 
 	/** Form. */
 	protected readonly form = new FormGroup({
-		search: new FormControl<string | null>(null),
+		search: new FormControl<string | null>(this.value ?? null),
 	});
 
 	/**
@@ -30,5 +41,13 @@ export class SearchFormComponent {
 	 */
 	protected onSubmit(): void {
 		this.searchValue.emit(this.form.value.search);
+	}
+
+	/** @inheritdoc */
+	public ngOnChanges(changes: SimpleChanges): void {
+		this.value = changes['value'].currentValue;
+		this.form.setValue({
+			search: this.value ?? null,
+		});
 	}
 }

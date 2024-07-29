@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { AnimeTypeDto } from '@js-camp/angular/core/dtos/backend-enums/anime-type.dto';
@@ -22,7 +22,10 @@ type FilterOption = {
 	styleUrl: './anime-type-filter.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeTypeFilterComponent {
+export class AnimeTypeFilterComponent implements OnChanges {
+	/** Filter values. */
+	@Input() public values: AnimeTypeDto[] | undefined = undefined;
+
 	/** Filter value emitter. */
 	@Output()
 	public readonly filter = new EventEmitter<AnimeTypeDto[] | undefined>(undefined);
@@ -45,5 +48,10 @@ export class AnimeTypeFilterComponent {
 	 */
 	protected changeFilter(value: AnimeTypeDto[]): void {
 		this.filter.emit(value ?? undefined);
+	}
+
+	/** @inheritdoc */
+	public ngOnChanges(changes: SimpleChanges): void {
+		this.values = changes['values'].currentValue;
 	}
 }
