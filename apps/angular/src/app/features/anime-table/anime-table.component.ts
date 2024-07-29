@@ -3,7 +3,6 @@ import { AfterViewInit, Component, OnDestroy, ViewChild, inject, signal } from '
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { Anime } from '@js-camp/angular/core/models/anime';
 import { Pagination } from '@js-camp/angular/core/models/pagination';
 import { TableColumn } from '@js-camp/angular/core/models/table-column';
@@ -12,9 +11,9 @@ import { AnimeService, GetPaginatedAnimeData } from '@js-camp/angular/core/servi
 import { Observable, catchError, map, merge, of, startWith, switchMap, tap } from 'rxjs';
 import { AnimeTypeDto } from '@js-camp/angular/core/dtos/backend-enums/anime-type.dto';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiUrlService } from '@js-camp/angular/core/services/api-url.service';
 
 import { SearchFormComponent } from '../search-form/search-form.component';
+import { AnimeTypeFilterComponent } from '../anime-type-filter/anime-type-filter.component';
 
 /** Column key values. */
 enum ColumnKey {
@@ -30,16 +29,7 @@ const COLUMN_TO_QUERY_PARAM: Readonly<Record<string, string>> = {
 	airedStart: 'aired__startswith',
 	titleEng: 'title_eng',
 	status: 'status',
-};
-
-/** Filter option. */
-type FilterOption = {
-
-	/** Value. */
-	value: AnimeTypeDto;
-
-	/** Title. */
-	title: string;
+	type: 'type__in',
 };
 
 /** Anime table component. */
@@ -56,13 +46,11 @@ type FilterOption = {
 		EmptyPipe,
 		MatSortModule,
 		SearchFormComponent,
-		MatSelectModule,
+		AnimeTypeFilterComponent,
 	],
 })
 export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	private readonly animeService = inject(AnimeService);
-
-	private readonly apiUrlService = inject(ApiUrlService);
 
 	private readonly activatedRoute = inject(ActivatedRoute);
 
@@ -82,9 +70,9 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
 	private readonly search = signal<string | undefined>(undefined);
 
-	private readonly filter = signal<AnimeTypeDto[] | undefined>(undefined);
-
 	private readonly ordering = signal<string | undefined>(undefined);
+
+	private readonly filter = signal<AnimeTypeDto[] | undefined>(undefined);
 
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
@@ -114,18 +102,6 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	/** Sortable fields. */
 	protected readonly sortableFields = [ColumnKey.TitleEng, ColumnKey.AiredStart, ColumnKey.Status];
 
-	/** Filter options. */
-	protected readonly filterOptions: readonly FilterOption[] = [
-		{ value: AnimeTypeDto.Movie, title: 'Movie' },
-		{ value: AnimeTypeDto.Music, title: 'Music' },
-		{ value: AnimeTypeDto.Ona, title: 'ONA' },
-		{ value: AnimeTypeDto.Ova, title: 'OVA' },
-		{ value: AnimeTypeDto.PromotionalVideos, title: 'Promotional videos' },
-		{ value: AnimeTypeDto.Special, title: 'Special' },
-		{ value: AnimeTypeDto.Tv, title: 'TV' },
-		{ value: AnimeTypeDto.Unknown, title: 'Unknown' },
-	];
-
 	@ViewChild(MatPaginator)
 	private paginator!: MatPaginator;
 
@@ -135,23 +111,22 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	@ViewChild(SearchFormComponent)
 	private searchForm!: SearchFormComponent;
 
-	@ViewChild(MatSelect)
-	private typeFilter!: MatSelect;
+	@ViewChild(AnimeTypeFilterComponent)
+	private typeFilter!: AnimeTypeFilterComponent;
 
-	/**
-	 * Get value from search form.
-	 * @param searchValue - Search value.
-	 * */
-	protected getSearchValue(searchValue?: string | null): void {
-		this.search.set(searchValue ?? undefined);
-	}
+	private subscribeToControls(): void {
+		this.searchForm.searchValue.subscribe(value => {
+			this.paginator.pageIndex = 0;
+			this.search.set(value ?? undefined);
+		});
 
-	/**
-	 * Change filter.
-	 * @param value - Selected value.
-	 */
-	protected changeFilter(value: AnimeTypeDto[]): void {
-		this.filter.set(value ?? undefined);
+		this.typeFilter.filter.subscribe(() => (this.paginator.pageIndex = 0));
+
+		this.sort.sortChange.subscribe(() => this.ordering.set(this.sort.direction === 'asc' ?
+			COLUMN_TO_QUERY_PARAM[this.sort.active] :
+			`-${COLUMN_TO_QUERY_PARAM[this.sort.active]}`));
+
+		this.typeFilter.filter.subscribe(value => this.filter.set(value));
 	}
 
 	/** @inheritdoc */
@@ -159,13 +134,9 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
 
-		this.searchForm.searchValue.subscribe(() => (this.paginator.pageIndex = 0));
-		this.typeFilter.selectionChange.subscribe(() => (this.paginator.pageIndex = 0));
-		this.sort.sortChange.subscribe(() => this.ordering.set(this.sort.direction === 'asc' ?
-			COLUMN_TO_QUERY_PARAM[this.sort.active] :
-			`-${COLUMN_TO_QUERY_PARAM[this.sort.active]}`));
+		this.subscribeToControls();
 
-		merge(this.typeFilter.selectionChange, this.searchForm.searchValue, this.sort.sortChange, this.paginator.page)
+		merge(this.typeFilter.filter, this.searchForm.searchValue, this.sort.sortChange, this.paginator.page)
 			.pipe(
 				startWith({}),
 				switchMap(() =>
@@ -195,7 +166,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	public ngOnDestroy(): void {
 		this.paginator.page.unsubscribe();
 		this.searchForm.searchValue.unsubscribe();
-		this.typeFilter.selectionChange.unsubscribe();
 		this.sort.sortChange.unsubscribe();
+		this.typeFilter.filter.unsubscribe();
 	}
 }

@@ -1,13 +1,6 @@
 <div class="controls">
-	<mat-form-field appearance="outline">
-		<mat-label class="mat-label">Type</mat-label>
-		<mat-select (valueChange)="changeFilter($event)" multiple>
-			@for (option of filterOptions; track $index) {
-				<mat-option [value]="option.value" class="mat-option">{{option.title}}</mat-option>
-			}
-		</mat-select>
-	</mat-form-field>
-	<search-form (searchValue)="getSearchValue($event)"></search-form>
+	<camp-anime-type-filter></camp-anime-type-filter>
+	<search-form></search-form>
 </div>
 <table mat-table [dataSource]="dataSource" class="anime-table" matSort matSortDisableClear>
 	@for (column of displayedColumns; track $index) {
