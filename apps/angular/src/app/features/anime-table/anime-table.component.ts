@@ -9,8 +9,10 @@ import { Pagination } from '@js-camp/angular/core/models/pagination';
 import { TableColumn } from '@js-camp/angular/core/models/table-column';
 import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
 import { AnimeService, GetPaginatedAnimeData } from '@js-camp/angular/core/services/anime.service';
-import { Observable, catchError, map, merge, of, startWith, switchMap } from 'rxjs';
+import { Observable, catchError, map, merge, of, startWith, switchMap, tap } from 'rxjs';
 import { AnimeTypeDto } from '@js-camp/angular/core/dtos/backend-enums/anime-type.dto';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApiUrlService } from '@js-camp/angular/core/services/api-url.service';
 
 import { SearchFormComponent } from '../search-form/search-form.component';
 
@@ -60,8 +62,19 @@ type FilterOption = {
 export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	private readonly animeService = inject(AnimeService);
 
+	private readonly apiUrlService = inject(ApiUrlService);
+
+	private readonly activatedRoute = inject(ActivatedRoute);
+
+	private readonly router = inject(Router);
+
 	private getAllAnime(params: GetPaginatedAnimeData): Observable<Pagination<Anime>> {
 		const clearedParams: GetPaginatedAnimeData = JSON.parse(JSON.stringify(params));
+		this.activatedRoute.queryParams.pipe(
+			tap(() => this.router.navigate([''], {
+				queryParams: clearedParams,
+			})),
+		).subscribe();
 		return this.animeService.getPaginatedAnime(clearedParams);
 	}
 
@@ -70,6 +83,8 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	private readonly search = signal<string | undefined>(undefined);
 
 	private readonly filter = signal<AnimeTypeDto[] | undefined>(undefined);
+
+	private readonly ordering = signal<string | undefined>(undefined);
 
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
@@ -144,6 +159,12 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
 
+		this.searchForm.searchValue.subscribe(() => (this.paginator.pageIndex = 0));
+		this.typeFilter.selectionChange.subscribe(() => (this.paginator.pageIndex = 0));
+		this.sort.sortChange.subscribe(() => this.ordering.set(this.sort.direction === 'asc' ?
+			COLUMN_TO_QUERY_PARAM[this.sort.active] :
+			`-${COLUMN_TO_QUERY_PARAM[this.sort.active]}`));
+
 		merge(this.typeFilter.selectionChange, this.searchForm.searchValue, this.sort.sortChange, this.paginator.page)
 			.pipe(
 				startWith({}),
@@ -151,10 +172,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 					this.getAllAnime({
 						limit: String(this.pageSize),
 						offset: String(this.paginator.pageSize * this.paginator.pageIndex),
-						ordering:
-							this.sort.direction === 'asc' ?
-								COLUMN_TO_QUERY_PARAM[this.sort.active] :
-								`-${COLUMN_TO_QUERY_PARAM[this.sort.active]}`,
+						ordering: this.ordering(),
 						search: this.search(),
 						// eslint-disable-next-line @typescript-eslint/naming-convention
 						type__in: this.filter()?.join(','),
@@ -176,5 +194,8 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	/** @inheritdoc */
 	public ngOnDestroy(): void {
 		this.paginator.page.unsubscribe();
+		this.searchForm.searchValue.unsubscribe();
+		this.typeFilter.selectionChange.unsubscribe();
+		this.sort.sortChange.unsubscribe();
 	}
 }
