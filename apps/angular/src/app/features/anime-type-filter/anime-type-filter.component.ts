@@ -7,10 +7,10 @@ import { AnimeType } from '@js-camp/angular/core/models/anime-type';
 type FilterOption = {
 
 	/** Value. */
-	value: AnimeType;
+	readonly value: AnimeType;
 
 	/** Title. */
-	title: string;
+	readonly title: string;
 };
 
 /** Anime type filter component. */
@@ -24,11 +24,11 @@ type FilterOption = {
 })
 export class AnimeTypeFilterComponent implements OnChanges {
 	/** Filter values. */
-	@Input() public values: AnimeType[] | undefined = undefined;
+	@Input() public values: readonly AnimeType[] | undefined = undefined;
 
 	/** Filter value emitter. */
 	@Output()
-	public readonly filter = new EventEmitter<AnimeType[] | undefined>(undefined);
+	public readonly filter = new EventEmitter<readonly AnimeType[] | undefined>(undefined);
 
 	/** Filter options. */
 	protected readonly filterOptions: readonly FilterOption[] = [
@@ -46,7 +46,7 @@ export class AnimeTypeFilterComponent implements OnChanges {
 	 * Change filter.
 	 * @param value - Selected value.
 	 */
-	protected changeFilter(value: AnimeType[]): void {
+	protected changeFilter(value: readonly AnimeType[]): void {
 		this.filter.emit(value ?? undefined);
 	}
 

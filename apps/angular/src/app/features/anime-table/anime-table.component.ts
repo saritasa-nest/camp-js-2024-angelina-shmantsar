@@ -78,7 +78,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	private readonly ordering = signal<string | undefined>(undefined);
 
 	/** Select filter values. */
-	protected readonly filter = signal<AnimeType[] | undefined>(undefined);
+	protected readonly filter = signal<readonly AnimeType[] | undefined>(undefined);
 
 	private getQueryParams(): void {
 		this.activatedRoute.queryParams.pipe(

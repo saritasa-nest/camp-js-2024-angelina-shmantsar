@@ -21,7 +21,7 @@ export class ApiUrlService {
 	/** Construct query params string.
 	 * @param params - List of params.
 	 */
-	public constructQueryParams(...params: Readonly<Record<string, string>>[]): string {
+	public constructQueryParams(...params: readonly Readonly<Record<string, string>>[]): string {
 		const urlParams = new URLSearchParams(...params);
 		return urlParams.toString();
 	}
