@@ -9,11 +9,12 @@ import { TableColumn } from '@js-camp/angular/core/models/table-column';
 import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Observable, catchError, map, merge, of, startWith, switchMap, tap } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AnimeManagementParams } from '@js-camp/angular/core/models/anime-management-params';
 import { AnimeType } from '@js-camp/angular/core/models/anime-type';
 import { AnimeTypeMapper } from '@js-camp/angular/core/mappers/anime-type.mapper';
 import { AnimeTypeDto } from '@js-camp/angular/core/dtos/backend-enums/anime-type.dto';
+import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 
 import { SearchFormComponent } from '../search-form/search-form.component';
 import { AnimeTypeFilterComponent } from '../anime-type-filter/anime-type-filter.component';
@@ -56,15 +57,10 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
 	private readonly activatedRoute = inject(ActivatedRoute);
 
-	private readonly router = inject(Router);
+	private readonly navigationService = inject(NavigationService);
 
 	private getAnimeList(params: AnimeManagementParams): Observable<Pagination<Anime>> {
-		const clearedParams: AnimeManagementParams = JSON.parse(JSON.stringify(params));
-		this.activatedRoute.queryParams.pipe(
-			tap(() => this.router.navigate([''], {
-				queryParams: clearedParams,
-			})),
-		).subscribe();
+		this.navigationService.navigate('', params);
 		return this.animeService.getPaginatedAnime(params);
 	}
 
@@ -144,6 +140,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
 		this.typeFilter.filter.subscribe(value => {
 			this.paginator.pageIndex = 0;
+			this.offset.set('0');
 			this.filter.set(value && value?.length > 0 ? value : undefined);
 		});
 
