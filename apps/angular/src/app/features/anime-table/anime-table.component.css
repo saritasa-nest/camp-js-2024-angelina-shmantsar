@@ -50,8 +50,8 @@
 	padding: 0 var(--size-3);
 }
 
-[mat-header-cell],
-[mat-cell] {
+.mat-header-cell,
+.mat-cell {
 	text-align: center;
 	vertical-align: middle;
 	font-size: var(--font-size-md);
@@ -61,12 +61,12 @@
 	font-family: Manrope, sans-serif;
 }
 
-[mat-header-cell] {
+.mat-header-cell {
 	font-size: var(--table-header-font-size);
 	border-bottom: var(--border-sm) solid var(--anime-primary-dark-color);
 }
 
-[mat-row]:hover {
+.mat-row:hover {
 	background-color: var(--anime-primary-light-color);
 }
 

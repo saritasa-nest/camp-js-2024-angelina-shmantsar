@@ -18,12 +18,13 @@ import { NavigationService } from '@js-camp/angular/core/services/navigation.ser
 
 import { SearchFormComponent } from '../search-form/search-form.component';
 import { AnimeTypeFilterComponent } from '../anime-type-filter/anime-type-filter.component';
+import { DATE_FORMAT } from '@js-camp/angular/shared/constants/date-format';
 
 /** Column key values. */
 enum ColumnKey {
 	Image = 'image',
-	TitleEng = 'titleEng',
-	TitleJpn = 'titleJpn',
+	TitleEnglish = 'titleEnglish',
+	TitleJapanese = 'titleJapanese',
 	AiredStart = 'airedStart',
 	Type = 'type',
 	Status = 'status',
@@ -37,7 +38,7 @@ const COLUMN_TO_QUERY_PARAM: Readonly<Record<string, string>> = {
 
 /** Anime table component. */
 @Component({
-	selector: 'anime-table',
+	selector: 'camp-anime-table',
 	templateUrl: './anime-table.component.html',
 	styleUrl: './anime-table.component.css',
 	standalone: true,
@@ -90,8 +91,8 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
 		{ key: ColumnKey.Image, header: 'Image' },
-		{ key: ColumnKey.TitleEng, header: 'English title' },
-		{ key: ColumnKey.TitleJpn, header: 'Japanese title' },
+		{ key: ColumnKey.TitleEnglish, header: 'English title' },
+		{ key: ColumnKey.TitleJapanese, header: 'Japanese title' },
 		{ key: ColumnKey.AiredStart, header: 'Aired start' },
 		{ key: ColumnKey.Type, header: 'Type' },
 		{ key: ColumnKey.Status, header: 'Status' },
@@ -111,6 +112,9 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
 	/** Total count. */
 	protected totalCount = 0;
+
+  /** Date format. */
+	protected readonly dateFormat = DATE_FORMAT;
 
 	/** Sortable fields. */
 	protected readonly sortableFields = [ColumnKey.TitleEng, ColumnKey.AiredStart, ColumnKey.Status];
