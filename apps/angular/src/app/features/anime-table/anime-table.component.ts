@@ -15,10 +15,10 @@ import { AnimeType } from '@js-camp/angular/core/models/anime-type';
 import { AnimeTypeMapper } from '@js-camp/angular/core/mappers/anime-type.mapper';
 import { AnimeTypeDto } from '@js-camp/angular/core/dtos/backend-enums/anime-type.dto';
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
+import { DATE_FORMAT } from '@js-camp/angular/shared/constants/date-format';
 
 import { SearchFormComponent } from '../search-form/search-form.component';
 import { AnimeTypeFilterComponent } from '../anime-type-filter/anime-type-filter.component';
-import { DATE_FORMAT } from '@js-camp/angular/shared/constants/date-format';
 
 /** Column key values. */
 enum ColumnKey {
@@ -113,11 +113,11 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	/** Total count. */
 	protected totalCount = 0;
 
-  /** Date format. */
+	/** Date format. */
 	protected readonly dateFormat = DATE_FORMAT;
 
 	/** Sortable fields. */
-	protected readonly sortableFields = [ColumnKey.TitleEng, ColumnKey.AiredStart, ColumnKey.Status];
+	protected readonly sortableFields = [ColumnKey.TitleEnglish, ColumnKey.AiredStart, ColumnKey.Status];
 
 	@ViewChild(MatPaginator)
 	private readonly paginator!: MatPaginator;
