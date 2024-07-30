@@ -22,8 +22,6 @@ export class AnimeService {
 
 	private readonly urlService = inject(ApiUrlService);
 
-	private readonly animePaginationMapper = inject(AnimePaginationMapper);
-
 	/**
 	 * Fetch all anime.
 	 * @param params - Params.
@@ -34,6 +32,6 @@ export class AnimeService {
 		const allAnimeUrl = `${this.urlService.anime.list}?${queryParams}`;
 		return this.httpClient
 			.get<PaginationDto<AnimeDto>>(allAnimeUrl)
-			.pipe(map(value => this.animePaginationMapper.fromDto(value)));
+			.pipe(map(value => AnimePaginationMapper.fromDto(value)));
 	}
 }

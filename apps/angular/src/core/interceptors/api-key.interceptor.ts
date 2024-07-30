@@ -11,11 +11,11 @@ import { AppConfigService } from '../services/app-config.service';
  */
 export function apiKeyInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 	const appConfigService = inject(AppConfigService);
-	const apiKeyReq = req.clone({
+	const apiKeyRequest = req.clone({
 		headers: req.headers.set(
 			'Api-Key',
 			appConfigService.apiKey,
 		),
 	});
-	return next(apiKeyReq);
+	return next(apiKeyRequest);
 }

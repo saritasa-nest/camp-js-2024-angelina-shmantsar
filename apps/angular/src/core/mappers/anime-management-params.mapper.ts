@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { AnimeManagementParamsDto } from '../dtos/anime-management-params.dto';
 import { AnimeManagementParams } from '../models/anime-management-params';
 

@@ -14,6 +14,5 @@ export type AnimeManagementParamsDto = {
 	readonly search?: string;
 
 	/** Type. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	readonly type__in?: string;
 };

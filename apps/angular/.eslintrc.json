@@ -82,6 +82,12 @@
       "rules": {
         "rxjs/no-exposed-subjects": "off"
       }
-    }
+    },
+		{
+			"files": ["*.dto.ts", "*.mapper.ts"],
+			"rules": {
+				"@typescript-eslint/naming-convention": "off"
+			}
+		}
   ]
 }
