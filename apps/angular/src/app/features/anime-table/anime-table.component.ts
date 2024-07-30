@@ -32,7 +32,7 @@ enum ColumnKey {
 
 const COLUMN_TO_QUERY_PARAM: Readonly<Record<string, string>> = {
 	airedStart: 'aired__startswith',
-	titleEng: 'title_eng',
+	titleEnglish: 'title_eng',
 	status: 'status',
 };
 
@@ -60,11 +60,6 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
 	private readonly navigationService = inject(NavigationService);
 
-	private getAnimeList(params: AnimeManagementParams): Observable<Pagination<Anime>> {
-		this.navigationService.navigate('', params);
-		return this.animeService.getPaginatedAnime(params);
-	}
-
 	private anime: readonly Anime[] = [];
 
 	private readonly offset = signal<string>('0');
@@ -76,17 +71,6 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
 	/** Select filter values. */
 	protected readonly filter = signal<readonly AnimeType[] | undefined>(undefined);
-
-	private getQueryParams(): void {
-		this.activatedRoute.queryParams.pipe(
-			tap(value => {
-				this.offset.set(value['offset']);
-				this.search.set(value['search']);
-				this.ordering.set(value['ordering']);
-				this.filter.set(value['type']?.split(',').map((type: AnimeTypeDto) => AnimeTypeMapper.fromDto(type)));
-			}),
-		).subscribe();
-	}
 
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
@@ -130,6 +114,22 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
 	@ViewChild(AnimeTypeFilterComponent)
 	private readonly typeFilter!: AnimeTypeFilterComponent;
+
+	private getAnimeList(params: AnimeManagementParams): Observable<Pagination<Anime>> {
+		this.navigationService.navigate('', params);
+		return this.animeService.getPaginatedAnime(params);
+	}
+
+	private getQueryParams(): void {
+		this.activatedRoute.queryParams.pipe(
+			tap(value => {
+				this.offset.set(value['offset']);
+				this.search.set(value['search']);
+				this.ordering.set(value['ordering']);
+				this.filter.set(value['type']?.split(',').map((type: AnimeTypeDto) => AnimeTypeMapper.fromDto(type)));
+			}),
+		).subscribe();
+	}
 
 	private subscribeToControls(): void {
 		this.paginator.page.subscribe(() => {
