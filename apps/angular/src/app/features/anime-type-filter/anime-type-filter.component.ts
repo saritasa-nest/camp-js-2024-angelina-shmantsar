@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
-import { AnimeTypeDto } from '@js-camp/angular/core/dtos/backend-enums/anime-type.dto';
+import { AnimeType } from '@js-camp/angular/core/models/anime-type';
 
 /** Filter option. */
 type FilterOption = {
 
 	/** Value. */
-	value: AnimeTypeDto;
+	value: AnimeType;
 
 	/** Title. */
 	title: string;
@@ -24,29 +24,29 @@ type FilterOption = {
 })
 export class AnimeTypeFilterComponent implements OnChanges {
 	/** Filter values. */
-	@Input() public values: AnimeTypeDto[] | undefined = undefined;
+	@Input() public values: AnimeType[] | undefined = undefined;
 
 	/** Filter value emitter. */
 	@Output()
-	public readonly filter = new EventEmitter<AnimeTypeDto[] | undefined>(undefined);
+	public readonly filter = new EventEmitter<AnimeType[] | undefined>(undefined);
 
 	/** Filter options. */
 	protected readonly filterOptions: readonly FilterOption[] = [
-		{ value: AnimeTypeDto.Movie, title: 'Movie' },
-		{ value: AnimeTypeDto.Music, title: 'Music' },
-		{ value: AnimeTypeDto.Ona, title: 'ONA' },
-		{ value: AnimeTypeDto.Ova, title: 'OVA' },
-		{ value: AnimeTypeDto.PromotionalVideos, title: 'Promotional videos' },
-		{ value: AnimeTypeDto.Special, title: 'Special' },
-		{ value: AnimeTypeDto.Tv, title: 'TV' },
-		{ value: AnimeTypeDto.Unknown, title: 'Unknown' },
+		{ value: AnimeType.Movie, title: 'Movie' },
+		{ value: AnimeType.Music, title: 'Music' },
+		{ value: AnimeType.Ona, title: 'ONA' },
+		{ value: AnimeType.Ova, title: 'OVA' },
+		{ value: AnimeType.PromotionalVideos, title: 'Promotional videos' },
+		{ value: AnimeType.Special, title: 'Special' },
+		{ value: AnimeType.Tv, title: 'TV' },
+		{ value: AnimeType.Unknown, title: 'Unknown' },
 	];
 
 	/**
 	 * Change filter.
 	 * @param value - Selected value.
 	 */
-	protected changeFilter(value: AnimeTypeDto[]): void {
+	protected changeFilter(value: AnimeType[]): void {
 		this.filter.emit(value ?? undefined);
 	}
 

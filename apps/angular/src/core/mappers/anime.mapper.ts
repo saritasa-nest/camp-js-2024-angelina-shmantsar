@@ -12,8 +12,6 @@ import { DateTimeRangeMapper } from './date-time-range.mapper';
 export class AnimeMapper {
 	private readonly animeStatusMapper = inject(AnimeStatusMapper);
 
-	private readonly animeTypeMapper = inject(AnimeTypeMapper);
-
 	private readonly dateTimeRangeMapper = inject(DateTimeRangeMapper);
 
 	/**
@@ -29,7 +27,7 @@ export class AnimeMapper {
 			titleJpn: dto.title_jpn,
 			image: dto.image,
 			aired: this.dateTimeRangeMapper.fromDto(dto.aired),
-			type: this.animeTypeMapper.fromDto(dto.type),
+			type: AnimeTypeMapper.fromDto(dto.type),
 			status: this.animeStatusMapper.fromDto(dto.status),
 			score: dto.score,
 			userScore: dto.user_score,

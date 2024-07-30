@@ -9,9 +9,11 @@ import { TableColumn } from '@js-camp/angular/core/models/table-column';
 import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Observable, catchError, map, merge, of, startWith, switchMap, tap } from 'rxjs';
-import { AnimeTypeDto } from '@js-camp/angular/core/dtos/backend-enums/anime-type.dto';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeManagementParams } from '@js-camp/angular/core/models/anime-management-params';
+import { AnimeType } from '@js-camp/angular/core/models/anime-type';
+import { AnimeTypeMapper } from '@js-camp/angular/core/mappers/anime-type.mapper';
+import { AnimeTypeDto } from '@js-camp/angular/core/dtos/backend-enums/anime-type.dto';
 
 import { SearchFormComponent } from '../search-form/search-form.component';
 import { AnimeTypeFilterComponent } from '../anime-type-filter/anime-type-filter.component';
@@ -56,7 +58,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
 	private readonly router = inject(Router);
 
-	private getAllAnime(params: AnimeManagementParams): Observable<Pagination<Anime>> {
+	private getAnimeList(params: AnimeManagementParams): Observable<Pagination<Anime>> {
 		const clearedParams: AnimeManagementParams = JSON.parse(JSON.stringify(params));
 		this.activatedRoute.queryParams.pipe(
 			tap(() => this.router.navigate([''], {
@@ -76,7 +78,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	private readonly ordering = signal<string | undefined>(undefined);
 
 	/** Select filter values. */
-	protected readonly filter = signal<AnimeTypeDto[] | undefined>(undefined);
+	protected readonly filter = signal<AnimeType[] | undefined>(undefined);
 
 	private getQueryParams(): void {
 		this.activatedRoute.queryParams.pipe(
@@ -84,7 +86,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 				this.offset.set(value['offset']);
 				this.search.set(value['search']);
 				this.ordering.set(value['ordering']);
-				this.filter.set(value['type']?.split(','));
+				this.filter.set(value['type']?.split(',').map((type: AnimeTypeDto) => AnimeTypeMapper.fromDto(type)));
 			}),
 		).subscribe();
 	}
@@ -136,6 +138,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
 		this.searchForm.searchValue.subscribe(value => {
 			this.paginator.pageIndex = 0;
+			this.offset.set('0');
 			this.search.set(value ?? undefined);
 		});
 
@@ -164,12 +167,13 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 			.pipe(
 				startWith({}),
 				switchMap(() =>
-					this.getAllAnime({
+					this.getAnimeList({
 						limit: String(this.pageSize),
 						offset: this.offset(),
 						ordering: this.ordering(),
 						search: this.search(),
-						type: this.filter()?.join(','),
+						type: this.filter()?.map(value => AnimeTypeMapper.toDto(value))
+							.join(','),
 					}).pipe(catchError(() => of(null)))),
 				map(value => {
 					if (value == null) {
