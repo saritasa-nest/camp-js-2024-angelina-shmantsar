@@ -1,0 +1,16 @@
+:root {
+	/* Border sizes */
+	--border-sm: 1px;
+
+	/* Small component sizes */
+	--space-base: 4px;
+	--size-3: 12px;
+	--size-5: 20px;
+
+	/* Font sizes */
+	--font-size-md: 20px;
+	--font-size-lg: 32px;
+
+	/* Font weights */
+	--font-weight-medium: 500;
+}

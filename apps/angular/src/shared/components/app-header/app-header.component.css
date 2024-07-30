@@ -1,0 +1,25 @@
+:host {
+	/* Header colors */
+	--header-color: rgb(138 43 226 / 80%);
+	--header-text-color: rgb(255 255 255);
+
+	/* Header sizes */
+	--header-height: 72px;
+}
+
+.header {
+	position: sticky;
+	top: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 var(--size-5);
+	height: var(--header-height);
+	background-color: var(--header-color);
+	color: var(--header-text-color);
+}
+
+.app-title {
+	font-size: var(--font-size-lg);
+	font-weight: var(--font-weight-medium);
+}

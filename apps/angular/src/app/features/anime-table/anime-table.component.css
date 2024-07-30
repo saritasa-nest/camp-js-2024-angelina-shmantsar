@@ -1,0 +1,46 @@
+:host {
+	/* Table colors */
+	--table-background-color: rgb(238 130 238);
+	--table-hover-color: rgb(240 98 240);
+	--table-border-color: rgb(138 43 226);
+
+	/* Table sizes */
+	--table-image-width: 150px;
+	--table-image-height: 150px;
+
+	/* Table header font size */
+	--table-header-font-size: 24px;
+
+	display: block;
+	width: 100%;
+	overflow-x: auto;
+}
+
+.table-image {
+	width: var(--table-image-width);
+	height: var(--table-image-height);
+	object-fit: contain;
+}
+
+.anime-table {
+	width: 100%;
+	background-color: var(--table-background-color);
+	padding: 0 var(--size-3);
+}
+
+.mat-header-cell,
+.mat-cell {
+	text-align: center;
+	vertical-align: middle;
+	font-size: var(--font-size-md);
+	border-bottom: var(--border-sm) solid var(--table-border-color);
+	padding: var(--size-3);
+}
+
+.mat-header-cell {
+	font-size: var(--table-header-font-size);
+}
+
+.mat-row:hover {
+	background-color: var(--table-hover-color);
+}
