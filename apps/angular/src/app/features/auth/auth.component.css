@@ -1,0 +1,77 @@
+/* Disable rule and use !important to override Material styles */
+/* stylelint-disable selector-pseudo-element-no-unknown */
+:host {
+	display: flex;
+	justify-content: center;
+}
+
+.auth-form {
+	width: 480px;
+	height: 650px;
+	padding: 30px 40px;
+	background-color: var(--anime-accent-light-color);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: fixed;
+	top: 15%;
+	border-radius: 10px;
+}
+
+.title {
+	font-size: 32px;
+	font-family: Manrope, sans-serif;
+	color: var(--anime-primary-dark-color);
+	margin-bottom: 20px;
+}
+
+.field {
+	width: 100%;
+}
+
+.submit-button {
+	width: 80%;
+	border-radius: 8px;
+	margin-bottom: 20px;
+	background-color: var(--anime-primary-dark-color) !important;
+	color: var(--anime-accent-light-color) !important;
+	border-color: var(--anime-primary-dark-color) !important;
+	font-family: Manrope, sans-serif;
+}
+
+.form-change-button {
+	width: 80%;
+	border-radius: 8px;
+	background-color: var(--anime-primary-light-color);
+	color: var(--anime-primary-dark-color) !important;
+	border-color: var(--anime-primary-light-color) !important;
+	font-family: Manrope, sans-serif;
+}
+
+.field-title {
+	color: var(--anime-primary-dark-color) !important;
+	font-family: Manrope, sans-serif;
+}
+
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading {
+	border-color: var(--anime-primary-dark-color) !important;
+}
+
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch {
+	border-color: var(--anime-primary-dark-color) !important;
+	border-left: none !important;
+}
+
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+	border-color: var(--anime-primary-dark-color) !important;
+}
+
+::placeholder {
+	color: var(--anime-primary-dark-color-disabled) !important;
+	font-family: Manrope, sans-serif;
+}
+
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input {
+	color: var(--anime-primary-dark-color) !important;
+	caret-color: var(--anime-primary-dark-color) !important;
+}
