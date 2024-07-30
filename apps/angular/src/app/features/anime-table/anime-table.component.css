@@ -1,33 +1,12 @@
 /* Disable rule and use !important to override Material styles */
 /* stylelint-disable selector-pseudo-element-no-unknown */
 :host {
-	/* Table colors */
-	--table-background-color: rgb(234 245 247);
-	--table-hover-color: rgb(171 192 216);
-	--table-text-color: rgb(0 49 106);
-	--table-border-color: rgb(0 49 106);
-
 	/* Table sizes */
 	--table-image-width: 150px;
 	--table-image-height: 150px;
 
 	/* Table header font size */
 	--table-header-font-size: 20px;
-
-	/* Paginator colors */
-	--paginator-background-color: rgb(171 192 216);
-	--paginator-text-color: rgb(0 49 106);
-	--paginator-buttons-color: rgb(0 49 106);
-	--paginator-disabled-buttons-color: rgb(0 49 106 / 50%);
-
-	/* Sort color */
-	--sort-color: rgb(0 49 106);
-
-	/* Controls background color */
-	--controls-background-color: rgb(171 192 216);
-
-	/* Text field border color */
-	--text-field-border-color: rgb(0 49 106);
 
 	display: block;
 	overflow-x: auto;
@@ -39,7 +18,7 @@
 	justify-content: flex-end;
 	align-items: center;
 	gap: var(--size-4);
-	background-color: var(--controls-background-color);
+	background-color: var(--anime-primary-light-color);
 }
 
 ::ng-deep .mat-mdc-text-field-wrapper {
@@ -47,16 +26,16 @@
 }
 
 ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading {
-	border-color: var(--text-field-border-color) !important;
+	border-color: var(--anime-primary-dark-color) !important;
 }
 
 ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch {
-	border-color: var(--text-field-border-color) !important;
+	border-color: var(--anime-primary-dark-color) !important;
 	border-left: none !important;
 }
 
 ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
-	border-color: var(--text-field-border-color) !important;
+	border-color: var(--anime-primary-dark-color) !important;
 }
 
 .table-image {
@@ -67,7 +46,7 @@
 
 .anime-table {
 	width: 100%;
-	background-color: var(--table-background-color);
+	background-color: var(--anime-accent-light-color);
 	padding: 0 var(--size-3);
 }
 
@@ -78,34 +57,34 @@
 	font-size: var(--font-size-md);
 	border-bottom: none;
 	padding: var(--size-3);
-	color: var(--table-text-color);
+	color: var(--anime-primary-dark-color);
 	font-family: Manrope, sans-serif;
 }
 
 [mat-header-cell] {
 	font-size: var(--table-header-font-size);
-	border-bottom: var(--border-sm) solid var(--table-border-color);
+	border-bottom: var(--border-sm) solid var(--anime-primary-dark-color);
 }
 
 [mat-row]:hover {
-	background-color: var(--table-hover-color);
+	background-color: var(--anime-primary-light-color);
 }
 
 .paginator {
-	background-color: var(--paginator-background-color);
+	background-color: var(--anime-primary-light-color);
 	font-size: var(--font-size-md);
-	color: var(--paginator-text-color);
+	color: var(--anime-primary-dark-color);
 	font-family: Manrope, sans-serif;
 }
 
 ::ng-deep .mat-mdc-paginator-icon {
-	fill: var(--paginator-buttons-color) !important;
+	fill: var(--anime-primary-dark-color) !important;
 }
 
 ::ng-deep .mat-mdc-icon-button[disabled] .mat-mdc-paginator-icon {
-	fill: var(--paginator-disabled-buttons-color) !important;
+	fill: var(--anime-primary-dark-color-disabled) !important;
 }
 
 ::ng-deep .mat-sort-header-arrow {
-	color: var(--sort-color) !important;
+	color: var(--anime-primary-dark-color) !important;
 }

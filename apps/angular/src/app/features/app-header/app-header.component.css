@@ -1,8 +1,4 @@
 :host {
-	/* Header colors */
-	--header-background-color: rgb(171 192 216);
-	--header-text-color: rgb(0 49 106);
-
 	/* Header sizes */
 	--header-height: 72px;
 
@@ -22,8 +18,8 @@
 	align-items: center;
 	padding: 0 var(--size-5);
 	height: var(--header-height);
-	background-color: var(--header-background-color);
-	color: var(--header-text-color);
+	background-color: var(--anime-primary-light-color);
+	color: var(--anime-primary-dark-color);
 }
 
 .title-container {
@@ -33,7 +29,7 @@
 }
 
 .home-icon {
-	color: var(--header-text-color);
+	color: var(--anime-primary-dark-color);
 	transform: scale(2);
 }
 
@@ -44,8 +40,8 @@
 }
 
 .login-button {
-	background-color: var(--header-background-color);
-	color: var(--header-text-color);
+	background-color: var(--anime-primary-light-color);
+	color: var(--anime-primary-dark-color);
 	font-size: var(--login-button-font-size);
 	box-shadow: 0 0;
 	font-family: Manrope, sans-serif;
