@@ -7,7 +7,7 @@
 
 .auth-form {
 	width: 480px;
-	height: 650px;
+	height: fit-content;
 	padding: 30px 40px;
 	background-color: var(--anime-accent-light-color);
 	display: flex;
