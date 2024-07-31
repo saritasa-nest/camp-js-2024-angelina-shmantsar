@@ -13,8 +13,8 @@ export namespace RegisterCredentialsMapper {
 			email: model.email,
 			first_name: model.firstName,
 			last_name: model.lastName,
-			avatar: model.avatar,
 			password: model.password,
+			avatar: model.avatar,
 		};
 	}
 }

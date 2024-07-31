@@ -10,9 +10,9 @@ export type RegisterCredentialsDto = {
 	/** Last name. */
 	readonly last_name: string;
 
-	/** Avatar image url. */
-	readonly avatar: string;
-
 	/** Password. */
 	readonly password: string;
+
+	/** Avatar image url. */
+	readonly avatar?: string;
 };

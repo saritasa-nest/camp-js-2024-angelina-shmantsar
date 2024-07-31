@@ -113,7 +113,6 @@ export class AuthComponent {
 		if (this.registrationForm.valid) {
 			const credentials = {
 				...this.registrationForm.value,
-				avatar: 'string',
 			};
 			this.authService.register(credentials as RegisterCredentials).subscribe();
 		}
