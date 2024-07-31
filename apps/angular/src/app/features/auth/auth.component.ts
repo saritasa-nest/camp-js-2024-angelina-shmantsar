@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { RegisterCredentials } from '@js-camp/angular/core/models/register-credentials';
 import { LoginCredentials } from '@js-camp/angular/core/models/login-credentials';
@@ -63,7 +63,7 @@ export class AuthComponent {
 		lastName: new FormControl<string | null>(null, Validators.required),
 		password: new FormControl<string | null>(null, Validators.required),
 		retypedPassword: new FormControl<string | null>(null, Validators.required),
-	});
+	}, { validators: this.passwordIdentityValidator });
 
 	/** Login form. */
 	protected readonly loginForm = new FormGroup({
@@ -125,5 +125,13 @@ export class AuthComponent {
 			};
 			this.authService.login(credentials as LoginCredentials).subscribe();
 		}
+	}
+
+	private passwordIdentityValidator(control: AbstractControl): ValidationErrors | null {
+		const password = control.get('password');
+		const retypedPassword = control.get('retypedPassword');
+		return password && retypedPassword && password.value === retypedPassword.value ?
+			null :
+			{ passwordMismatch: true };
 	}
 }
