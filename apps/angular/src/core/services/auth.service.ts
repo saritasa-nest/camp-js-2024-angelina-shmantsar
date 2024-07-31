@@ -10,6 +10,7 @@ import { LoginCredentials } from '../models/login-credentials';
 import { LoginCredentialsMapper } from '../mappers/login-credentials.mapper';
 
 import { ApiUrlService } from './api-url.service';
+import { NavigationService } from './navigation.service';
 
 /** Auth service. */
 @Injectable({ providedIn: 'root' })
@@ -19,6 +20,8 @@ export class AuthService {
 	private readonly urlService = inject(ApiUrlService);
 
 	private readonly cookieService = inject(CookieService);
+
+	private readonly navigationService = inject(NavigationService);
 
 	/**
 	 * Register user.
@@ -31,6 +34,7 @@ export class AuthService {
 				tap(value => {
 					this.cookieService.set('accessToken', value.access);
 					this.cookieService.set('refreshToken', value.refresh);
+					this.navigationService.navigate('');
 				}),
 			);
 	}
@@ -46,6 +50,7 @@ export class AuthService {
 				tap(value => {
 					this.cookieService.set('accessToken', value.access);
 					this.cookieService.set('refreshToken', value.refresh);
+					this.navigationService.navigate('');
 				}),
 			);
 	}

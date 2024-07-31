@@ -7,9 +7,15 @@
 		<h2 class="app-title">Anime Island</h2>
 	</div>
 
-	<button mat-fab extended type="button" class="login-button">
-		<mat-icon>login</mat-icon>
-		Login
-	</button>
+	@if (isAuthorized) {
+		<button mat-mini-fab type="button" class="profile-button">
+			<mat-icon>person</mat-icon>
+		</button>
+	} @else {
+		<button mat-fab extended type="button" class="login-button" (click)="onLogin()">
+			<mat-icon>login</mat-icon>
+			Login
+		</button>
+	}
 </header>
 <router-outlet></router-outlet>

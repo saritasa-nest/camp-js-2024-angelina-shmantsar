@@ -11,6 +11,9 @@ import { Observable } from 'rxjs';
 export function authTokenInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 	const cookieService = inject(CookieService);
 	const accessToken = cookieService.get('accessToken');
+	if (accessToken.length === 0) {
+		return next(req);
+	}
 	const authTokenRequest = req.clone({
 		headers: req.headers.set(
 			'Authorization',

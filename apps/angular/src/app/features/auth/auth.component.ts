@@ -31,8 +31,8 @@ enum CurrentForm {
 }
 
 const CHANGE_FORM_BUTTON_TEXT: Readonly<Record<CurrentForm, string>> = {
-	[CurrentForm.Login]: 'Don\'t have an account yet? Register',
-	[CurrentForm.Register]: 'Already have an account? Login',
+	[CurrentForm.Login]: 'Not registered yet? Register',
+	[CurrentForm.Register]: 'Already registered? Login',
 };
 
 /** Auth component. */
