@@ -1,11 +1,25 @@
-<form class="auth-form" [formGroup]="form">
-	<h2 class="title">{{currentForm()}}</h2>
-	@for (field of fields(); track $index) {
-		<mat-form-field appearance="outline" class="field">
-			<mat-label class="field-title">{{field.title}}</mat-label>
-			<input matInput [placeholder]="field.placeholder" [type]="field.type" [formControlName]="field.name">
-		</mat-form-field>
-	}
-	<button mat-flat-button type="submit" class="submit-button">{{currentForm()}}</button>
-	<button mat-stroked-button type="button" class="form-change-button" (click)="onFormChange()">{{changeFormButtonText()}}</button>
-</form>
+@if (currentForm() === currentFromEnum.Login) {
+	<form class="auth-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+		<h2 class="title">{{currentForm()}}</h2>
+		@for (field of fields(); track $index) {
+			<mat-form-field appearance="outline" class="field">
+				<mat-label class="field-title">{{field.title}}</mat-label>
+				<input matInput [placeholder]="field.placeholder" [type]="field.type" [formControlName]="field.name">
+			</mat-form-field>
+		}
+		<button mat-flat-button type="submit" class="submit-button">{{currentForm()}}</button>
+		<button mat-stroked-button type="button" class="form-change-button" (click)="onFormChange()">{{changeFormButtonText()}}</button>
+	</form>
+} @else {
+	<form class="auth-form" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+		<h2 class="title">{{currentForm()}}</h2>
+		@for (field of fields(); track $index) {
+			<mat-form-field appearance="outline" class="field">
+				<mat-label class="field-title">{{field.title}}</mat-label>
+				<input matInput [placeholder]="field.placeholder" [type]="field.type" [formControlName]="field.name">
+			</mat-form-field>
+		}
+		<button mat-flat-button type="submit" class="submit-button">{{currentForm()}}</button>
+		<button mat-stroked-button type="button" class="form-change-button" (click)="onFormChange()">{{changeFormButtonText()}}</button>
+	</form>
+}

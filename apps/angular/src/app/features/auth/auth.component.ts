@@ -1,9 +1,12 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '@js-camp/angular/core/services/auth.service';
+import { RegisterCredentials } from '@js-camp/angular/core/models/register-credentials';
+import { LoginCredentials } from '@js-camp/angular/core/models/login-credentials';
 
 /** Form field. */
 type FormField = {
@@ -42,27 +45,31 @@ const CHANGE_FORM_BUTTON_TEXT: Readonly<Record<CurrentForm, string>> = {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthComponent {
+	private readonly authService = inject(AuthService);
+
+	/** Current form enum. */
+	protected readonly currentFromEnum = CurrentForm;
+
 	/** Current form. */
-	protected readonly currentForm = signal<CurrentForm>(CurrentForm.Register);
+	protected readonly currentForm = signal<CurrentForm>(CurrentForm.Login);
 
 	/** Change form button text. */
-	protected readonly changeFormButtonText = signal<string>('Already have an account? Login');
+	protected readonly changeFormButtonText = signal<string>(CHANGE_FORM_BUTTON_TEXT[this.currentForm()]);
 
-	private readonly registrationForm = new FormGroup({
-		email: new FormControl<string>(''),
-		firstName: new FormControl<string>(''),
-		lastName: new FormControl<string>(''),
-		password: new FormControl<string>(''),
-		retypedPassword: new FormControl<string>(''),
+	/** Registration form. */
+	protected readonly registrationForm = new FormGroup({
+		email: new FormControl<string | null>(null, Validators.required),
+		firstName: new FormControl<string | null>(null, Validators.required),
+		lastName: new FormControl<string | null>(null, Validators.required),
+		password: new FormControl<string | null>(null, Validators.required),
+		retypedPassword: new FormControl<string | null>(null, Validators.required),
 	});
 
-	private readonly loginForm = new FormGroup({
-		email: new FormControl<string>(''),
-		password: new FormControl<string>(''),
+	/** Login form. */
+	protected readonly loginForm = new FormGroup({
+		email: new FormControl<string | null>(null, Validators.required),
+		password: new FormControl<string | null>(null, Validators.required),
 	});
-
-	/** Form. */
-	protected readonly form = this.currentForm() === CurrentForm.Login ? this.loginForm : this.registrationForm;
 
 	private readonly registerFields: readonly FormField[] = [
 		{ title: 'Email', placeholder: 'example@example.com', type: 'email', name: 'email' },
@@ -78,7 +85,7 @@ export class AuthComponent {
 	];
 
 	/** Form fields. */
-	protected readonly fields = signal<readonly FormField[]>(this.registerFields);
+	protected readonly fields = signal<readonly FormField[]>(this.loginFields);
 
 	/** On form change. */
 	protected onFormChange(): void {
@@ -90,6 +97,34 @@ export class AuthComponent {
 			this.currentForm.set(CurrentForm.Login);
 			this.changeFormButtonText.set(CHANGE_FORM_BUTTON_TEXT[CurrentForm.Login]);
 			this.fields.set(this.loginFields);
+		}
+	}
+
+	/** On submit. */
+	protected onSubmit(): void {
+		if (this.currentForm() === CurrentForm.Login) {
+			this.onLogin();
+		} else {
+			this.onRegister();
+		}
+	}
+
+	private onRegister(): void {
+		if (this.registrationForm.valid) {
+			const credentials = {
+				...this.registrationForm.value,
+				avatar: 'string',
+			};
+			this.authService.register(credentials as RegisterCredentials).subscribe();
+		}
+	}
+
+	private onLogin(): void {
+		if (this.loginForm.valid) {
+			const credentials = {
+				...this.loginForm.value,
+			};
+			this.authService.login(credentials as LoginCredentials).subscribe();
 		}
 	}
 }
