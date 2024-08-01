@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MatIconModule } from '@angular/material/icon';
@@ -23,10 +23,17 @@ export class AppHeaderComponent {
 	private readonly accessToken = this.cookieService.get('accessToken');
 
 	/** Is user authorized. */
-	protected readonly isAuthorized = this.accessToken.length > 0;
+	protected readonly isAuthorized = signal<boolean>(this.accessToken.length > 0);
 
 	/** On login. */
 	protected onLogin(): void {
 		this.navigationService.navigate('/auth');
+	}
+
+	/** On logout. */
+	protected onLogout(): void {
+		this.cookieService.delete('accessToken');
+		this.cookieService.delete('refreshToken');
+		this.isAuthorized.set(false);
 	}
 }

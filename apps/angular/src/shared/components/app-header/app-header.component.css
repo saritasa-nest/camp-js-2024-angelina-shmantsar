@@ -39,7 +39,20 @@
 	font-family: Megrim, system-ui;
 }
 
-.login-button {
+.controls-container {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.profile-button {
+	background-color: var(--anime-primary-light-color);
+	color: var(--anime-primary-dark-color);
+	box-shadow: 0 0;
+}
+
+.login-button,
+.logout-button {
 	background-color: var(--anime-primary-light-color);
 	color: var(--anime-primary-dark-color);
 	font-size: var(--login-button-font-size);
