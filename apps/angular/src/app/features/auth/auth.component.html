@@ -1,6 +1,9 @@
 @if (currentForm() === currentFromEnum.Login) {
 	<form class="auth-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 		<h2 class="title">{{currentForm()}}</h2>
+		@if (loginError()) {
+			<div class="error">No active accout found with given credentials</div>
+		}
 		@for (field of fields(); track $index) {
 			@if (loginForm.get(field.name)?.invalid && (loginForm.get(field.name)?.touched || loginForm.get(field.name)?.dirty)) {
 				@if (loginForm.get(field.name)?.errors?.['required']) {

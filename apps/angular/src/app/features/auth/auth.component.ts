@@ -7,6 +7,8 @@ import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validatio
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { RegisterCredentials } from '@js-camp/angular/core/models/register-credentials';
 import { LoginCredentials } from '@js-camp/angular/core/models/login-credentials';
+import { catchError, of } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 /** Form field. */
 type FormField = {
@@ -55,6 +57,9 @@ export class AuthComponent {
 
 	/** Change form button text. */
 	protected readonly changeFormButtonText = signal<string>(CHANGE_FORM_BUTTON_TEXT[this.currentForm()]);
+
+	/** Login error. */
+	protected readonly loginError = signal<boolean>(false);
 
 	/** Registration form. */
 	protected readonly registrationForm = new FormGroup({
@@ -123,7 +128,18 @@ export class AuthComponent {
 			const credentials = {
 				...this.loginForm.value,
 			};
-			this.authService.login(credentials as LoginCredentials).subscribe();
+			this.authService.login(credentials as LoginCredentials)
+				.pipe(
+					catchError((error: unknown) => {
+						const httpError = error as HttpErrorResponse;
+						if (httpError.status === 403) {
+							this.loginError.set(true);
+							return of(null);
+						}
+						return of(null);
+					}),
+				)
+				.subscribe();
 		}
 	}
 
