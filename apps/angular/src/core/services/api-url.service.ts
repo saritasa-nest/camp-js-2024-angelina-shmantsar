@@ -18,6 +18,7 @@ export class ApiUrlService {
 	public readonly auth = {
 		login: this.constructUrl('auth/login/'),
 		register: this.constructUrl('auth/register/'),
+		tokenRefresh: this.constructUrl('auth/token/refresh/'),
 	};
 
 	private constructUrl(endpoint: string): string {

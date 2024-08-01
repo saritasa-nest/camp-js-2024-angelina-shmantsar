@@ -32,8 +32,7 @@ export class AuthService {
 		return this.httpClient.post<TokensDto>(registerUrl, RegisterCredentialsMapper.toDto(credentials))
 			.pipe(
 				tap(value => {
-					this.cookieService.set('accessToken', value.access);
-					this.cookieService.set('refreshToken', value.refresh);
+					this.saveTokens(value.access, value.refresh);
 					this.navigationService.navigate('');
 				}),
 			);
@@ -48,10 +47,28 @@ export class AuthService {
 		return this.httpClient.post<TokensDto>(loginUrl, LoginCredentialsMapper.toDto(credentials))
 			.pipe(
 				tap(value => {
-					this.cookieService.set('accessToken', value.access);
-					this.cookieService.set('refreshToken', value.refresh);
+					this.saveTokens(value.access, value.refresh);
 					this.navigationService.navigate('');
 				}),
 			);
+	}
+
+	/**
+	 * Refresh token.
+	 * @param refreshToken - Refresh token.
+	 */
+	public refreshToken(refreshToken: string): Observable<TokensDto> {
+		const tokenRefreshUrl = this.urlService.auth.tokenRefresh;
+		return this.httpClient.post<TokensDto>(tokenRefreshUrl, { refresh: refreshToken })
+			.pipe(
+				tap(value => {
+					this.saveTokens(value.access, value.refresh);
+				}),
+			);
+	}
+
+	private saveTokens(accessToken: string, refreshToken: string): void {
+		this.cookieService.set('accessToken', accessToken);
+		this.cookieService.set('refreshToken', refreshToken);
 	}
 }
