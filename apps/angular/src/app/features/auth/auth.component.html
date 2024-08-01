@@ -2,6 +2,14 @@
 	<form class="auth-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 		<h2 class="title">{{currentForm()}}</h2>
 		@for (field of fields(); track $index) {
+			@if (loginForm.get(field.name)?.invalid && (loginForm.get(field.name)?.touched || loginForm.get(field.name)?.dirty)) {
+				@if (loginForm.get(field.name)?.errors?.['required']) {
+					<div class="error">This field is required</div>
+				}
+				@if (field.name === 'email' && loginForm.get('email')?.errors?.['email']) {
+					<div class="error">This field should be valid email</div>
+				}
+			}
 			<mat-form-field appearance="outline" class="field">
 				<mat-label class="field-title">{{field.title}}</mat-label>
 				<input matInput [placeholder]="field.placeholder" [type]="field.type" [formControlName]="field.name">
@@ -13,7 +21,18 @@
 } @else {
 	<form class="auth-form" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
 		<h2 class="title">{{currentForm()}}</h2>
+		@if (registrationForm.errors?.['passwordMismatch'] && (registrationForm.touched || registrationForm.dirty)) {
+			<div class="error">Passwords must match</div>
+		}
 		@for (field of fields(); track $index) {
+			@if (registrationForm.get(field.name)?.invalid && (registrationForm.get(field.name)?.touched || registrationForm.get(field.name)?.dirty)) {
+				@if (registrationForm.get(field.name)?.errors?.['required']) {
+					<div class="error">This field is required</div>
+				}
+				@if (field.name === 'email' && loginForm.get('email')?.errors?.['email']) {
+					<div class="error">This field should be valid email</div>
+				}
+			}
 			<mat-form-field appearance="outline" class="field">
 				<mat-label class="field-title">{{field.title}}</mat-label>
 				<input matInput [placeholder]="field.placeholder" [type]="field.type" [formControlName]="field.name">

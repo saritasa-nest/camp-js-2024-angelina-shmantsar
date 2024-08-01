@@ -58,7 +58,7 @@ export class AuthComponent {
 
 	/** Registration form. */
 	protected readonly registrationForm = new FormGroup({
-		email: new FormControl<string | null>(null, Validators.required),
+		email: new FormControl<string | null>(null, [Validators.required, Validators.email]),
 		firstName: new FormControl<string | null>(null, Validators.required),
 		lastName: new FormControl<string | null>(null, Validators.required),
 		password: new FormControl<string | null>(null, Validators.required),
@@ -67,7 +67,7 @@ export class AuthComponent {
 
 	/** Login form. */
 	protected readonly loginForm = new FormGroup({
-		email: new FormControl<string | null>(null, Validators.required),
+		email: new FormControl<string | null>(null, [Validators.required, Validators.email]),
 		password: new FormControl<string | null>(null, Validators.required),
 	});
 
