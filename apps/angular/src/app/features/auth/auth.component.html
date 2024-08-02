@@ -1,7 +1,7 @@
 @if (currentForm() === currentFormEnum.Login) {
 	<form class="auth-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 		<h2 class="title">{{currentForm()}}</h2>
-		@if (loginError()) {
+		@if (hasLoginError()) {
 			<div class="error">No active accout found with given credentials</div>
 		}
 		@for (field of fields(); track $index) {
@@ -25,12 +25,18 @@
 		@if (registrationForm.errors?.['passwordMismatch'] && (registrationForm.touched || registrationForm.dirty)) {
 			<div class="error">Passwords must match</div>
 		}
+		@if (hasPasswordError()) {
+			<div class="error">Check password. It must contain numeric and alphabetic symbols</div>
+		}
 		@for (field of fields(); track $index) {
 			@if (validationService.hasError({form: registrationForm, fieldName: field.name, validatorName: 'required'})) {
 				<div class="error">This field is required</div>
 			}
 			@if (validationService.hasError({form: registrationForm, fieldName: field.name, validatorName: 'email'})) {
 				<div class="error">This field should be valid email</div>
+			}
+			@if (validationService.hasError({form: registrationForm, fieldName: field.name, validatorName: 'minlength'})) {
+				<div class="error">The password must be at least 8 characters long</div>
 			}
 			<mat-form-field appearance="outline" class="field">
 				<mat-label class="field-title">{{field.title}}</mat-label>

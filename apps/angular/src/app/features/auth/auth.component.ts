@@ -7,9 +7,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { RegisterCredentials } from '@js-camp/angular/core/models/register-credentials';
 import { LoginCredentials } from '@js-camp/angular/core/models/login-credentials';
-import { catchError, of } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ValidationService } from '@js-camp/angular/core/services/validation.service';
+import { HAS_LOGIN_ERROR, HAS_PASSWORD_ERROR } from '@js-camp/angular/core/interceptors/auth-error.interceptor';
 
 /** Form field. */
 type FormField = {
@@ -62,16 +61,13 @@ export class AuthComponent {
 	/** Change form button text. */
 	protected readonly changeFormButtonText = signal<string>(CHANGE_FORM_BUTTON_TEXT[this.currentForm()]);
 
-	/** Login error. */
-	protected readonly loginError = signal<boolean>(false);
-
 	/** Registration form. */
 	protected readonly registrationForm = new FormGroup({
 		email: new FormControl<string | null>(null, [Validators.required, Validators.email]),
 		firstName: new FormControl<string | null>(null, Validators.required),
 		lastName: new FormControl<string | null>(null, Validators.required),
-		password: new FormControl<string | null>(null, Validators.required),
-		retypedPassword: new FormControl<string | null>(null, Validators.required),
+		password: new FormControl<string | null>(null, [Validators.required, Validators.minLength(8)]),
+		retypedPassword: new FormControl<string | null>(null, [Validators.required, Validators.minLength(8)]),
 	}, { validators: this.validationService.passwordIdentityValidator });
 
 	/** Login form. */
@@ -95,6 +91,12 @@ export class AuthComponent {
 
 	/** Form fields. */
 	protected readonly fields = signal<readonly FormField[]>(this.loginFields);
+
+	/** Has login error. */
+	protected readonly hasLoginError = HAS_LOGIN_ERROR;
+
+	/** Has password error. */
+	protected readonly hasPasswordError = HAS_PASSWORD_ERROR;
 
 	/** On form change. */
 	protected onFormChange(): void {
@@ -132,18 +134,7 @@ export class AuthComponent {
 			const credentials = {
 				...this.loginForm.value,
 			};
-			this.authService.login(credentials as LoginCredentials)
-				.pipe(
-					catchError((error: unknown) => {
-						const httpError = error as HttpErrorResponse;
-						if (httpError.status === 403) {
-							this.loginError.set(true);
-							return of(null);
-						}
-						return of(null);
-					}),
-				)
-				.subscribe();
+			this.authService.login(credentials as LoginCredentials).subscribe();
 		}
 	}
 }
