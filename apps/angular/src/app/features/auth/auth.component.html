@@ -1,14 +1,14 @@
-@if (currentForm() === currentFromEnum.Login) {
+@if (currentForm() === currentFormEnum.Login) {
 	<form class="auth-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 		<h2 class="title">{{currentForm()}}</h2>
 		@if (loginError()) {
 			<div class="error">No active accout found with given credentials</div>
 		}
 		@for (field of fields(); track $index) {
-			@if (hasError({form: loginForm, fieldName: field.name, validatorName: 'required'})) {
+			@if (validationService.hasError({form: loginForm, fieldName: field.name, validatorName: 'required'})) {
 				<div class="error">This field is required</div>
 			}
-			@if (hasError({form: loginForm, fieldName: field.name, validatorName: 'email'})) {
+			@if (validationService.hasError({form: loginForm, fieldName: field.name, validatorName: 'email'})) {
 				<div class="error">This field should be valid email</div>
 			}
 			<mat-form-field appearance="outline" class="field">
@@ -26,10 +26,10 @@
 			<div class="error">Passwords must match</div>
 		}
 		@for (field of fields(); track $index) {
-			@if (hasError({form: registrationForm, fieldName: field.name, validatorName: 'required'})) {
+			@if (validationService.hasError({form: registrationForm, fieldName: field.name, validatorName: 'required'})) {
 				<div class="error">This field is required</div>
 			}
-			@if (hasError({form: registrationForm, fieldName: field.name, validatorName: 'email'})) {
+			@if (validationService.hasError({form: registrationForm, fieldName: field.name, validatorName: 'email'})) {
 				<div class="error">This field should be valid email</div>
 			}
 			<mat-form-field appearance="outline" class="field">

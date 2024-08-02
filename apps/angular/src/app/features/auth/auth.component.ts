@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { RegisterCredentials } from '@js-camp/angular/core/models/register-credentials';
 import { LoginCredentials } from '@js-camp/angular/core/models/login-credentials';
 import { catchError, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ValidationService } from '@js-camp/angular/core/services/validation.service';
 
 /** Form field. */
 type FormField = {
@@ -24,19 +25,6 @@ type FormField = {
 
 	/** Name. */
 	readonly name: string;
-};
-
-/** 'hasError' function data. */
-type HasErrorData = {
-
-	/** Form. */
-	form: FormGroup;
-
-	/** Field name. */
-	fieldName: string;
-
-	/** Validator name. */
-	validatorName: string;
 };
 
 /** Current from. */
@@ -62,8 +50,11 @@ const CHANGE_FORM_BUTTON_TEXT: Readonly<Record<CurrentForm, string>> = {
 export class AuthComponent {
 	private readonly authService = inject(AuthService);
 
+	/** Validation service. */
+	protected readonly validationService = inject(ValidationService);
+
 	/** Current form enum. */
-	protected readonly currentFromEnum = CurrentForm;
+	protected readonly currentFormEnum = CurrentForm;
 
 	/** Current form. */
 	protected readonly currentForm = signal<CurrentForm>(CurrentForm.Login);
@@ -81,7 +72,7 @@ export class AuthComponent {
 		lastName: new FormControl<string | null>(null, Validators.required),
 		password: new FormControl<string | null>(null, Validators.required),
 		retypedPassword: new FormControl<string | null>(null, Validators.required),
-	}, { validators: this.passwordIdentityValidator });
+	}, { validators: this.validationService.passwordIdentityValidator });
 
 	/** Login form. */
 	protected readonly loginForm = new FormGroup({
@@ -154,28 +145,5 @@ export class AuthComponent {
 				)
 				.subscribe();
 		}
-	}
-
-	private passwordIdentityValidator(control: AbstractControl): ValidationErrors | null {
-		const password = control.get('password');
-		const retypedPassword = control.get('retypedPassword');
-		return password && retypedPassword && password.value === retypedPassword.value ?
-			null :
-			{ passwordMismatch: true };
-	}
-
-	/**
-	 * Check if there is an error in validator.
-	 * @param data - Data.
-	 */
-	protected hasError(data: HasErrorData): boolean {
-		const { form, fieldName, validatorName } = data;
-		const control = form.get(fieldName);
-		if (control?.invalid && (control.touched || control.dirty)) {
-			if (control.errors?.[validatorName]) {
-				return true;
-			}
-		}
-		return false;
 	}
 }
