@@ -26,6 +26,19 @@ type FormField = {
 	readonly name: string;
 };
 
+/** 'hasError' function data. */
+type HasErrorData = {
+
+	/** Form. */
+	form: FormGroup;
+
+	/** Field name. */
+	fieldName: string;
+
+	/** Validator name. */
+	validatorName: string;
+};
+
 /** Current from. */
 enum CurrentForm {
 	Register = 'Register',
@@ -149,5 +162,20 @@ export class AuthComponent {
 		return password && retypedPassword && password.value === retypedPassword.value ?
 			null :
 			{ passwordMismatch: true };
+	}
+
+	/**
+	 * Check if there is an error in validator.
+	 * @param data - Data.
+	 */
+	protected hasError(data: HasErrorData): boolean {
+		const { form, fieldName, validatorName } = data;
+		const control = form.get(fieldName);
+		if (control?.invalid && (control.touched || control.dirty)) {
+			if (control.errors?.[validatorName]) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
