@@ -5,7 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ValidationService } from '@js-camp/angular/core/services/validation.service';
-import { AuthFormService, CurrentForm } from '@js-camp/angular/core/services/auth-form.service';
+import { AuthFormService, CurrentForm } from '@js-camp/angular/app/features/auth/services/auth-form.service';
 
 /** Auth component. */
 @Component({

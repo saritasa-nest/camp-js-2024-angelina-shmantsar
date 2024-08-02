@@ -9,8 +9,8 @@ import { RegisterCredentialsMapper } from '../mappers/register-credentials.mappe
 import { LoginCredentials } from '../models/login-credentials';
 import { LoginCredentialsMapper } from '../mappers/login-credentials.mapper';
 
-import { ApiUrlService } from './api-url.service';
-import { NavigationService } from './navigation.service';
+import { ApiUrlService } from '../../../../core/services/api-url.service';
+import { NavigationService } from '../../../../core/services/navigation.service';
 
 /** Auth service. */
 @Injectable({ providedIn: 'root' })
@@ -29,13 +29,12 @@ export class AuthService {
 	 */
 	public register(credentials: RegisterCredentials): Observable<TokensDto> {
 		const registerUrl = this.urlService.auth.register;
-		return this.httpClient.post<TokensDto>(registerUrl, RegisterCredentialsMapper.toDto(credentials))
-			.pipe(
-				tap(value => {
-					this.saveTokens(value.access, value.refresh);
-					this.navigationService.navigate('');
-				}),
-			);
+		return this.httpClient.post<TokensDto>(registerUrl, RegisterCredentialsMapper.toDto(credentials)).pipe(
+			tap(value => {
+				this.saveTokens(value.access, value.refresh);
+				this.navigationService.navigate('');
+			}),
+		);
 	}
 
 	/**
@@ -44,13 +43,12 @@ export class AuthService {
 	 */
 	public login(credentials: LoginCredentials): Observable<TokensDto> {
 		const loginUrl = this.urlService.auth.login;
-		return this.httpClient.post<TokensDto>(loginUrl, LoginCredentialsMapper.toDto(credentials))
-			.pipe(
-				tap(value => {
-					this.saveTokens(value.access, value.refresh);
-					this.navigationService.navigate('');
-				}),
-			);
+		return this.httpClient.post<TokensDto>(loginUrl, LoginCredentialsMapper.toDto(credentials)).pipe(
+			tap(value => {
+				this.saveTokens(value.access, value.refresh);
+				this.navigationService.navigate('');
+			}),
+		);
 	}
 
 	/**
@@ -59,12 +57,11 @@ export class AuthService {
 	 */
 	public refreshToken(refreshToken: string): Observable<TokensDto> {
 		const tokenRefreshUrl = this.urlService.auth.tokenRefresh;
-		return this.httpClient.post<TokensDto>(tokenRefreshUrl, { refresh: refreshToken })
-			.pipe(
-				tap(value => {
-					this.saveTokens(value.access, value.refresh);
-				}),
-			);
+		return this.httpClient.post<TokensDto>(tokenRefreshUrl, { refresh: refreshToken }).pipe(
+			tap(value => {
+				this.saveTokens(value.access, value.refresh);
+			}),
+		);
 	}
 
 	private saveTokens(accessToken: string, refreshToken: string): void {

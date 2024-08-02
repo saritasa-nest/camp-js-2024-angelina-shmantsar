@@ -1,11 +1,12 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { HAS_LOGIN_ERROR, HAS_PASSWORD_ERROR } from '../interceptors/auth-error.interceptor';
+import { HAS_LOGIN_ERROR, HAS_PASSWORD_ERROR } from '../../../../core/interceptors/auth-error.interceptor';
 import { RegisterCredentials } from '../models/register-credentials';
 import { LoginCredentials } from '../models/login-credentials';
 
-import { ValidationService } from './validation.service';
+import { ValidationService } from '../../../../core/services/validation.service';
+
 import { AuthService } from './auth.service';
 
 /** Form field. */
