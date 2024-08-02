@@ -1,5 +1,5 @@
 @if (currentForm() === currentFormEnum.Login) {
-	<form class="auth-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+	<form class="auth-form" [formGroup]="loginForm" (ngSubmit)="authFormService.onSubmit()">
 		<h2 class="title">{{currentForm()}}</h2>
 		@if (hasLoginError()) {
 			<div class="error">No active accout found with given credentials</div>
@@ -13,14 +13,14 @@
 			}
 			<mat-form-field appearance="outline" class="field">
 				<mat-label class="field-title">{{field.title}}</mat-label>
-				<input matInput [placeholder]="field.placeholder" [type]="field.type" [formControlName]="field.name" (change)="onValueChange(field.name)">
+				<input matInput [placeholder]="field.placeholder" [type]="field.type" [formControlName]="field.name" (change)="authFormService.onValueChange(field.name)">
 			</mat-form-field>
 		}
 		<button mat-flat-button type="submit" class="submit-button">{{currentForm()}}</button>
-		<button mat-stroked-button type="button" class="form-change-button" (click)="onFormChange()">{{changeFormButtonText()}}</button>
+		<button mat-stroked-button type="button" class="form-change-button" (click)="authFormService.onFormChange()">{{changeFormButtonText()}}</button>
 	</form>
 } @else {
-	<form class="auth-form" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+	<form class="auth-form" [formGroup]="registrationForm" (ngSubmit)="authFormService.onSubmit()">
 		<h2 class="title">{{currentForm()}}</h2>
 		@if (registrationForm.errors?.['passwordMismatch'] && (registrationForm.touched || registrationForm.dirty)) {
 			<div class="error">Passwords must match</div>
@@ -40,10 +40,10 @@
 			}
 			<mat-form-field appearance="outline" class="field">
 				<mat-label class="field-title">{{field.title}}</mat-label>
-				<input matInput [placeholder]="field.placeholder" [type]="field.type" [formControlName]="field.name" (change)="onValueChange(field.name)">
+				<input matInput [placeholder]="field.placeholder" [type]="field.type" [formControlName]="field.name" (change)="authFormService.onValueChange(field.name)">
 			</mat-form-field>
 		}
 		<button mat-flat-button type="submit" class="submit-button">{{currentForm()}}</button>
-		<button mat-stroked-button type="button" class="form-change-button" (click)="onFormChange()">{{changeFormButtonText()}}</button>
+		<button mat-stroked-button type="button" class="form-change-button" (click)="authFormService.onFormChange()">{{changeFormButtonText()}}</button>
 	</form>
 }
