@@ -109,6 +109,8 @@ export class AuthComponent {
 			this.changeFormButtonText.set(CHANGE_FORM_BUTTON_TEXT[CurrentForm.Login]);
 			this.fields.set(this.loginFields);
 		}
+		this.hasLoginError.set(false);
+		this.hasPasswordError.set(false);
 	}
 
 	/** On submit. */
@@ -136,5 +138,16 @@ export class AuthComponent {
 			};
 			this.authService.login(credentials as LoginCredentials).subscribe();
 		}
+	}
+
+	/**
+	 * On input value change.
+	 * @param fieldName - Field name.
+	 */
+	protected onValueChange(fieldName: string): void {
+		if (fieldName === 'password' || fieldName === 'retypedPassword') {
+			this.hasPasswordError.set(false);
+		}
+		this.hasLoginError.set(false);
 	}
 }

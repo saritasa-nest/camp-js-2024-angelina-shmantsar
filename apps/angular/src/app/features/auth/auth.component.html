@@ -13,7 +13,7 @@
 			}
 			<mat-form-field appearance="outline" class="field">
 				<mat-label class="field-title">{{field.title}}</mat-label>
-				<input matInput [placeholder]="field.placeholder" [type]="field.type" [formControlName]="field.name">
+				<input matInput [placeholder]="field.placeholder" [type]="field.type" [formControlName]="field.name" (change)="onValueChange(field.name)">
 			</mat-form-field>
 		}
 		<button mat-flat-button type="submit" class="submit-button">{{currentForm()}}</button>
@@ -40,7 +40,7 @@
 			}
 			<mat-form-field appearance="outline" class="field">
 				<mat-label class="field-title">{{field.title}}</mat-label>
-				<input matInput [placeholder]="field.placeholder" [type]="field.type" [formControlName]="field.name">
+				<input matInput [placeholder]="field.placeholder" [type]="field.type" [formControlName]="field.name" (change)="onValueChange(field.name)">
 			</mat-form-field>
 		}
 		<button mat-flat-button type="submit" class="submit-button">{{currentForm()}}</button>
