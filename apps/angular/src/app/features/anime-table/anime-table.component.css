@@ -59,7 +59,7 @@
 	border-bottom: none;
 	padding: var(--size-3);
 	color: var(--anime-primary-dark-color);
-	font-family: Manrope, sans-serif;
+	font-family: var(--main-anime-font-family);
 }
 
 .mat-header-cell {
@@ -75,7 +75,7 @@
 	background-color: var(--anime-primary-light-color);
 	font-size: var(--font-size-md);
 	color: var(--anime-primary-dark-color);
-	font-family: Manrope, sans-serif;
+	font-family: var(--main-anime-font-family);
 }
 
 ::ng-deep .mat-mdc-paginator-icon {
