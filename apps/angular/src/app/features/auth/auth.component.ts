@@ -29,7 +29,7 @@ export class AuthComponent {
 	/** Current form. */
 	protected readonly currentForm = this.authFormService.currentForm;
 
-	/** Change form button text. */
+	/** Text on change form button. */
 	protected readonly changeFormButtonText = this.authFormService.changeFormButtonText;
 
 	/** Registration form. */
@@ -41,9 +41,9 @@ export class AuthComponent {
 	/** Form fields. */
 	protected readonly fields = this.authFormService.fields;
 
-	/** Has login error. */
+	/** Has login error (invalid credentials entered). */
 	protected readonly hasLoginError = this.authFormService.hasLoginError;
 
-	/** Has password error. */
+	/** Has password error (password is weak). */
 	protected readonly hasPasswordError = this.authFormService.hasPasswordError;
 }

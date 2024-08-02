@@ -17,14 +17,14 @@ export type FormField = {
 	/** Placeholder. */
 	readonly placeholder: string;
 
-	/** Type. */
+	/** Input type. */
 	readonly type: string;
 
 	/** Name. */
 	readonly name: string;
 };
 
-/** Current from. */
+/** Current form. */
 export enum CurrentForm {
 	Register = 'Register',
 	Login = 'Login',
@@ -45,7 +45,7 @@ export class AuthFormService {
 	/** Current form. */
 	public readonly currentForm = signal<CurrentForm>(CurrentForm.Login);
 
-	/** Change form button text. */
+	/** Text on change form button . */
 	public readonly changeFormButtonText = signal<string>(CHANGE_FORM_BUTTON_TEXT[this.currentForm()]);
 
 	/** Registration form. */
@@ -82,10 +82,10 @@ export class AuthFormService {
 	/** Form fields. */
 	public readonly fields = signal<readonly FormField[]>(this.loginFields);
 
-	/** Has login error. */
+	/** Has login error (invalid credentials entered). */
 	public readonly hasLoginError = HAS_LOGIN_ERROR;
 
-	/** Has password error. */
+	/** Has password error (password is weak). */
 	public readonly hasPasswordError = HAS_PASSWORD_ERROR;
 
 	/** On form change. */

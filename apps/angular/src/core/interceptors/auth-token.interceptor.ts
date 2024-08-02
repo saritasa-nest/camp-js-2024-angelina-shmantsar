@@ -5,6 +5,8 @@ import { Observable, catchError, switchMap, throwError } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
 
+import { HttpErrors } from './auth-error.interceptor';
+
 const IS_REFRESHING = signal<boolean>(false);
 
 /**
@@ -36,7 +38,7 @@ export function authTokenInterceptor(req: HttpRequest<unknown>, next: HttpHandle
 	return next(authTokenRequest).pipe(
 		catchError((error: unknown) => {
 			const httpError = error as HttpErrorResponse;
-			if (httpError.status === 401) {
+			if (httpError.status === HttpErrors.Unauthorized) {
 				return handleRefresh({
 					authService,
 					cookieService,

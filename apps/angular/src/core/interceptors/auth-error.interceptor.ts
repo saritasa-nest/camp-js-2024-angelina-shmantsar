@@ -2,10 +2,10 @@ import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from '@angul
 import { signal } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 
-/** Has login error. */
+/** Has login error (invalid credentials entered). */
 export const HAS_LOGIN_ERROR = signal<boolean>(false);
 
-/** Has password error. */
+/** Has password error (password is weak). */
 export const HAS_PASSWORD_ERROR = signal<boolean>(false);
 
 /** Http errors list. */

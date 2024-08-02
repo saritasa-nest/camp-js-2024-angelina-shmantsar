@@ -11,8 +11,8 @@ export class NavigationService {
 
 	/**
 	 * Navigate to endpoint.
-	 * @param endpoint Endpoint.
-	 * @param params Query params.
+	 * @param endpoint - Endpoint.
+	 * @param params - Query params.
 	 */
 	public navigate(endpoint: string, params?: Readonly<Record<string, string>>): void {
 		if (params != null) {
