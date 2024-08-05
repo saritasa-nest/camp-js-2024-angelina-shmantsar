@@ -1,0 +1,55 @@
+<form class="auth-form" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+	<h2 class="title">Register</h2>
+	@if (registrationForm.errors?.['passwordMismatch'] && (registrationForm.touched || registrationForm.dirty)) {
+		<div class="error">Passwords must match</div>
+	}
+	@if (hasPasswordError()) {
+		<div class="error">Check password. It must contain numeric and alphabetic symbols</div>
+	}
+	@if (validationService.hasError({form: registrationForm, fieldName: 'email', validatorName: 'required'})) {
+		<div class="error">This field is required</div>
+	}
+	@if (validationService.hasError({form: registrationForm, fieldName: 'email', validatorName: 'email'})) {
+		<div class="error">This field should be valid email</div>
+	}
+	<mat-form-field appearance="outline" class="field">
+		<mat-label class="field-title">Email</mat-label>
+		<input matInput placeholder="example@example.com" type="email" formControlName="email" (change)="authFormService.onValueChange('email')">
+	</mat-form-field>
+	@if (validationService.hasError({form: registrationForm, fieldName: 'firstName', validatorName: 'required'})) {
+		<div class="error">This field is required</div>
+	}
+	<mat-form-field appearance="outline" class="field">
+		<mat-label class="field-title">First name</mat-label>
+		<input matInput placeholder="Alex" type="text" formControlName="firstName" (change)="authFormService.onValueChange('firstName')">
+	</mat-form-field>
+	@if (validationService.hasError({form: registrationForm, fieldName: 'lastName', validatorName: 'required'})) {
+		<div class="error">This field is required</div>
+	}
+	<mat-form-field appearance="outline" class="field">
+		<mat-label class="field-title">Last name</mat-label>
+		<input matInput placeholder="Brown" type="text" formControlName="lastName" (change)="authFormService.onValueChange('lastName')">
+	</mat-form-field>
+	@if (validationService.hasError({form: registrationForm, fieldName: 'password', validatorName: 'required'})) {
+		<div class="error">This field is required</div>
+	}
+	@if (validationService.hasError({form: registrationForm, fieldName: 'password', validatorName: 'minlength'})) {
+		<div class="error">The password must be at least 8 characters long</div>
+	}
+	<mat-form-field appearance="outline" class="field">
+		<mat-label class="field-title">Password</mat-label>
+		<input matInput placeholder="er123456" type="password" formControlName="password" (change)="authFormService.onValueChange('password')">
+	</mat-form-field>
+	@if (validationService.hasError({form: registrationForm, fieldName: 'retypedPassword', validatorName: 'required'})) {
+		<div class="error">This field is required</div>
+	}
+	@if (validationService.hasError({form: registrationForm, fieldName: 'retypedPassword', validatorName: 'minlength'})) {
+		<div class="error">The password must be at least 8 characters long</div>
+	}
+	<mat-form-field appearance="outline" class="field">
+		<mat-label class="field-title">Retyped password</mat-label>
+		<input matInput placeholder="er123456" type="password" formControlName="retypedPassword" (change)="authFormService.onValueChange('retypedPassword')">
+	</mat-form-field>
+	<button mat-flat-button type="submit" class="submit-button">Register</button>
+	<button mat-stroked-button type="button" class="form-change-button" (click)="authFormService.onFormChange()">Already registered? Login</button>
+</form>

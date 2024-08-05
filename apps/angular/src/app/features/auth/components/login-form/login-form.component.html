@@ -1,0 +1,25 @@
+<form class="auth-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+	<h2 class="title">Login</h2>
+	@if (hasLoginError()) {
+		<div class="error">No active account found with given credentials</div>
+	}
+	@if (validationService.hasError({form: loginForm, fieldName: 'email', validatorName: 'required'})) {
+		<div class="error">This field is required</div>
+	}
+	@if (validationService.hasError({form: loginForm, fieldName: 'email', validatorName: 'email'})) {
+		<div class="error">This field should be valid email</div>
+	}
+	<mat-form-field appearance="outline" class="field">
+		<mat-label class="field-title">Email</mat-label>
+		<input matInput placeholder="example@example.com" type="email" formControlName="email" (change)="authFormService.onValueChange('email')">
+	</mat-form-field>
+	@if (validationService.hasError({form: loginForm, fieldName: 'password', validatorName: 'required'})) {
+		<div class="error">This field is required</div>
+	}
+	<mat-form-field appearance="outline" class="field">
+		<mat-label class="field-title">Password</mat-label>
+		<input matInput placeholder="er123456" type="password" formControlName="password" (change)="authFormService.onValueChange('password')">
+	</mat-form-field>
+	<button mat-flat-button type="submit" class="submit-button">Login</button>
+	<button mat-stroked-button type="button" class="form-change-button" (click)="authFormService.onFormChange()">Not registered yet? Register</button>
+</form>

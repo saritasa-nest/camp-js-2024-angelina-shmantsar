@@ -1,17 +1,22 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ValidationService } from '@js-camp/angular/core/services/validation.service';
 import { AuthFormService, CurrentForm } from '@js-camp/angular/app/features/auth/services/auth-form.service';
+
+import { LoginFormComponent } from './components/login-form/login-form.component';
+import { RegistrationFormComponent } from './components/registration-form/registration-form.component';
 
 /** Auth component. */
 @Component({
 	selector: 'camp-auth',
 	standalone: true,
-	imports: [CommonModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule],
+	imports: [
+		CommonModule,
+		ReactiveFormsModule,
+		LoginFormComponent,
+		RegistrationFormComponent,
+	],
 	templateUrl: './auth.component.html',
 	styleUrl: './auth.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,22 +33,4 @@ export class AuthComponent {
 
 	/** Current form. */
 	protected readonly currentForm = this.authFormService.currentForm;
-
-	/** Text on change form button. */
-	protected readonly changeFormButtonText = this.authFormService.changeFormButtonText;
-
-	/** Registration form. */
-	protected readonly registrationForm = this.authFormService.registrationForm;
-
-	/** Login form. */
-	protected readonly loginForm = this.authFormService.loginForm;
-
-	/** Form fields. */
-	protected readonly fields = this.authFormService.fields;
-
-	/** Has login error (invalid credentials entered). */
-	protected readonly hasLoginError = this.authFormService.hasLoginError;
-
-	/** Has password error (password is weak). */
-	protected readonly hasPasswordError = this.authFormService.hasPasswordError;
 }
