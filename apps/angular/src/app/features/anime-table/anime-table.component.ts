@@ -60,7 +60,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	private readonly activatedRoute = inject(ActivatedRoute);
 
 	private readonly navigationService = inject(NavigationService);
-  
+
 	private readonly destroyReference = inject(DestroyRef);
 
 	private getAnimeList(params: AnimeManagementParams): Observable<Pagination<Anime>> {
@@ -122,11 +122,6 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
 	@ViewChild(AnimeTypeFilterComponent)
 	private readonly typeFilter!: AnimeTypeFilterComponent;
-
-	private getAnimeList(params: AnimeManagementParams): Observable<Pagination<Anime>> {
-		this.navigationService.navigate('', params);
-		return this.animeService.getPaginatedAnime(params);
-	}
 
 	private getQueryParams(): void {
 		this.activatedRoute.queryParams.pipe(
