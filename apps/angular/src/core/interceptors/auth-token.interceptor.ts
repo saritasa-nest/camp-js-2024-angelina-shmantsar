@@ -3,7 +3,7 @@ import { inject, signal } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, catchError, switchMap, throwError } from 'rxjs';
 
-import { AuthService } from '../../app/features/auth/services/auth.service';
+import { AuthService } from '../services/auth.service';
 
 import { HttpErrors } from './auth-error.interceptor';
 

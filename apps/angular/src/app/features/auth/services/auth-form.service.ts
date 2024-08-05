@@ -8,7 +8,7 @@ import { LoginCredentials } from '../models/login-credentials';
 
 import { ValidationService } from '../../../../core/services/validation.service';
 
-import { AuthService } from './auth.service';
+import { AuthService } from '../../../../core/services/auth.service';
 
 /** Form field. */
 export type FormField = {
@@ -123,7 +123,8 @@ export class AuthFormService {
 			const credentials = {
 				...this.registrationForm.value,
 			};
-			this.authService.register(credentials as RegisterCredentials)
+			this.authService
+				.register(credentials as RegisterCredentials)
 				.pipe(takeUntilDestroyed(this.destroyReference))
 				.subscribe();
 		}
@@ -134,7 +135,8 @@ export class AuthFormService {
 			const credentials = {
 				...this.loginForm.value,
 			};
-			this.authService.login(credentials as LoginCredentials)
+			this.authService
+				.login(credentials as LoginCredentials)
 				.pipe(takeUntilDestroyed(this.destroyReference))
 				.subscribe();
 		}

@@ -3,14 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 
-import { TokensDto } from '../dtos/tokens.dto';
-import { RegisterCredentials } from '../models/register-credentials';
-import { RegisterCredentialsMapper } from '../mappers/register-credentials.mapper';
-import { LoginCredentials } from '../models/login-credentials';
-import { LoginCredentialsMapper } from '../mappers/login-credentials.mapper';
+import { TokensDto } from '../../app/features/auth/dtos/tokens.dto';
+import { RegisterCredentials } from '../../app/features/auth/models/register-credentials';
+import { RegisterCredentialsMapper } from '../../app/features/auth/mappers/register-credentials.mapper';
+import { LoginCredentials } from '../../app/features/auth/models/login-credentials';
+import { LoginCredentialsMapper } from '../../app/features/auth/mappers/login-credentials.mapper';
 
-import { ApiUrlService } from '../../../../core/services/api-url.service';
-import { NavigationService } from '../../../../core/services/navigation.service';
+import { ApiUrlService } from './api-url.service';
+import { NavigationService } from './navigation.service';
 
 /** Auth service. */
 @Injectable({ providedIn: 'root' })
