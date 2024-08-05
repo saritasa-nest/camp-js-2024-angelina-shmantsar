@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationService } from '@js-camp/angular/core/services/validation.service';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { HAS_PASSWORD_ERROR } from '@js-camp/angular/core/interceptors/auth-error.interceptor';
 
 import { RegisterCredentials } from '../../models/register-credentials';
 import { AuthFormService } from '../../services/auth-form.service';
@@ -29,23 +28,22 @@ export class RegistrationFormComponent {
 
 	private readonly destroyReference = inject(DestroyRef);
 
+	private readonly formBuilder = inject(FormBuilder);
+
 	/** Auth form service. */
 	protected readonly authFormService = inject(AuthFormService);
 
 	/** Registration form. */
-	public readonly registrationForm = new FormGroup(
-		{
-			email: new FormControl<string | null>(null, [Validators.required, Validators.email]),
-			firstName: new FormControl<string | null>(null, Validators.required),
-			lastName: new FormControl<string | null>(null, Validators.required),
-			password: new FormControl<string | null>(null, [Validators.required, Validators.minLength(8)]),
-			retypedPassword: new FormControl<string | null>(null, [Validators.required, Validators.minLength(8)]),
-		},
-		{ validators: this.validationService.passwordIdentityValidator },
-	);
+	protected readonly registrationForm = this.formBuilder.nonNullable.group({
+		email: ['', [Validators.required, Validators.email]],
+		firstName: ['', Validators.required],
+		lastName: ['', Validators.required],
+		password: ['', [Validators.required, Validators.minLength(8)]],
+		retypedPassword: ['', Validators.required],
+	}, { validators: this.validationService.passwordIdentityValidator });
 
 	/** Has password error (password is weak). */
-	protected readonly hasPasswordError = HAS_PASSWORD_ERROR;
+	protected readonly hasPasswordError = this.authFormService.hasPasswordError;
 
 	/** On submit. */
 	protected onSubmit(): void {

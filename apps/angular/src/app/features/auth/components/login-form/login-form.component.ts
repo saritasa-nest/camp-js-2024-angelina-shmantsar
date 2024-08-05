@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ValidationService } from '@js-camp/angular/core/services/validation.service';
-import { HAS_LOGIN_ERROR } from '@js-camp/angular/core/interceptors/auth-error.interceptor';
 
 import { LoginCredentials } from '../../models/login-credentials';
 import { AuthFormService } from '../../services/auth-form.service';
@@ -32,13 +31,15 @@ export class LoginFormComponent {
 	/** Auth form service. */
 	protected readonly authFormService = inject(AuthFormService);
 
+	private readonly formBuilder = inject(FormBuilder);
+
 	/** Has login error (invalid credentials entered). */
-	public readonly hasLoginError = HAS_LOGIN_ERROR;
+	protected readonly hasLoginError = this.authFormService.hasLoginError;
 
 	/** Login form. */
-	protected readonly loginForm = new FormGroup({
-		email: new FormControl<string | null>(null, [Validators.required, Validators.email]),
-		password: new FormControl<string | null>(null, Validators.required),
+	protected readonly loginForm = this.formBuilder.nonNullable.group({
+		email: ['', [Validators.required, Validators.email]],
+		password: ['', Validators.required],
 	});
 
 	/** On submit. */
