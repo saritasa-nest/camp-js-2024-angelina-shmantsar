@@ -1,5 +1,5 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy, ViewChild, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, OnDestroy, ViewChild, inject, signal } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -16,6 +16,7 @@ import { AnimeTypeMapper } from '@js-camp/angular/core/mappers/anime-type.mapper
 import { AnimeTypeDto } from '@js-camp/angular/core/dtos/backend-enums/anime-type.dto';
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 import { DATE_FORMAT } from '@js-camp/angular/shared/constants/date-format';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { SearchFormComponent } from '../search-form/search-form.component';
 import { AnimeTypeFilterComponent } from '../anime-type-filter/anime-type-filter.component';
@@ -59,6 +60,8 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	private readonly activatedRoute = inject(ActivatedRoute);
 
 	private readonly navigationService = inject(NavigationService);
+
+	private readonly destroyReference = inject(DestroyRef);
 
 	private getAnimeList(params: AnimeManagementParams): Observable<Pagination<Anime>> {
 		this.navigationService.navigate('', params);
@@ -184,6 +187,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 					this.paginator.pageIndex = Math.round(Number(this.offset()) / this.pageSize);
 					return value.results;
 				}),
+				takeUntilDestroyed(this.destroyReference),
 			)
 			.subscribe(value => {
 				this.anime = value;

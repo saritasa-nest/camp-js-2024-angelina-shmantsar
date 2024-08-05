@@ -1,5 +1,6 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { DestroyRef, Injectable, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { HAS_LOGIN_ERROR, HAS_PASSWORD_ERROR } from '../../../../core/interceptors/auth-error.interceptor';
 import { RegisterCredentials } from '../models/register-credentials';
@@ -42,6 +43,8 @@ export class AuthFormService {
 	private readonly validationService = inject(ValidationService);
 
 	private readonly authService = inject(AuthService);
+
+	private readonly destroyReference = inject(DestroyRef);
 
 	/** Current form. */
 	public readonly currentForm = signal<CurrentForm>(CurrentForm.Login);
@@ -120,7 +123,9 @@ export class AuthFormService {
 			const credentials = {
 				...this.registrationForm.value,
 			};
-			this.authService.register(credentials as RegisterCredentials).subscribe();
+			this.authService.register(credentials as RegisterCredentials)
+				.pipe(takeUntilDestroyed(this.destroyReference))
+				.subscribe();
 		}
 	}
 
@@ -129,7 +134,9 @@ export class AuthFormService {
 			const credentials = {
 				...this.loginForm.value,
 			};
-			this.authService.login(credentials as LoginCredentials).subscribe();
+			this.authService.login(credentials as LoginCredentials)
+				.pipe(takeUntilDestroyed(this.destroyReference))
+				.subscribe();
 		}
 	}
 

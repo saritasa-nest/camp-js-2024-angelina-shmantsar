@@ -2,7 +2,7 @@
 	<form class="auth-form" [formGroup]="loginForm" (ngSubmit)="authFormService.onSubmit()">
 		<h2 class="title">{{currentForm()}}</h2>
 		@if (hasLoginError()) {
-			<div class="error">No active accout found with given credentials</div>
+			<div class="error">No active account found with given credentials</div>
 		}
 		@for (field of fields(); track $index) {
 			@if (validationService.hasError({form: loginForm, fieldName: field.name, validatorName: 'required'})) {

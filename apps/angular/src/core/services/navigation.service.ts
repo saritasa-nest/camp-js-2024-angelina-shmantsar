@@ -1,4 +1,5 @@
-import { Injectable, inject } from '@angular/core';
+import { DestroyRef, Injectable, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs';
 
@@ -6,6 +7,8 @@ import { tap } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class NavigationService {
 	private readonly router = inject(Router);
+
+	private readonly destroyReference = inject(DestroyRef);
 
 	public constructor(private readonly activatedRoute: ActivatedRoute) {}
 
@@ -22,6 +25,7 @@ export class NavigationService {
 			tap(() => this.router.navigate([endpoint], {
 				queryParams: params,
 			})),
+			takeUntilDestroyed(this.destroyReference),
 		).subscribe();
 	}
 
