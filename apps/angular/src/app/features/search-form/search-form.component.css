@@ -1,5 +1,4 @@
-/* Disable rule and use !important to override Material styles */
-/* stylelint-disable selector-pseudo-element-no-unknown */
+/* Use !important to override Material styles */
 :host {
 	display: block;
 }
@@ -10,11 +9,6 @@
 	justify-content: flex-end;
 	gap: var(--size-5);
 	padding: var(--size-3) var(--size-7);
-}
-
-::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input {
-	color: var(--anime-primary-dark-color) !important;
-	caret-color: var(--anime-primary-dark-color) !important;
 }
 
 .search-button {
