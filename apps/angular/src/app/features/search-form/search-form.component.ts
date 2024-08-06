@@ -3,6 +3,7 @@ import {
 	Component,
 	EventEmitter,
 	Input,
+	OnInit,
 	Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -21,7 +22,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 	styleUrl: './search-form.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchFormComponent {
+export class SearchFormComponent implements OnInit {
 	/** Value of search input. */
 	@Input() public value: string | null = null;
 
@@ -30,6 +31,11 @@ export class SearchFormComponent {
 
 	/** Form. */
 	protected readonly searchControl = new FormControl<string | null>(this.value);
+
+	/** @inheritdoc */
+	public ngOnInit(): void {
+		this.searchControl.patchValue(this.value);
+	}
 
 	/**
 	 * Form submit.

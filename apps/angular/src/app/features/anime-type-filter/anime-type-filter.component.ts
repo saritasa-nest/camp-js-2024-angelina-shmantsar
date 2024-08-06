@@ -52,6 +52,7 @@ export class AnimeTypeFilterComponent implements OnInit {
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
+		this.filterControl.patchValue(this.values);
 		this.filterControl.valueChanges
 			.pipe(
 				takeUntilDestroyed(this.destroyReference),
