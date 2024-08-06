@@ -1,6 +1,8 @@
 import { AnimeManagementParamsDto } from '../dtos/anime-management-params.dto';
 import { AnimeManagementParams } from '../models/anime-management-params';
 
+import { AnimeTypeMapper } from './anime-type.mapper';
+
 export namespace AnimeManagementParamsMapper {
 
 	/**
@@ -9,11 +11,11 @@ export namespace AnimeManagementParamsMapper {
 	 */
 	export function toDto(model: AnimeManagementParams): AnimeManagementParamsDto {
 		return {
-			limit: model.limit,
-			offset: model.offset,
+			limit: model.pageSize.toString(),
+			offset: model.pageNumber.toString(),
 			ordering: model.ordering,
 			search: model.search,
-			type__in: model.type,
+			type__in: model.types?.map(item => AnimeTypeMapper.toDto(item)).join(','),
 		};
 	}
 }

@@ -1,5 +1,5 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy, ViewChild, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, OnDestroy, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -16,6 +16,8 @@ import { AnimeTypeMapper } from '@js-camp/angular/core/mappers/anime-type.mapper
 import { AnimeTypeDto } from '@js-camp/angular/core/dtos/backend-enums/anime-type.dto';
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 import { DATE_FORMAT } from '@js-camp/angular/shared/constants/date-format';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AnimeManagementParamsMapper } from '@js-camp/angular/core/mappers/anime-management-params.mapper';
 
 import { SearchFormComponent } from '../search-form/search-form.component';
 import { AnimeTypeFilterComponent } from '../anime-type-filter/anime-type-filter.component';
@@ -53,12 +55,14 @@ const COLUMN_TO_QUERY_PARAM: Readonly<Record<string, string>> = {
 		AnimeTypeFilterComponent,
 	],
 })
-export class AnimeTableComponent implements AfterViewInit, OnDestroy {
+export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
 	private readonly animeService = inject(AnimeService);
 
 	private readonly activatedRoute = inject(ActivatedRoute);
 
 	private readonly navigationService = inject(NavigationService);
+
+	private readonly destroyReference = inject(DestroyRef);
 
 	private anime: readonly Anime[] = [];
 
@@ -70,7 +74,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	private readonly ordering = signal<string | undefined>(undefined);
 
 	/** Select filter values. */
-	protected readonly filter = signal<readonly AnimeType[] | undefined>(undefined);
+	protected readonly filter = signal<readonly AnimeType[]>([]);
 
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
@@ -116,19 +120,22 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	private readonly typeFilter!: AnimeTypeFilterComponent;
 
 	private getAnimeList(params: AnimeManagementParams): Observable<Pagination<Anime>> {
-		this.navigationService.navigate('', params);
+		this.navigationService.navigate('', AnimeManagementParamsMapper.toDto(params));
 		return this.animeService.getPaginatedAnime(params);
 	}
 
 	private getQueryParams(): void {
-		this.activatedRoute.queryParams.pipe(
-			tap(value => {
-				this.offset.set(value['offset']);
-				this.search.set(value['search']);
-				this.ordering.set(value['ordering']);
-				this.filter.set(value['type']?.split(',').map((type: AnimeTypeDto) => AnimeTypeMapper.fromDto(type)));
-			}),
-		).subscribe();
+		this.activatedRoute.queryParams
+			.pipe(
+				tap(value => {
+					this.offset.set(value['offset']);
+					this.search.set(value['search']);
+					this.ordering.set(value['ordering']);
+					this.filter.set(value['type']?.split(',').map((type: AnimeTypeDto) => AnimeTypeMapper.fromDto(type)));
+				}),
+				takeUntilDestroyed(this.destroyReference),
+			)
+			.subscribe();
 	}
 
 	private subscribeToControls(): void {
@@ -145,15 +152,19 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 		this.typeFilter.filter.subscribe(value => {
 			this.paginator.pageIndex = 0;
 			this.offset.set('0');
-			this.filter.set(value && value?.length > 0 ? value : undefined);
+			this.filter.set(value && value?.length > 0 ? value : []);
 		});
 
-		this.sort.sortChange.subscribe(() => this.ordering.set(this.sort.direction === 'asc' ?
-			COLUMN_TO_QUERY_PARAM[this.sort.active] :
-			`-${COLUMN_TO_QUERY_PARAM[this.sort.active]}`));
+		this.sort.sortChange.subscribe(() =>
+			this.ordering.set(
+				this.sort.direction === 'asc' ?
+					COLUMN_TO_QUERY_PARAM[this.sort.active] :
+					`-${COLUMN_TO_QUERY_PARAM[this.sort.active]}`,
+			));
 	}
 
-	public constructor() {
+	/** @inheritdoc */
+	public ngOnInit(): void {
 		this.getQueryParams();
 	}
 
@@ -169,12 +180,11 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 				startWith({}),
 				switchMap(() =>
 					this.getAnimeList({
-						limit: String(this.paginator.pageSize),
-						offset: this.offset(),
+						pageSize: this.paginator.pageSize,
+						pageNumber: this.paginator.pageIndex * this.paginator.pageSize,
 						ordering: this.ordering(),
 						search: this.search(),
-						type: this.filter()?.map(value => AnimeTypeMapper.toDto(value))
-							.join(','),
+						types: this.filter(),
 					}).pipe(catchError(() => of(null)))),
 				map(value => {
 					if (value == null) {

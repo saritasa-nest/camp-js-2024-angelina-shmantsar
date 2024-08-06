@@ -32,9 +32,9 @@
 	<tr mat-row *matRowDef="let row; columns: headerRowDefinitions;" class="mat-row"></tr>
 </table>
 <mat-paginator
-  #paginator
-  [length]="totalCount"
-  [pageSizeOptions]="pageSizes"
-  showFirstLastButtons
+	#paginator
+	[length]="totalCount"
+	[pageSizeOptions]="pageSizes"
+	showFirstLastButtons
 	class="paginator"
 ></mat-paginator>

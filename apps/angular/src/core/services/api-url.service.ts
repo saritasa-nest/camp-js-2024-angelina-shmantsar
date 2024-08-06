@@ -17,12 +17,4 @@ export class ApiUrlService {
 	private constructUrl(endpoint: string): string {
 		return `${this.baseApiUrl}${endpoint}`;
 	}
-
-	/** Construct query params string.
-	 * @param params - List of params.
-	 */
-	public constructQueryParams(...params: readonly Readonly<Record<string, string>>[]): string {
-		const urlParams = new URLSearchParams(...params);
-		return urlParams.toString();
-	}
 }

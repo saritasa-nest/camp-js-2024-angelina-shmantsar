@@ -1,18 +1,20 @@
+import { AnimeType } from './anime-type';
+
 /** Anime management params. */
 export type AnimeManagementParams = {
 
-	/** Limit. */
-	readonly limit: string;
+	/** Page size. */
+	readonly pageSize: number;
 
-	/** Offset. */
-	readonly offset: string;
+	/** Page number. */
+	readonly pageNumber: number;
+
+	/** Types. */
+	readonly types: readonly AnimeType[];
 
 	/** Ordering. */
 	readonly ordering?: string;
 
 	/** Search. */
 	readonly search?: string;
-
-	/** Type. */
-	readonly type?: string;
 };
