@@ -1,11 +1,9 @@
 import {
 	ChangeDetectionStrategy,
 	Component,
-	DestroyRef,
 	EventEmitter,
 	Input,
 	Output,
-	inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,15 +23,13 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 })
 export class SearchFormComponent {
 	/** Value of search input. */
-	@Input() public value: string | undefined = undefined;
+	@Input() public value: string | null = null;
 
 	/** Search value. */
 	@Output() public readonly searchValueEmitter = new EventEmitter<string | null>();
 
-	private readonly destroyReference = inject(DestroyRef);
-
 	/** Form. */
-	protected readonly searchControl = new FormControl<string | null>(this.value ?? null);
+	protected readonly searchControl = new FormControl<string | null>(this.value);
 
 	/**
 	 * Form submit.
