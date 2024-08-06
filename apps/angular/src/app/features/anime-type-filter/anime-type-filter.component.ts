@@ -47,7 +47,7 @@ export class AnimeTypeFilterComponent implements OnChanges {
 	 * @param value - Selected value.
 	 */
 	protected changeFilter(value: readonly AnimeType[]): void {
-		this.filter.emit(value ?? undefined);
+		this.filter.emit(value);
 	}
 
 	/** @inheritdoc */

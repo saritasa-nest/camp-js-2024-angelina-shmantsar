@@ -1,5 +1,5 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { AfterViewInit, Component, DestroyRef, OnDestroy, OnInit, ViewChild, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -55,7 +55,7 @@ const COLUMN_TO_QUERY_PARAM: Readonly<Record<string, string>> = {
 		AnimeTypeFilterComponent,
 	],
 })
-export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
+export class AnimeTableComponent implements OnInit, AfterViewInit {
 	private readonly animeService = inject(AnimeService);
 
 	private readonly activatedRoute = inject(ActivatedRoute);
@@ -66,7 +66,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	private anime: readonly Anime[] = [];
 
-	private readonly offset = signal<string>('0');
+	private readonly offset = signal<number>(0);
 
 	/** Search input value. */
 	protected readonly search = signal<string | undefined>(undefined);
@@ -139,28 +139,30 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	private subscribeToControls(): void {
-		this.paginator.page.subscribe(() => {
-			this.offset.set(String(this.paginator.pageSize * this.paginator.pageIndex));
+		this.paginator.page.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(() => {
+			this.offset.set(this.paginator.pageSize * this.paginator.pageIndex);
 		});
 
-		this.searchForm.searchValue.subscribe(value => {
+		this.searchForm.searchValueEmitter.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(value => {
 			this.paginator.pageIndex = 0;
-			this.offset.set('0');
+			this.offset.set(0);
 			this.search.set(value ?? undefined);
 		});
 
-		this.typeFilter.filter.subscribe(value => {
+		this.typeFilter.filter.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(value => {
 			this.paginator.pageIndex = 0;
-			this.offset.set('0');
+			this.offset.set(0);
 			this.filter.set(value && value?.length > 0 ? value : []);
 		});
 
-		this.sort.sortChange.subscribe(() =>
-			this.ordering.set(
-				this.sort.direction === 'asc' ?
-					COLUMN_TO_QUERY_PARAM[this.sort.active] :
-					`-${COLUMN_TO_QUERY_PARAM[this.sort.active]}`,
-			));
+		this.sort.sortChange
+			.pipe(takeUntilDestroyed(this.destroyReference))
+			.subscribe(() =>
+				this.ordering.set(
+					this.sort.direction === 'asc' ?
+						COLUMN_TO_QUERY_PARAM[this.sort.active] :
+						`-${COLUMN_TO_QUERY_PARAM[this.sort.active]}`,
+				));
 	}
 
 	/** @inheritdoc */
@@ -175,7 +177,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
 		this.subscribeToControls();
 
-		merge(this.typeFilter.filter, this.searchForm.searchValue, this.sort.sortChange, this.paginator.page)
+		merge(this.typeFilter.filter, this.searchForm.searchValueEmitter, this.sort.sortChange, this.paginator.page)
 			.pipe(
 				startWith({}),
 				switchMap(() =>
@@ -191,21 +193,14 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
 						return [];
 					}
 					this.totalCount = value.count;
-					this.paginator.pageIndex = Math.round(Number(this.offset()) / this.paginator.pageSize);
+					this.paginator.pageIndex = Math.round(this.offset() / this.paginator.pageSize);
 					return value.results;
 				}),
+				takeUntilDestroyed(this.destroyReference),
 			)
 			.subscribe(value => {
 				this.anime = value;
 				this.dataSource = new MatTableDataSource(this.anime as Anime[]);
 			});
-	}
-
-	/** @inheritdoc */
-	public ngOnDestroy(): void {
-		this.paginator.page.unsubscribe();
-		this.searchForm.searchValue.unsubscribe();
-		this.sort.sortChange.unsubscribe();
-		this.typeFilter.filter.unsubscribe();
 	}
 }

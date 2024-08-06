@@ -1,6 +1,6 @@
 <div class="controls">
 	<camp-anime-type-filter [values]="filter()"></camp-anime-type-filter>
-	<search-form [value]="search()"></search-form>
+	<camp-search-form [value]="search()"></camp-search-form>
 </div>
 <table mat-table [dataSource]="dataSource" class="anime-table" matSort matSortDisableClear>
 	@for (column of displayedColumns; track $index) {
