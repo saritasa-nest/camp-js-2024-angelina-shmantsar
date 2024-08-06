@@ -92,7 +92,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	protected dataSource = new MatTableDataSource<Anime>();
 
 	/** Page size. */
-	protected readonly pageSize = 25;
+	protected readonly pageSizes = [25, 50, 100];
 
 	/** Total count. */
 	protected totalCount = 0;
@@ -169,7 +169,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 				startWith({}),
 				switchMap(() =>
 					this.getAnimeList({
-						limit: String(this.pageSize),
+						limit: String(this.paginator.pageSize),
 						offset: this.offset(),
 						ordering: this.ordering(),
 						search: this.search(),
@@ -181,7 +181,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 						return [];
 					}
 					this.totalCount = value.count;
-					this.paginator.pageIndex = Math.round(Number(this.offset()) / this.pageSize);
+					this.paginator.pageIndex = Math.round(Number(this.offset()) / this.paginator.pageSize);
 					return value.results;
 				}),
 			)

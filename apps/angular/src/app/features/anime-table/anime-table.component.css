@@ -81,6 +81,10 @@
 	fill: var(--anime-primary-dark-color) !important;
 }
 
+::ng-deep .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(.mat-mdc-option-multiple) {
+	background-color: var(--anime-primary-light-color) !important;
+}
+
 ::ng-deep .mat-mdc-icon-button[disabled] .mat-mdc-paginator-icon {
 	fill: var(--anime-primary-dark-color-disabled) !important;
 }
