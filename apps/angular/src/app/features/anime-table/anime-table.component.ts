@@ -63,7 +63,9 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 
 	private readonly destroyReference = inject(DestroyRef);
 
-	private readonly offset = signal(0);
+	private readonly pageNumber = signal(0);
+
+	private readonly pageSize = signal(25);
 
 	/** Search input value. */
 	protected readonly search = signal<string | null>(null);
@@ -72,8 +74,6 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 
 	/** Select filter values. */
 	protected readonly filter = signal<readonly AnimeType[]>([]);
-
-	private readonly pageSize = signal(25);
 
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
@@ -128,7 +128,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 			.pipe(
 				tap(value => {
 					this.pageSize.set(value['limit']);
-					this.offset.set(value['offset']);
+					this.pageNumber.set(Math.round(value['offset'] / this.pageSize()));
 					this.search.set(value['search']);
 					this.ordering.set(value['ordering']);
 					this.filter.set(value['type__in']?.split(',').map((type: AnimeTypeDto) => AnimeTypeMapper.fromDto(type)));
@@ -140,19 +140,19 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 
 	private subscribeToControls(): void {
 		this.paginator.page.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(() => {
-			this.offset.set(this.paginator.pageSize * this.paginator.pageIndex);
+			this.pageNumber.set(this.paginator.pageIndex);
 			this.pageSize.set(this.paginator.pageSize);
 		});
 
 		this.searchForm.searchValueEmitter.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(value => {
 			this.paginator.pageIndex = 0;
-			this.offset.set(0);
+			this.pageNumber.set(0);
 			this.search.set(value);
 		});
 
 		this.typeFilter.filter.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(value => {
 			this.paginator.pageIndex = 0;
-			this.offset.set(0);
+			this.pageNumber.set(0);
 			this.filter.set(value && value?.length > 0 ? value : []);
 		});
 
@@ -176,7 +176,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
 		this.paginator.pageSize = this.pageSize();
-		this.paginator.pageIndex = Math.round(this.offset() / this.pageSize());
+		this.paginator.pageIndex = this.pageNumber();
 
 		this.subscribeToControls();
 
@@ -187,7 +187,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 				switchMap(() =>
 					this.getAnimeList({
 						pageSize: this.pageSize(),
-						pageNumber: this.paginator.pageIndex * this.pageSize(),
+						pageNumber: this.pageNumber(),
 						ordering: this.ordering() ?? undefined,
 						search: this.search() ?? undefined,
 						types: this.filter(),
@@ -197,7 +197,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 						return [];
 					}
 					this.totalCount = value.count;
-					this.paginator.pageIndex = Math.round(this.offset() / this.pageSize());
+					this.paginator.pageIndex = this.pageNumber();
 					return value.results;
 				}),
 				takeUntilDestroyed(this.destroyReference),

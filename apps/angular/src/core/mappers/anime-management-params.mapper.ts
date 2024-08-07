@@ -12,7 +12,7 @@ export namespace AnimeManagementParamsMapper {
 	export function toDto(model: AnimeManagementParams): AnimeManagementParamsDto {
 		return {
 			limit: model.pageSize.toString(),
-			offset: model.pageNumber.toString(),
+			offset: (model.pageNumber * model.pageSize).toString(),
 			ordering: model.ordering,
 			search: model.search,
 			type__in: model.types?.map(item => AnimeTypeMapper.toDto(item)).join(','),
