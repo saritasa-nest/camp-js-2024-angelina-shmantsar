@@ -8,14 +8,14 @@ import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ValidationService } from '@js-camp/angular/core/services/validation.service';
 
-import { LoginCredentials } from '../../models/login-credentials';
 import { AuthFormService } from '../../services/auth-form.service';
+import { ErrorComponent } from '../error/error.component';
 
 /** Login form component. */
 @Component({
 	selector: 'camp-login-form',
 	standalone: true,
-	imports: [CommonModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule],
+	imports: [CommonModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule, ErrorComponent],
 	templateUrl: './login-form.component.html',
 	styleUrl: './login-form.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,11 +45,9 @@ export class LoginFormComponent {
 	/** On submit. */
 	protected onSubmit(): void {
 		if (this.loginForm.valid) {
-			const credentials = {
-				...this.loginForm.value,
-			};
+			const credentials = this.loginForm.getRawValue();
 			this.authService
-				.login(credentials as LoginCredentials)
+				.login(credentials)
 				.pipe(takeUntilDestroyed(this.destroyReference))
 				.subscribe();
 		}

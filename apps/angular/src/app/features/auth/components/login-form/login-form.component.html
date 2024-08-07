@@ -7,12 +7,7 @@
 	@if (hasLoginError()) {
 	<mat-error class="error">No active account found with given credentials</mat-error>
 	}
-	@if (validationService.hasError({form: loginForm, fieldName: 'email', validatorName: 'required'})) {
-	<mat-error class="error">This field is required</mat-error>
-	}
-	@if (validationService.hasError({form: loginForm, fieldName: 'email', validatorName: 'email'})) {
-	<mat-error class="error">This field should be valid email</mat-error>
-	}
+	<camp-error [control]="loginForm.controls.email"></camp-error>
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Email</mat-label>
 		<input
@@ -23,9 +18,7 @@
 			(change)="authFormService.onValueChange('email')"
 		/>
 	</mat-form-field>
-	@if (validationService.hasError({form: loginForm, fieldName: 'password', validatorName: 'required'})) {
-	<mat-error class="error">This field is required</mat-error>
-	}
+	<camp-error [control]="loginForm.controls.password"></camp-error>
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Password</mat-label>
 		<input

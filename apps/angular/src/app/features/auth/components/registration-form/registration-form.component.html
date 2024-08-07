@@ -10,12 +10,7 @@
 	@if (hasPasswordError()) {
 	<mat-error class="error">Check password. It must contain numeric and alphabetic symbols</mat-error>
 	}
-	@if (validationService.hasError({form: registrationForm, fieldName: 'email', validatorName: 'required'})) {
-	<mat-error class="error">This field is required</mat-error>
-	}
-	@if (validationService.hasError({form: registrationForm, fieldName: 'email', validatorName: 'email'})) {
-	<mat-error class="error">This field should be valid email</mat-error>
-	}
+	<camp-error [control]="registrationForm.controls.email"></camp-error>
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Email</mat-label>
 		<input
@@ -26,9 +21,7 @@
 			(change)="authFormService.onValueChange('email')"
 		/>
 	</mat-form-field>
-	@if (validationService.hasError({form: registrationForm, fieldName: 'firstName', validatorName: 'required'})) {
-	<mat-error class="error">This field is required</mat-error>
-	}
+	<camp-error [control]="registrationForm.controls.firstName"></camp-error>
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">First name</mat-label>
 		<input
@@ -39,9 +32,7 @@
 			(change)="authFormService.onValueChange('firstName')"
 		/>
 	</mat-form-field>
-	@if (validationService.hasError({form: registrationForm, fieldName: 'lastName', validatorName: 'required'})) {
-	<mat-error class="error">This field is required</mat-error>
-	}
+	<camp-error [control]="registrationForm.controls.lastName"></camp-error>
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Last name</mat-label>
 		<input
@@ -52,12 +43,7 @@
 			(change)="authFormService.onValueChange('lastName')"
 		/>
 	</mat-form-field>
-	@if (validationService.hasError({form: registrationForm, fieldName: 'password', validatorName: 'required'})) {
-	<mat-error class="error">This field is required</mat-error>
-	}
-	@if (validationService.hasError({form: registrationForm, fieldName: 'password', validatorName: 'minlength'})) {
-	<mat-error class="error">The password must be at least 8 characters long</mat-error>
-	}
+	<camp-error [control]="registrationForm.controls.password"></camp-error>
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Password</mat-label>
 		<input
@@ -68,13 +54,7 @@
 			(change)="authFormService.onValueChange('password')"
 		/>
 	</mat-form-field>
-	@if (validationService.hasError({form: registrationForm, fieldName: 'retypedPassword', validatorName: 'required'})) {
-	<mat-error class="error">This field is required</mat-error>
-	}
-	@if (validationService.hasError({form: registrationForm, fieldName: 'retypedPassword', validatorName: 'minlength'}))
-	{
-	<mat-error class="error">The password must be at least 8 characters long</mat-error>
-	}
+	<camp-error [control]="registrationForm.controls.retypedPassword"></camp-error>
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Retyped password</mat-label>
 		<input

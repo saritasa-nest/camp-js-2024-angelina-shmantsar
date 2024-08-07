@@ -8,14 +8,14 @@ import { ValidationService } from '@js-camp/angular/core/services/validation.ser
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { RegisterCredentials } from '../../models/register-credentials';
 import { AuthFormService } from '../../services/auth-form.service';
+import { ErrorComponent } from '../error/error.component';
 
 /** Registration form component. */
 @Component({
 	selector: 'camp-registration-form',
 	standalone: true,
-	imports: [CommonModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule],
+	imports: [CommonModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule, ErrorComponent],
 	templateUrl: './registration-form.component.html',
 	styleUrl: './registration-form.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,11 +48,9 @@ export class RegistrationFormComponent {
 	/** On submit. */
 	protected onSubmit(): void {
 		if (this.registrationForm.valid) {
-			const credentials = {
-				...this.registrationForm.value,
-			};
+			const credentials = this.registrationForm.getRawValue();
 			this.authService
-				.register(credentials as RegisterCredentials)
+				.register(credentials)
 				.pipe(takeUntilDestroyed(this.destroyReference))
 				.subscribe();
 		}
