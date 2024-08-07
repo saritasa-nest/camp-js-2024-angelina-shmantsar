@@ -73,6 +73,8 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 	/** Select filter values. */
 	protected readonly filter = signal<readonly AnimeType[]>([]);
 
+	private readonly pageSize = signal(25);
+
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
 		{ key: ColumnKey.Image, header: 'Image' },
@@ -125,6 +127,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 		this.activatedRoute.queryParams
 			.pipe(
 				tap(value => {
+					this.pageSize.set(value['limit']);
 					this.offset.set(value['offset']);
 					this.search.set(value['search']);
 					this.ordering.set(value['ordering']);
@@ -138,6 +141,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 	private subscribeToControls(): void {
 		this.paginator.page.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(() => {
 			this.offset.set(this.paginator.pageSize * this.paginator.pageIndex);
+			this.pageSize.set(this.paginator.pageSize);
 		});
 
 		this.searchForm.searchValueEmitter.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(value => {
@@ -171,6 +175,8 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 	public ngAfterViewInit(): void {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
+		this.paginator.pageSize = this.pageSize();
+		this.paginator.pageIndex = Math.round(this.offset() / this.pageSize());
 
 		this.subscribeToControls();
 
@@ -180,8 +186,8 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 				startWith({}),
 				switchMap(() =>
 					this.getAnimeList({
-						pageSize: this.paginator.pageSize,
-						pageNumber: this.paginator.pageIndex * this.paginator.pageSize,
+						pageSize: this.pageSize(),
+						pageNumber: this.paginator.pageIndex * this.pageSize(),
 						ordering: this.ordering() ?? undefined,
 						search: this.search() ?? undefined,
 						types: this.filter(),
@@ -191,7 +197,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 						return [];
 					}
 					this.totalCount = value.count;
-					this.paginator.pageIndex = Math.round(this.offset() / this.paginator.pageSize);
+					this.paginator.pageIndex = Math.round(this.offset() / this.pageSize());
 					return value.results;
 				}),
 				takeUntilDestroyed(this.destroyReference),
