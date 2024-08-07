@@ -4,7 +4,7 @@
 	(ngSubmit)="onSubmit()"
 >
 	<h2 class="title">Login</h2>
-	@if (hasLoginError()) {
+	@if ((hasLoginError$ | async)) {
 	<mat-error class="error">No active account found with given credentials</mat-error>
 	}
 	<camp-error [control]="loginForm.controls.email"></camp-error>
@@ -15,7 +15,6 @@
 			placeholder="example@example.com"
 			type="email"
 			formControlName="email"
-			(change)="authFormService.onValueChange('email')"
 		/>
 	</mat-form-field>
 	<camp-error [control]="loginForm.controls.password"></camp-error>
@@ -26,7 +25,6 @@
 			placeholder="er123456"
 			type="password"
 			formControlName="password"
-			(change)="authFormService.onValueChange('password')"
 		/>
 	</mat-form-field>
 	<button mat-flat-button type="submit" class="submit-button">Login</button>

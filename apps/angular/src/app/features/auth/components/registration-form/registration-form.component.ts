@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,6 +8,10 @@ import { ValidationService } from '@js-camp/angular/core/services/validation.ser
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
+import { BehaviorSubject, catchError, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrors } from '@js-camp/angular/core/interceptors/auth-error.interceptor';
+
 import { AuthFormService } from '../../services/auth-form.service';
 import { ErrorComponent } from '../error/error.component';
 
@@ -15,12 +19,12 @@ import { ErrorComponent } from '../error/error.component';
 @Component({
 	selector: 'camp-registration-form',
 	standalone: true,
-	imports: [CommonModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule, ErrorComponent],
+	imports: [CommonModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule, ErrorComponent, AsyncPipe],
 	templateUrl: './registration-form.component.html',
 	styleUrl: './registration-form.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegistrationFormComponent {
+export class RegistrationFormComponent implements OnInit {
 	/** Validation service. */
 	protected readonly validationService = inject(ValidationService);
 
@@ -43,7 +47,7 @@ export class RegistrationFormComponent {
 	}, { validators: this.validationService.passwordIdentityValidator });
 
 	/** Has password error (password is weak). */
-	protected readonly hasPasswordError = this.authFormService.hasPasswordError;
+	protected readonly hasPasswordError$ = new BehaviorSubject(false);
 
 	/** On submit. */
 	protected onSubmit(): void {
@@ -51,8 +55,26 @@ export class RegistrationFormComponent {
 			const credentials = this.registrationForm.getRawValue();
 			this.authService
 				.register(credentials)
-				.pipe(takeUntilDestroyed(this.destroyReference))
+				.pipe(
+					takeUntilDestroyed(this.destroyReference),
+					catchError((error: unknown) => {
+						const httpError = error as HttpErrorResponse;
+						if (httpError.status === HttpErrors.BadRequest) {
+							this.hasPasswordError$.next(true);
+						}
+						return throwError(error);
+					}),
+				)
 				.subscribe();
 		}
+	}
+
+	/** @inheritdoc */
+	public ngOnInit(): void {
+		this.registrationForm.valueChanges
+			.pipe(takeUntilDestroyed(this.destroyReference))
+			.subscribe(() => {
+				this.hasPasswordError$.next(false);
+			});
 	}
 }

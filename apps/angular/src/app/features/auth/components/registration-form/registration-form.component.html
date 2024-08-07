@@ -7,7 +7,7 @@
 	@if (registrationForm.errors?.['passwordMismatch'] && (registrationForm.touched || registrationForm.dirty)) {
 	<mat-error class="error">Passwords must match</mat-error>
 	}
-	@if (hasPasswordError()) {
+	@if ((hasPasswordError$ | async)) {
 	<mat-error class="error">Check password. It must contain numeric and alphabetic symbols</mat-error>
 	}
 	<camp-error [control]="registrationForm.controls.email"></camp-error>
@@ -18,7 +18,6 @@
 			placeholder="example@example.com"
 			type="email"
 			formControlName="email"
-			(change)="authFormService.onValueChange('email')"
 		/>
 	</mat-form-field>
 	<camp-error [control]="registrationForm.controls.firstName"></camp-error>
@@ -29,7 +28,6 @@
 			placeholder="Alex"
 			type="text"
 			formControlName="firstName"
-			(change)="authFormService.onValueChange('firstName')"
 		/>
 	</mat-form-field>
 	<camp-error [control]="registrationForm.controls.lastName"></camp-error>
@@ -40,7 +38,6 @@
 			placeholder="Brown"
 			type="text"
 			formControlName="lastName"
-			(change)="authFormService.onValueChange('lastName')"
 		/>
 	</mat-form-field>
 	<camp-error [control]="registrationForm.controls.password"></camp-error>
@@ -51,7 +48,6 @@
 			placeholder="er123456"
 			type="password"
 			formControlName="password"
-			(change)="authFormService.onValueChange('password')"
 		/>
 	</mat-form-field>
 	<camp-error [control]="registrationForm.controls.retypedPassword"></camp-error>
@@ -62,7 +58,6 @@
 			placeholder="er123456"
 			type="password"
 			formControlName="retypedPassword"
-			(change)="authFormService.onValueChange('retypedPassword')"
 		/>
 	</mat-form-field>
 	<button mat-flat-button type="submit" class="submit-button">Register</button>
