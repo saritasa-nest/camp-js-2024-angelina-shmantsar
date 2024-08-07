@@ -1,5 +1,6 @@
 /* Global styles. */
 @import url("variables.css");
+@import url("control-styles.css");
 
 * {
 	box-sizing: border-box;

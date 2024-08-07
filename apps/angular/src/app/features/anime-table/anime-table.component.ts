@@ -1,5 +1,5 @@
-import { AsyncPipe, DatePipe } from '@angular/common';
-import { AfterViewInit, Component, DestroyRef, OnDestroy, ViewChild, inject, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { AfterViewInit, Component, DestroyRef, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -8,7 +8,7 @@ import { Pagination } from '@js-camp/angular/core/models/pagination';
 import { TableColumn } from '@js-camp/angular/core/models/table-column';
 import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
-import { Observable, catchError, map, merge, of, startWith, switchMap, tap } from 'rxjs';
+import { Observable, catchError, debounceTime, map, merge, of, startWith, switchMap, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AnimeManagementParams } from '@js-camp/angular/core/models/anime-management-params';
 import { AnimeType } from '@js-camp/angular/core/models/anime-type';
@@ -17,6 +17,7 @@ import { AnimeTypeDto } from '@js-camp/angular/core/dtos/backend-enums/anime-typ
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 import { DATE_FORMAT } from '@js-camp/angular/shared/constants/date-format';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AnimeManagementParamsMapper } from '@js-camp/angular/core/mappers/anime-management-params.mapper';
 
 import { SearchFormComponent } from '../search-form/search-form.component';
 import { AnimeTypeFilterComponent } from '../anime-type-filter/anime-type-filter.component';
@@ -46,7 +47,6 @@ const COLUMN_TO_QUERY_PARAM: Readonly<Record<string, string>> = {
 	imports: [
 		MatTableModule,
 		MatPaginatorModule,
-		AsyncPipe,
 		DatePipe,
 		EmptyPipe,
 		MatSortModule,
@@ -54,7 +54,7 @@ const COLUMN_TO_QUERY_PARAM: Readonly<Record<string, string>> = {
 		AnimeTypeFilterComponent,
 	],
 })
-export class AnimeTableComponent implements AfterViewInit, OnDestroy {
+export class AnimeTableComponent implements OnInit, AfterViewInit {
 	private readonly animeService = inject(AnimeService);
 
 	private readonly activatedRoute = inject(ActivatedRoute);
@@ -63,22 +63,17 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
 	private readonly destroyReference = inject(DestroyRef);
 
-	private getAnimeList(params: AnimeManagementParams): Observable<Pagination<Anime>> {
-		this.navigationService.navigate('', params);
-		return this.animeService.getPaginatedAnime(params);
-	}
+	private readonly pageNumber = signal(0);
 
-	private anime: readonly Anime[] = [];
-
-	private readonly offset = signal<string>('0');
+	private readonly pageSize = signal(25);
 
 	/** Search input value. */
-	protected readonly search = signal<string | undefined>(undefined);
+	protected readonly search = signal<string | null>(null);
 
-	private readonly ordering = signal<string | undefined>(undefined);
+	private readonly ordering = signal<string | null>(null);
 
 	/** Select filter values. */
-	protected readonly filter = signal<readonly AnimeType[] | undefined>(undefined);
+	protected readonly filter = signal<readonly AnimeType[]>([]);
 
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
@@ -100,7 +95,7 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	protected dataSource = new MatTableDataSource<Anime>();
 
 	/** Page size. */
-	protected readonly pageSize = 25;
+	protected readonly pageSizes = [25, 50, 100];
 
 	/** Total count. */
 	protected totalCount = 0;
@@ -123,40 +118,56 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	@ViewChild(AnimeTypeFilterComponent)
 	private readonly typeFilter!: AnimeTypeFilterComponent;
 
+	private getAnimeList(params: AnimeManagementParams): Observable<Pagination<Anime>> {
+		this.navigationService.navigate('', AnimeManagementParamsMapper.toDto(params));
+		return this.animeService.getPaginatedAnime(params);
+	}
+
 	private getQueryParams(): void {
-		this.activatedRoute.queryParams.pipe(
-			tap(value => {
-				this.offset.set(value['offset']);
-				this.search.set(value['search']);
-				this.ordering.set(value['ordering']);
-				this.filter.set(value['type']?.split(',').map((type: AnimeTypeDto) => AnimeTypeMapper.fromDto(type)));
-			}),
-		).subscribe();
+		this.activatedRoute.queryParams
+			.pipe(
+				tap(value => {
+					this.pageSize.set(value['limit']);
+					this.pageNumber.set(Math.round(value['offset'] / this.pageSize()));
+					this.search.set(value['search']);
+					this.ordering.set(value['ordering']);
+					this.filter.set(value['type__in']?.split(',').map((type: AnimeTypeDto) => AnimeTypeMapper.fromDto(type)));
+				}),
+				takeUntilDestroyed(this.destroyReference),
+			)
+			.subscribe();
 	}
 
 	private subscribeToControls(): void {
-		this.paginator.page.subscribe(() => {
-			this.offset.set(String(this.paginator.pageSize * this.paginator.pageIndex));
+		this.paginator.page.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(() => {
+			this.pageNumber.set(this.paginator.pageIndex);
+			this.pageSize.set(this.paginator.pageSize);
 		});
 
-		this.searchForm.searchValue.subscribe(value => {
+		this.searchForm.searchValueEmitter.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(value => {
 			this.paginator.pageIndex = 0;
-			this.offset.set('0');
-			this.search.set(value ?? undefined);
+			this.pageNumber.set(0);
+			this.search.set(value);
 		});
 
-		this.typeFilter.filter.subscribe(value => {
+		this.typeFilter.filter.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(value => {
 			this.paginator.pageIndex = 0;
-			this.offset.set('0');
-			this.filter.set(value && value?.length > 0 ? value : undefined);
+			this.pageNumber.set(0);
+			this.filter.set(value && value?.length > 0 ? value : []);
 		});
 
-		this.sort.sortChange.subscribe(() => this.ordering.set(this.sort.direction === 'asc' ?
-			COLUMN_TO_QUERY_PARAM[this.sort.active] :
-			`-${COLUMN_TO_QUERY_PARAM[this.sort.active]}`));
+		this.sort.sortChange
+			.pipe(takeUntilDestroyed(this.destroyReference))
+			.subscribe(() =>
+				this.ordering.set(
+					this.sort.direction === 'asc' ?
+						COLUMN_TO_QUERY_PARAM[this.sort.active] :
+						`-${COLUMN_TO_QUERY_PARAM[this.sort.active]}`,
+				));
 	}
 
-	public constructor() {
+	/** @inheritdoc */
+	public ngOnInit(): void {
 		this.getQueryParams();
 	}
 
@@ -164,42 +175,35 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 	public ngAfterViewInit(): void {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
+		this.paginator.pageSize = this.pageSize();
+		this.paginator.pageIndex = this.pageNumber();
 
 		this.subscribeToControls();
 
-		merge(this.typeFilter.filter, this.searchForm.searchValue, this.sort.sortChange, this.paginator.page)
+		merge(this.typeFilter.filter, this.searchForm.searchValueEmitter, this.sort.sortChange, this.paginator.page)
 			.pipe(
+				debounceTime(500),
 				startWith({}),
 				switchMap(() =>
 					this.getAnimeList({
-						limit: String(this.pageSize),
-						offset: this.offset(),
-						ordering: this.ordering(),
-						search: this.search(),
-						type: this.filter()?.map(value => AnimeTypeMapper.toDto(value))
-							.join(','),
+						pageSize: this.pageSize(),
+						pageNumber: this.pageNumber(),
+						ordering: this.ordering() ?? undefined,
+						search: this.search() ?? undefined,
+						types: this.filter(),
 					}).pipe(catchError(() => of(null)))),
 				map(value => {
 					if (value == null) {
 						return [];
 					}
 					this.totalCount = value.count;
-					this.paginator.pageIndex = Math.round(Number(this.offset()) / this.pageSize);
+					this.paginator.pageIndex = this.pageNumber();
 					return value.results;
 				}),
 				takeUntilDestroyed(this.destroyReference),
 			)
 			.subscribe(value => {
-				this.anime = value;
-				this.dataSource = new MatTableDataSource(this.anime as Anime[]);
+				this.dataSource = new MatTableDataSource(value as Anime[]);
 			});
-	}
-
-	/** @inheritdoc */
-	public ngOnDestroy(): void {
-		this.paginator.page.unsubscribe();
-		this.searchForm.searchValue.unsubscribe();
-		this.sort.sortChange.unsubscribe();
-		this.typeFilter.filter.unsubscribe();
 	}
 }

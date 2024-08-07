@@ -8,9 +8,9 @@ import { tap } from 'rxjs';
 export class NavigationService {
 	private readonly router = inject(Router);
 
-	private readonly destroyReference = inject(DestroyRef);
+	private readonly activatedRoute = inject(ActivatedRoute);
 
-	public constructor(private readonly activatedRoute: ActivatedRoute) {}
+	private readonly destroyReference = inject(DestroyRef);
 
 	/**
 	 * Navigate to endpoint.
@@ -18,18 +18,11 @@ export class NavigationService {
 	 * @param params - Query params.
 	 */
 	public navigate(endpoint: string, params?: Readonly<Record<string, string>>): void {
-		if (params != null) {
-			this.removeUndefined(params);
-		}
 		this.activatedRoute.queryParams.pipe(
 			tap(() => this.router.navigate([endpoint], {
 				queryParams: params,
 			})),
 			takeUntilDestroyed(this.destroyReference),
 		).subscribe();
-	}
-
-	private removeUndefined(params: Readonly<Record<string, string>>): Readonly<Record<string, string>> {
-		return JSON.parse(JSON.stringify(params));
 	}
 }
