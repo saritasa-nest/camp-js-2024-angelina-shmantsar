@@ -1,5 +1,3 @@
-/* Disable rule and use !important to override Material styles */
-/* stylelint-disable selector-pseudo-element-no-unknown */
 :host {
 	--auth-form-width: 480px;
 	--auth-buttons-width: 80%;
@@ -42,9 +40,6 @@
 	width: var(--auth-buttons-width);
 	border-radius: var(--size-2);
 	margin-bottom: var(--size-5);
-	background-color: var(--anime-primary-dark-color) !important;
-	color: var(--anime-accent-light-color) !important;
-	border-color: var(--anime-primary-dark-color) !important;
 	font-family: var(--main-anime-font-family);
 }
 
@@ -52,35 +47,13 @@
 	width: var(--auth-buttons-width);
 	border-radius: var(--size-2);
 	background-color: var(--anime-primary-light-color);
-	color: var(--anime-primary-dark-color) !important;
-	border-color: var(--anime-primary-light-color) !important;
 	font-family: var(--main-anime-font-family);
 }
 
 .field-title {
-	color: var(--anime-primary-dark-color) !important;
 	font-family: var(--main-anime-font-family);
-}
-
-::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading {
-	border-color: var(--anime-primary-dark-color) !important;
-}
-
-::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch {
-	border-color: var(--anime-primary-dark-color) !important;
-	border-left: none !important;
-}
-
-::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
-	border-color: var(--anime-primary-dark-color) !important;
 }
 
 ::placeholder {
-	color: var(--anime-primary-dark-color-disabled) !important;
 	font-family: var(--main-anime-font-family);
-}
-
-::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input {
-	color: var(--anime-primary-dark-color) !important;
-	caret-color: var(--anime-primary-dark-color) !important;
 }
