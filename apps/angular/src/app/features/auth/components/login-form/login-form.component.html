@@ -5,13 +5,13 @@
 >
 	<h2 class="title">Login</h2>
 	@if (hasLoginError()) {
-	<div class="error">No active account found with given credentials</div>
+	<mat-error class="error">No active account found with given credentials</mat-error>
 	}
 	@if (validationService.hasError({form: loginForm, fieldName: 'email', validatorName: 'required'})) {
-	<div class="error">This field is required</div>
+	<mat-error class="error">This field is required</mat-error>
 	}
 	@if (validationService.hasError({form: loginForm, fieldName: 'email', validatorName: 'email'})) {
-	<div class="error">This field should be valid email</div>
+	<mat-error class="error">This field should be valid email</mat-error>
 	}
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Email</mat-label>
@@ -24,7 +24,7 @@
 		/>
 	</mat-form-field>
 	@if (validationService.hasError({form: loginForm, fieldName: 'password', validatorName: 'required'})) {
-	<div class="error">This field is required</div>
+	<mat-error class="error">This field is required</mat-error>
 	}
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Password</mat-label>

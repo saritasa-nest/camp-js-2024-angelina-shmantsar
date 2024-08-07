@@ -5,16 +5,16 @@
 >
 	<h2 class="title">Register</h2>
 	@if (registrationForm.errors?.['passwordMismatch'] && (registrationForm.touched || registrationForm.dirty)) {
-	<div class="error">Passwords must match</div>
+	<mat-error class="error">Passwords must match</mat-error>
 	}
 	@if (hasPasswordError()) {
-	<div class="error">Check password. It must contain numeric and alphabetic symbols</div>
+	<mat-error class="error">Check password. It must contain numeric and alphabetic symbols</mat-error>
 	}
 	@if (validationService.hasError({form: registrationForm, fieldName: 'email', validatorName: 'required'})) {
-	<div class="error">This field is required</div>
+	<mat-error class="error">This field is required</mat-error>
 	}
 	@if (validationService.hasError({form: registrationForm, fieldName: 'email', validatorName: 'email'})) {
-	<div class="error">This field should be valid email</div>
+	<mat-error class="error">This field should be valid email</mat-error>
 	}
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Email</mat-label>
@@ -27,7 +27,7 @@
 		/>
 	</mat-form-field>
 	@if (validationService.hasError({form: registrationForm, fieldName: 'firstName', validatorName: 'required'})) {
-	<div class="error">This field is required</div>
+	<mat-error class="error">This field is required</mat-error>
 	}
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">First name</mat-label>
@@ -40,7 +40,7 @@
 		/>
 	</mat-form-field>
 	@if (validationService.hasError({form: registrationForm, fieldName: 'lastName', validatorName: 'required'})) {
-	<div class="error">This field is required</div>
+	<mat-error class="error">This field is required</mat-error>
 	}
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Last name</mat-label>
@@ -53,10 +53,10 @@
 		/>
 	</mat-form-field>
 	@if (validationService.hasError({form: registrationForm, fieldName: 'password', validatorName: 'required'})) {
-	<div class="error">This field is required</div>
+	<mat-error class="error">This field is required</mat-error>
 	}
 	@if (validationService.hasError({form: registrationForm, fieldName: 'password', validatorName: 'minlength'})) {
-	<div class="error">The password must be at least 8 characters long</div>
+	<mat-error class="error">The password must be at least 8 characters long</mat-error>
 	}
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Password</mat-label>
@@ -69,11 +69,11 @@
 		/>
 	</mat-form-field>
 	@if (validationService.hasError({form: registrationForm, fieldName: 'retypedPassword', validatorName: 'required'})) {
-	<div class="error">This field is required</div>
+	<mat-error class="error">This field is required</mat-error>
 	}
 	@if (validationService.hasError({form: registrationForm, fieldName: 'retypedPassword', validatorName: 'minlength'}))
 	{
-	<div class="error">The password must be at least 8 characters long</div>
+	<mat-error class="error">The password must be at least 8 characters long</mat-error>
 	}
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Retyped password</mat-label>
