@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { CookieService } from 'ngx-cookie-service';
 
 import { RegisterCredentials } from '@js-camp/core/models/register-credentials';
 import { RegisterCredentialsMapper } from '@js-camp/core/mappers/register-credentials.mapper';
@@ -11,6 +10,7 @@ import { LoginCredentialsMapper } from '@js-camp/core/mappers/login-credentials.
 import { TokensDto } from '../dtos/tokens.dto';
 
 import { ApiUrlService } from './api-url.service';
+import { LocalStorageService } from './local-storage.service';
 
 /** Auth service. */
 @Injectable({ providedIn: 'root' })
@@ -19,7 +19,7 @@ export class AuthService {
 
 	private readonly urlService = inject(ApiUrlService);
 
-	private readonly cookieService = inject(CookieService);
+	private readonly localStorageService = inject(LocalStorageService);
 
 	/**
 	 * Register user.
@@ -61,7 +61,7 @@ export class AuthService {
 	}
 
 	private saveTokens(accessToken: string, refreshToken: string): void {
-		this.cookieService.set('accessToken', accessToken);
-		this.cookieService.set('refreshToken', refreshToken);
+		this.localStorageService.setItem('accessToken', accessToken);
+		this.localStorageService.setItem('refreshToken', refreshToken);
 	}
 }

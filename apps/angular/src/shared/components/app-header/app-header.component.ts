@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterOutlet } from '@angular/router';
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
-import { CookieService } from 'ngx-cookie-service';
+import { LocalStorageService } from '@js-camp/angular/core/services/local-storage.service';
 
 /** App header component. */
 @Component({
@@ -18,9 +18,9 @@ import { CookieService } from 'ngx-cookie-service';
 export class AppHeaderComponent {
 	private readonly navigationService = inject(NavigationService);
 
-	private readonly cookieService = inject(CookieService);
+	private readonly localStorageService = inject(LocalStorageService);
 
-	private readonly accessToken = this.cookieService.get('accessToken');
+	private readonly accessToken = this.localStorageService.getItem('accessToken') ?? '';
 
 	/** Is user authorized. */
 	protected readonly isAuthorized = signal<boolean>(this.accessToken.length > 0);
@@ -32,8 +32,8 @@ export class AppHeaderComponent {
 
 	/** On logout. */
 	protected onLogout(): void {
-		this.cookieService.delete('accessToken');
-		this.cookieService.delete('refreshToken');
+		this.localStorageService.removeItem('accessToken');
+		this.localStorageService.removeItem('refreshToken');
 		this.isAuthorized.set(false);
 	}
 }

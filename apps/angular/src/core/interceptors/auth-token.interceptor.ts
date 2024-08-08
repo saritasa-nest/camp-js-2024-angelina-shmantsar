@@ -1,12 +1,12 @@
 import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { DestroyRef, inject } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Observable, catchError, switchMap, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { AuthService } from '../services/auth.service';
 
 import { HttpErrors } from '../models/http-errors';
+import { LocalStorageService } from '../services/local-storage.service';
 
 const IS_REFRESHING$ = new BehaviorSubject(false);
 
@@ -16,16 +16,16 @@ const IS_REFRESHING$ = new BehaviorSubject(false);
  * @param next - Next interceptor.
  */
 export function authTokenInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
-	const cookieService = inject(CookieService);
+	const localStorageService = inject(LocalStorageService);
 	const authService = inject(AuthService);
 	const destroyRef = inject(DestroyRef);
 
-	const accessToken = cookieService.get('accessToken');
-	const refreshToken = cookieService.get('refreshToken');
+	const accessToken = localStorageService.getItem('accessToken');
+	const refreshToken = localStorageService.getItem('refreshToken');
 
 	let isRefreshing = false;
 
-	if (accessToken.length === 0) {
+	if (accessToken !== null && accessToken.length === 0) {
 		return next(req);
 	}
 
@@ -38,25 +38,25 @@ export function authTokenInterceptor(req: HttpRequest<unknown>, next: HttpHandle
 	if (isRefreshing) {
 		return handleRefresh({
 			authService,
-			cookieService,
+			localStorageService,
 			request: req,
 			next,
-			refreshToken,
+			refreshToken: refreshToken ?? '',
 			isRefreshing,
 		});
 	}
 
-	const authTokenRequest = addAuthorizationHeader(req, accessToken);
+	const authTokenRequest = addAuthorizationHeader(req, accessToken ?? '');
 	return next(authTokenRequest).pipe(
 		catchError((error: unknown) => {
 			const httpError = error as HttpErrorResponse;
 			if (httpError.status === HttpErrors.Unauthorized) {
 				return handleRefresh({
 					authService,
-					cookieService,
+					localStorageService,
 					request: req,
 					next,
-					refreshToken,
+					refreshToken: refreshToken ?? '',
 					isRefreshing,
 				});
 			}
@@ -71,7 +71,7 @@ type HandleRefreshData = {
 	readonly authService: AuthService;
 
 	/** Cookie service. */
-	readonly cookieService: CookieService;
+	readonly localStorageService: LocalStorageService;
 
 	/** Request. */
 	readonly request: HttpRequest<unknown>;
@@ -91,7 +91,7 @@ type HandleRefreshData = {
  * @param handleRefreshData - Handle refresh data.
  */
 function handleRefresh(
-	{ authService, cookieService, request, next, refreshToken, isRefreshing }: HandleRefreshData,
+	{ authService, localStorageService, request, next, refreshToken, isRefreshing }: HandleRefreshData,
 ): Observable<HttpEvent<unknown>> {
 	if (!isRefreshing) {
 		IS_REFRESHING$.next(true);
@@ -102,7 +102,7 @@ function handleRefresh(
 			}),
 		);
 	}
-	return next(addAuthorizationHeader(request, cookieService.get('accessToken')));
+	return next(addAuthorizationHeader(request, localStorageService.getItem('accessToken') ?? ''));
 }
 
 /**
