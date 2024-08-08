@@ -8,7 +8,7 @@
 	</div>
 
 	<div class="controls-container">
-		@if (isAuthorized()) {
+		@if (isAuthorized$ | async) {
 			<button mat-mini-fab type="button" class="profile-button">
 				<mat-icon>person</mat-icon>
 			</button>
