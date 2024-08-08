@@ -1,9 +1,7 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
-import { BehaviorSubject, merge } from 'rxjs';
-import { FormControl } from '@angular/forms';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BehaviorSubject } from 'rxjs';
 
 /** Error component. */
 @Component({
@@ -14,32 +12,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 	styleUrl: './error.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ErrorComponent implements OnInit {
-	/** Form. */
+export class ErrorComponent {
+	/** Error message. */
 	@Input()
-	public control: FormControl<string> = new FormControl('', { nonNullable: true });
+	public errorMessage = '';
 
 	/** Error message. */
 	protected readonly errorMessage$ = new BehaviorSubject('');
-
-	private readonly destroyRef = inject(DestroyRef);
-
-	/** @inheritdoc */
-	public ngOnInit(): void {
-		merge(this.control.events)
-			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe(() => this.updateErrorMessage());
-	}
-
-	private updateErrorMessage(): void {
-		if (this.control.hasError('required')) {
-			this.errorMessage$.next('This field is required');
-		} else if (this.control.hasError('email')) {
-			this.errorMessage$.next('This field should be valid email');
-		} else if (this.control.hasError('minlength')) {
-			this.errorMessage$.next('The password must be at least 8 characters long');
-		} else {
-			this.errorMessage$.next('');
-		}
-	}
 }

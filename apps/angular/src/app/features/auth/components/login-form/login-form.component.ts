@@ -3,7 +3,7 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ValidationService } from '@js-camp/angular/core/services/validation.service';
@@ -57,6 +57,23 @@ export class LoginFormComponent implements OnInit {
 		password: ['', Validators.required],
 	});
 
+	/** Error messages. */
+	protected readonly errorMessages = {
+		loginError: 'No active account found with given credentials',
+		email$: new BehaviorSubject(''),
+		password$: new BehaviorSubject(''),
+	};
+
+	/** 'email' control. */
+	protected get email(): FormControl<string> {
+		return this.loginForm.controls.email;
+	}
+
+	/** 'password' control. */
+	protected get password(): FormControl<string> {
+		return this.loginForm.controls.password;
+	}
+
 	/** On submit. */
 	protected onSubmit(): void {
 		if (this.loginForm.valid) {
@@ -83,10 +100,34 @@ export class LoginFormComponent implements OnInit {
 		this.currentAuthForm$.next(CurrentForm.Register);
 	}
 
+	private updateEmailError(): void {
+		const emailControl = this.loginForm.controls.email;
+		if (emailControl.hasError('required')) {
+			this.errorMessages.email$.next('This field is required');
+		} else if (emailControl.hasError('email')) {
+			this.errorMessages.email$.next('This field should be valid email');
+		} else {
+			this.errorMessages.email$.next('');
+		}
+	}
+
+	private updatePasswordError(): void {
+		const passwordControl = this.loginForm.controls.password;
+		if (passwordControl.hasError('required')) {
+			this.errorMessages.password$.next('This field is required');
+		} else if (passwordControl.hasError('email')) {
+			this.errorMessages.password$.next('The password must be at least 8 characters long');
+		} else {
+			this.errorMessages.password$.next('');
+		}
+	}
+
 	/** @inheritdoc */
 	public ngOnInit(): void {
 		this.loginForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
 			this.hasLoginError$.next(false);
+			this.updateEmailError();
+			this.updatePasswordError();
 		});
 	}
 }

@@ -5,9 +5,9 @@
 >
 	<h2 class="title">Login</h2>
 	@if ((hasLoginError$ | async)) {
-	<mat-error class="error">No active account found with given credentials</mat-error>
+		<camp-error [errorMessage]="errorMessages.loginError"></camp-error>
 	}
-	<camp-error [control]="loginForm.controls.email"></camp-error>
+	<camp-error [errorMessage]="(errorMessages.email$ | async) ?? ''"></camp-error>
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Email</mat-label>
 		<input
@@ -17,7 +17,7 @@
 			formControlName="email"
 		/>
 	</mat-form-field>
-	<camp-error [control]="loginForm.controls.password"></camp-error>
+	<camp-error />
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Password</mat-label>
 		<input

@@ -10,7 +10,7 @@
 	@if ((hasPasswordError$ | async)) {
 	<mat-error class="error">Check password. It must contain numeric and alphabetic symbols</mat-error>
 	}
-	<camp-error [control]="registrationForm.controls.email"></camp-error>
+	<camp-error />
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Email</mat-label>
 		<input
@@ -20,7 +20,7 @@
 			formControlName="email"
 		/>
 	</mat-form-field>
-	<camp-error [control]="registrationForm.controls.firstName"></camp-error>
+	<camp-error></camp-error>
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">First name</mat-label>
 		<input
@@ -30,7 +30,7 @@
 			formControlName="firstName"
 		/>
 	</mat-form-field>
-	<camp-error [control]="registrationForm.controls.lastName"></camp-error>
+	<camp-error></camp-error>
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Last name</mat-label>
 		<input
@@ -40,7 +40,7 @@
 			formControlName="lastName"
 		/>
 	</mat-form-field>
-	<camp-error [control]="registrationForm.controls.password"></camp-error>
+	<camp-error></camp-error>
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Password</mat-label>
 		<input
@@ -50,7 +50,7 @@
 			formControlName="password"
 		/>
 	</mat-form-field>
-	<camp-error [control]="registrationForm.controls.retypedPassword"></camp-error>
+	<camp-error></camp-error>
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Retyped password</mat-label>
 		<input
