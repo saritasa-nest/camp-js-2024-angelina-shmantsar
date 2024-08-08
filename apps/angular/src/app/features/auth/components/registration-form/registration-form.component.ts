@@ -43,7 +43,7 @@ export class RegistrationFormComponent implements OnInit {
 
 	private readonly navigationService = inject(NavigationService);
 
-	private readonly destroyReference = inject(DestroyRef);
+	private readonly destroyRef = inject(DestroyRef);
 
 	private readonly formBuilder = inject(FormBuilder);
 
@@ -77,7 +77,7 @@ export class RegistrationFormComponent implements OnInit {
 				.register(credentials)
 				.pipe(
 					tap(() => this.navigationService.navigate('')),
-					takeUntilDestroyed(this.destroyReference),
+					takeUntilDestroyed(this.destroyRef),
 					catchError((error: unknown) => {
 						const httpError = error as HttpErrorResponse;
 						if (httpError.status === HttpErrors.BadRequest) {
@@ -92,7 +92,7 @@ export class RegistrationFormComponent implements OnInit {
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.registrationForm.valueChanges.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(() => {
+		this.registrationForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
 			this.hasPasswordError$.next(false);
 		});
 	}

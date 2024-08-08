@@ -14,5 +14,5 @@ export type RegisterCredentialsDto = {
 	readonly password: string;
 
 	/** Avatar image url. */
-	readonly avatar?: string;
+	readonly avatarUrl?: string;
 };

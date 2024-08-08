@@ -14,7 +14,7 @@ export namespace RegisterCredentialsMapper {
 			first_name: model.firstName,
 			last_name: model.lastName,
 			password: model.password,
-			avatar: model.avatar,
+			avatarUrl: model.avatarUrl,
 		};
 	}
 }

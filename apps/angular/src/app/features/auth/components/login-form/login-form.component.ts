@@ -39,7 +39,7 @@ export class LoginFormComponent implements OnInit {
 
 	private readonly navigationService = inject(NavigationService);
 
-	private readonly destroyReference = inject(DestroyRef);
+	private readonly destroyRef = inject(DestroyRef);
 
 	/** Validation service. */
 	protected readonly validationService = inject(ValidationService);
@@ -65,7 +65,7 @@ export class LoginFormComponent implements OnInit {
 				.login(credentials)
 				.pipe(
 					tap(() => this.navigationService.navigate('')),
-					takeUntilDestroyed(this.destroyReference),
+					takeUntilDestroyed(this.destroyRef),
 					catchError((error: unknown) => {
 						const httpError = error as HttpErrorResponse;
 						if (httpError.status === HttpErrors.Forbidden) {
@@ -85,7 +85,7 @@ export class LoginFormComponent implements OnInit {
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.loginForm.valueChanges.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(() => {
+		this.loginForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
 			this.hasLoginError$.next(false);
 		});
 	}
