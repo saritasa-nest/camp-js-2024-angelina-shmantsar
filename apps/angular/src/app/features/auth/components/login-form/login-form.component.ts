@@ -8,17 +8,27 @@ import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ValidationService } from '@js-camp/angular/core/services/validation.service';
 import { BehaviorSubject, catchError, throwError } from 'rxjs';
-import { HttpErrors } from '@js-camp/angular/core/interceptors/auth-error.interceptor';
 import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrors } from '@js-camp/angular/core/models/http-errors';
 
-import { AuthFormService } from '../../services/auth-form.service';
+import { CurrentForm } from '@js-camp/angular/shared/constants/current-auth-form-enum';
+import { CURRENT_AUTH_FORM$ } from '@js-camp/angular/shared/constants/current-auth-form';
+
 import { ErrorComponent } from '../error/error.component';
 
 /** Login form component. */
 @Component({
 	selector: 'camp-login-form',
 	standalone: true,
-	imports: [CommonModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule, ErrorComponent, AsyncPipe],
+	imports: [
+		CommonModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatButtonModule,
+		ReactiveFormsModule,
+		ErrorComponent,
+		AsyncPipe,
+	],
 	templateUrl: './login-form.component.html',
 	styleUrl: './login-form.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,10 +41,9 @@ export class LoginFormComponent implements OnInit {
 	/** Validation service. */
 	protected readonly validationService = inject(ValidationService);
 
-	/** Auth form service. */
-	protected readonly authFormService = inject(AuthFormService);
-
 	private readonly formBuilder = inject(FormBuilder);
+
+	private readonly currentAuthForm$ = CURRENT_AUTH_FORM$;
 
 	/** Has login error (invalid credentials entered). */
 	protected readonly hasLoginError$ = new BehaviorSubject(false);
@@ -65,12 +74,15 @@ export class LoginFormComponent implements OnInit {
 		}
 	}
 
+	/** On form change. */
+	protected onFormChange(): void {
+		this.currentAuthForm$.next(CurrentForm.Register);
+	}
+
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.loginForm.valueChanges
-			.pipe(takeUntilDestroyed(this.destroyReference))
-			.subscribe(() => {
-				this.hasLoginError$.next(false);
-			});
+		this.loginForm.valueChanges.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(() => {
+			this.hasLoginError$.next(false);
+		});
 	}
 }

@@ -1,4 +1,4 @@
-@if (currentForm() === currentFormEnum.Login) {
+@if ((currentAuthForm$ | async) === currentFormEnum.Login) {
 	<camp-login-form></camp-login-form>
 } @else {
 	<camp-registration-form></camp-registration-form>

@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ValidationService } from '@js-camp/angular/core/services/validation.service';
-import { AuthFormService, CurrentForm } from '@js-camp/angular/app/features/auth/services/auth-form.service';
+import { CurrentForm } from '@js-camp/angular/shared/constants/current-auth-form-enum';
+import { CURRENT_AUTH_FORM$ } from '@js-camp/angular/shared/constants/current-auth-form';
 
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { RegistrationFormComponent } from './components/registration-form/registration-form.component';
@@ -16,6 +17,7 @@ import { RegistrationFormComponent } from './components/registration-form/regist
 		ReactiveFormsModule,
 		LoginFormComponent,
 		RegistrationFormComponent,
+		AsyncPipe,
 	],
 	templateUrl: './auth.component.html',
 	styleUrl: './auth.component.css',
@@ -25,12 +27,9 @@ export class AuthComponent {
 	/** Validation service. */
 	protected readonly validationService = inject(ValidationService);
 
-	/** Auth form service. */
-	protected readonly authFormService = inject(AuthFormService);
-
 	/** Current form enum. */
 	protected readonly currentFormEnum = CurrentForm;
 
 	/** Current form. */
-	protected readonly currentForm = this.authFormService.currentForm;
+	protected readonly currentAuthForm$ = CURRENT_AUTH_FORM$;
 }

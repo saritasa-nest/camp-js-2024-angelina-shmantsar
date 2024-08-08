@@ -5,7 +5,7 @@ import { Observable, catchError, switchMap, throwError } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
 
-import { HttpErrors } from './auth-error.interceptor';
+import { HttpErrors } from '../models/http-errors';
 
 const IS_REFRESHING = signal<boolean>(false);
 

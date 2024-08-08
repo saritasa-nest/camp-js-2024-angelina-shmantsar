@@ -10,16 +10,26 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { BehaviorSubject, catchError, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpErrors } from '@js-camp/angular/core/interceptors/auth-error.interceptor';
+import { HttpErrors } from '@js-camp/angular/core/models/http-errors';
 
-import { AuthFormService } from '../../services/auth-form.service';
+import { CURRENT_AUTH_FORM$ } from '@js-camp/angular/shared/constants/current-auth-form';
+import { CurrentForm } from '@js-camp/angular/shared/constants/current-auth-form-enum';
+
 import { ErrorComponent } from '../error/error.component';
 
 /** Registration form component. */
 @Component({
 	selector: 'camp-registration-form',
 	standalone: true,
-	imports: [CommonModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule, ErrorComponent, AsyncPipe],
+	imports: [
+		CommonModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatButtonModule,
+		ReactiveFormsModule,
+		ErrorComponent,
+		AsyncPipe,
+	],
 	templateUrl: './registration-form.component.html',
 	styleUrl: './registration-form.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,20 +44,27 @@ export class RegistrationFormComponent implements OnInit {
 
 	private readonly formBuilder = inject(FormBuilder);
 
-	/** Auth form service. */
-	protected readonly authFormService = inject(AuthFormService);
+	private readonly currentAuthForm$ = CURRENT_AUTH_FORM$;
 
 	/** Registration form. */
-	protected readonly registrationForm = this.formBuilder.nonNullable.group({
-		email: ['', [Validators.required, Validators.email]],
-		firstName: ['', Validators.required],
-		lastName: ['', Validators.required],
-		password: ['', [Validators.required, Validators.minLength(8)]],
-		retypedPassword: ['', Validators.required],
-	}, { validators: this.validationService.passwordIdentityValidator });
+	protected readonly registrationForm = this.formBuilder.nonNullable.group(
+		{
+			email: ['', [Validators.required, Validators.email]],
+			firstName: ['', Validators.required],
+			lastName: ['', Validators.required],
+			password: ['', [Validators.required, Validators.minLength(8)]],
+			retypedPassword: ['', Validators.required],
+		},
+		{ validators: this.validationService.passwordIdentityValidator },
+	);
 
 	/** Has password error (password is weak). */
 	protected readonly hasPasswordError$ = new BehaviorSubject(false);
+
+	/** On form change. */
+	protected onFormChange(): void {
+		this.currentAuthForm$.next(CurrentForm.Login);
+	}
 
 	/** On submit. */
 	protected onSubmit(): void {
@@ -71,10 +88,8 @@ export class RegistrationFormComponent implements OnInit {
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.registrationForm.valueChanges
-			.pipe(takeUntilDestroyed(this.destroyReference))
-			.subscribe(() => {
-				this.hasPasswordError$.next(false);
-			});
+		this.registrationForm.valueChanges.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(() => {
+			this.hasPasswordError$.next(false);
+		});
 	}
 }
