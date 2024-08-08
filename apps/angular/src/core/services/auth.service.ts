@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 
-import { TokensDto } from '../../app/features/auth/dtos/tokens.dto';
-import { RegisterCredentials } from '../../app/features/auth/models/register-credentials';
-import { RegisterCredentialsMapper } from '../../app/features/auth/mappers/register-credentials.mapper';
-import { LoginCredentials } from '../../app/features/auth/models/login-credentials';
-import { LoginCredentialsMapper } from '../../app/features/auth/mappers/login-credentials.mapper';
+import { RegisterCredentials } from '@js-camp/core/models/register-credentials';
+import { RegisterCredentialsMapper } from '@js-camp/core/mappers/register-credentials.mapper';
+import { LoginCredentials } from '@js-camp/core/models/login-credentials';
+import { LoginCredentialsMapper } from '@js-camp/core/mappers/login-credentials.mapper';
+
+import { TokensDto } from '../dtos/tokens.dto';
 
 import { ApiUrlService } from './api-url.service';
 
