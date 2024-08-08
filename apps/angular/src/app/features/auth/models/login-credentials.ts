@@ -1,4 +1,9 @@
-import { RegisterCredentials } from './register-credentials';
-
 /** Login credentials. */
-export type LoginCredentials = Pick<RegisterCredentials, 'email' | 'password'>;
+export type LoginCredentials = {
+
+	/** Email. */
+	readonly email: string;
+
+	/** Password. */
+	readonly password: string;
+};
