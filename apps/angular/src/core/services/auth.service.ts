@@ -10,7 +10,6 @@ import { LoginCredentials } from '../../app/features/auth/models/login-credentia
 import { LoginCredentialsMapper } from '../../app/features/auth/mappers/login-credentials.mapper';
 
 import { ApiUrlService } from './api-url.service';
-import { NavigationService } from './navigation.service';
 
 /** Auth service. */
 @Injectable({ providedIn: 'root' })
@@ -21,8 +20,6 @@ export class AuthService {
 
 	private readonly cookieService = inject(CookieService);
 
-	private readonly navigationService = inject(NavigationService);
-
 	/**
 	 * Register user.
 	 * @param credentials - Credentials.
@@ -32,7 +29,6 @@ export class AuthService {
 		return this.httpClient.post<TokensDto>(registerUrl, RegisterCredentialsMapper.toDto(credentials)).pipe(
 			tap(value => {
 				this.saveTokens(value.access, value.refresh);
-				this.navigationService.navigate('');
 			}),
 		);
 	}
@@ -46,7 +42,6 @@ export class AuthService {
 		return this.httpClient.post<TokensDto>(loginUrl, LoginCredentialsMapper.toDto(credentials)).pipe(
 			tap(value => {
 				this.saveTokens(value.access, value.refresh);
-				this.navigationService.navigate('');
 			}),
 		);
 	}

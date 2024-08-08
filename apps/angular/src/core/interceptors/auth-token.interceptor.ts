@@ -90,8 +90,9 @@ type HandleRefreshData = {
  * Do refreshing and repeat request.
  * @param handleRefreshData - Handle refresh data.
  */
-function handleRefresh(handleRefreshData: HandleRefreshData): Observable<HttpEvent<unknown>> {
-	const { authService, cookieService, request, next, refreshToken, isRefreshing } = handleRefreshData;
+function handleRefresh(
+	{ authService, cookieService, request, next, refreshToken, isRefreshing }: HandleRefreshData,
+): Observable<HttpEvent<unknown>> {
 	if (!isRefreshing) {
 		IS_REFRESHING$.next(true);
 		return authService.refreshToken(refreshToken).pipe(

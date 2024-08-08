@@ -7,12 +7,13 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ValidationService } from '@js-camp/angular/core/services/validation.service';
-import { BehaviorSubject, catchError, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpErrors } from '@js-camp/angular/core/models/http-errors';
 
 import { CurrentForm } from '@js-camp/angular/shared/constants/current-auth-form-enum';
 import { CURRENT_AUTH_FORM$ } from '@js-camp/angular/shared/constants/current-auth-form';
+import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 
 import { ErrorComponent } from '../error/error.component';
 
@@ -35,6 +36,8 @@ import { ErrorComponent } from '../error/error.component';
 })
 export class LoginFormComponent implements OnInit {
 	private readonly authService = inject(AuthService);
+
+	private readonly navigationService = inject(NavigationService);
 
 	private readonly destroyReference = inject(DestroyRef);
 
@@ -61,6 +64,7 @@ export class LoginFormComponent implements OnInit {
 			this.authService
 				.login(credentials)
 				.pipe(
+					tap(() => this.navigationService.navigate('')),
 					takeUntilDestroyed(this.destroyReference),
 					catchError((error: unknown) => {
 						const httpError = error as HttpErrorResponse;
