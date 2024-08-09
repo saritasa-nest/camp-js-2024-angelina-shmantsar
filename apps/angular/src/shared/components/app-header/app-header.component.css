@@ -36,7 +36,7 @@
 .app-title {
 	font-size: var(--font-size-lg);
 	font-weight: var(--font-weight-regular);
-	font-family: Megrim, system-ui;
+	font-family: var(--app-title-font-family);
 }
 
 .login-button {
@@ -44,5 +44,5 @@
 	color: var(--anime-primary-dark-color);
 	font-size: var(--login-button-font-size);
 	box-shadow: 0 0;
-	font-family: Manrope, sans-serif;
+	font-family: var(--main-anime-font-family);
 }

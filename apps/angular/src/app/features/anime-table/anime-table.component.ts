@@ -203,7 +203,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 				takeUntilDestroyed(this.destroyReference),
 			)
 			.subscribe(value => {
-				this.dataSource = new MatTableDataSource(value as Anime[]);
+				this.dataSource = new MatTableDataSource([...value]);
 			});
 	}
 }

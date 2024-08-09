@@ -17,6 +17,10 @@
 	--font-weight-regular: 400;
 	--font-weight-medium: 500;
 
+	/* Font families */
+	--main-anime-font-family: manrope, sans-serif;
+	--app-title-font-family: megrim, system-ui;
+
 	/* Colors */
 	--anime-primary-dark-color: rgb(0 49 106);
 	--anime-primary-dark-color-disabled: rgb(0 49 106 / 50%);

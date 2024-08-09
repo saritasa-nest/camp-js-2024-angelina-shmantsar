@@ -19,7 +19,3 @@
 .search-title {
 	color: var(--anime-primary-dark-color);
 }
-
-::placeholder {
-	color: var(--anime-primary-dark-color-disabled) !important;
-}

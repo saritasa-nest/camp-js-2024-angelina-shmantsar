@@ -29,6 +29,10 @@ div.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focu
 	border-color: var(--anime-primary-dark-color);
 }
 
+input.mat-mdc-form-field-input-control.mdc-text-field__input.cdk-text-field-autofill-monitored::placeholder {
+	color: var(--anime-primary-dark-color-disabled);
+}
+
 /* Sort header */
 
 .mat-sort-header-arrow {
