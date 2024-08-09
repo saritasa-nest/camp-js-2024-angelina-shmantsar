@@ -88,7 +88,7 @@ export class RegistrationFormComponent implements OnInit {
 		required: 'This field is required',
 		email: 'This field should be valid email',
 		minLength: 'The password must be at least 8 characters long',
-		mismatch: 'Passwords must match',
+		mismatch: 'The passwords must match',
 		weakPassword: 'Check password. It must contain numeric and alphabetic symbols',
 	};
 
