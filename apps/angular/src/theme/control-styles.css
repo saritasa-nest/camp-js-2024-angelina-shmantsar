@@ -35,7 +35,7 @@ input.mat-mdc-form-field-input-control.mdc-text-field__input.cdk-text-field-auto
 
 /* Sort header */
 
-.mat-sort-header-arrow {
+div.mat-sort-header-arrow {
 	color: var(--anime-primary-dark-color);
 }
 

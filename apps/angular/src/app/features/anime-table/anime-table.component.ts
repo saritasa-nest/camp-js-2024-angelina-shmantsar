@@ -18,6 +18,8 @@ import { NavigationService } from '@js-camp/angular/core/services/navigation.ser
 import { DATE_FORMAT } from '@js-camp/angular/shared/constants/date-format';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AnimeManagementParamsMapper } from '@js-camp/angular/core/mappers/anime-management-params.mapper';
+import { SortParamsMapper } from '@js-camp/angular/core/mappers/sort-params.mapper';
+import { SortParams } from '@js-camp/angular/core/models/sort-params';
 
 import { SearchFormComponent } from '../search-form/search-form.component';
 import { AnimeTypeFilterComponent } from '../anime-type-filter/anime-type-filter.component';
@@ -31,12 +33,6 @@ enum ColumnKey {
 	Type = 'type',
 	Status = 'status',
 }
-
-const COLUMN_TO_QUERY_PARAM: Readonly<Record<string, string>> = {
-	airedStart: 'aired__startswith',
-	titleEnglish: 'title_eng',
-	status: 'status',
-};
 
 /** Anime table component. */
 @Component({
@@ -158,12 +154,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 
 		this.sort.sortChange
 			.pipe(takeUntilDestroyed(this.destroyReference))
-			.subscribe(() =>
-				this.ordering.set(
-					this.sort.direction === 'asc' ?
-						COLUMN_TO_QUERY_PARAM[this.sort.active] :
-						`-${COLUMN_TO_QUERY_PARAM[this.sort.active]}`,
-				));
+			.subscribe(() => this.ordering.set(SortParamsMapper.toDto(this.sort.active as SortParams, this.sort.direction)));
 	}
 
 	/** @inheritdoc */
