@@ -31,7 +31,7 @@ export class AnimeTypeFilterComponent implements OnInit {
 
 	/** Filter values emitter. */
 	@Output()
-	public readonly filter = new EventEmitter<readonly AnimeType[] | null>();
+	public readonly filter = new EventEmitter<readonly AnimeType[]>();
 
 	private readonly destroyReference = inject(DestroyRef);
 
@@ -57,6 +57,6 @@ export class AnimeTypeFilterComponent implements OnInit {
 			.pipe(
 				takeUntilDestroyed(this.destroyReference),
 			)
-			.subscribe(value => this.filter.emit(value));
+			.subscribe(value => this.filter.emit(value ?? []));
 	}
 }

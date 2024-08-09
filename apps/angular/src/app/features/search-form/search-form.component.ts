@@ -27,7 +27,7 @@ export class SearchFormComponent implements OnInit {
 	@Input() public value: string | null = null;
 
 	/** Search value. */
-	@Output() public readonly searchValueEmitter = new EventEmitter<string | null>();
+	@Output() public readonly searchValueEmitter = new EventEmitter<string>();
 
 	/** Form. */
 	protected readonly searchControl = new FormControl<string | null>(this.value);
@@ -43,6 +43,6 @@ export class SearchFormComponent implements OnInit {
 	 */
 	protected onSubmit(event: Event): void {
 		event.preventDefault();
-		this.searchValueEmitter.emit(this.searchControl.value);
+		this.searchValueEmitter.emit(this.searchControl.value ?? '');
 	}
 }

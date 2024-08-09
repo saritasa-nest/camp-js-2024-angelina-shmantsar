@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { AfterViewInit, Component, DestroyRef, OnInit, ViewChild, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild, inject, signal } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -8,7 +8,7 @@ import { Pagination } from '@js-camp/angular/core/models/pagination';
 import { TableColumn } from '@js-camp/angular/core/models/table-column';
 import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
-import { Observable, catchError, debounceTime, map, merge, of, startWith, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, debounceTime, map, merge, of, startWith, switchMap, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AnimeManagementParams } from '@js-camp/angular/core/models/anime-management-params';
 import { AnimeType } from '@js-camp/angular/core/models/anime-type';
@@ -50,7 +50,15 @@ enum ColumnKey {
 		AnimeTypeFilterComponent,
 	],
 })
-export class AnimeTableComponent implements OnInit, AfterViewInit {
+export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
+	/** Search value. */
+	@Input()
+	public search = '';
+
+	/** Filter value. */
+	@Input()
+	public filter: readonly AnimeType[] = [];
+
 	private readonly animeService = inject(AnimeService);
 
 	private readonly activatedRoute = inject(ActivatedRoute);
@@ -63,13 +71,12 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 
 	private readonly pageSize = signal(25);
 
-	/** Search input value. */
-	protected readonly search = signal<string | null>(null);
-
 	private readonly ordering = signal<string | null>(null);
 
+	private readonly search$ = new BehaviorSubject('');
+
 	/** Select filter values. */
-	protected readonly filter = signal<readonly AnimeType[]>([]);
+	protected readonly filter$ = new BehaviorSubject<AnimeType[]>([]);
 
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
@@ -108,12 +115,6 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 	@ViewChild(MatSort)
 	private readonly sort!: MatSort;
 
-	@ViewChild(SearchFormComponent)
-	private readonly searchForm!: SearchFormComponent;
-
-	@ViewChild(AnimeTypeFilterComponent)
-	private readonly typeFilter!: AnimeTypeFilterComponent;
-
 	private getAnimeList(params: AnimeManagementParams): Observable<Pagination<Anime>> {
 		this.navigationService.navigate('', AnimeManagementParamsMapper.toDto(params));
 		return this.animeService.getPaginatedAnime(params);
@@ -125,9 +126,9 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 				tap(value => {
 					this.pageSize.set(value['limit']);
 					this.pageNumber.set(Math.round(value['offset'] / this.pageSize()));
-					this.search.set(value['search']);
+					this.search = value['search'] ?? '';
 					this.ordering.set(value['ordering']);
-					this.filter.set(value['type__in']?.split(',').map((type: AnimeTypeDto) => AnimeTypeMapper.fromDto(type)));
+					this.filter$.next(value['type__in']?.split(',').map((type: AnimeTypeDto) => AnimeTypeMapper.fromDto(type)));
 				}),
 				takeUntilDestroyed(this.destroyReference),
 			)
@@ -140,26 +141,56 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 			this.pageSize.set(this.paginator.pageSize);
 		});
 
-		this.searchForm.searchValueEmitter.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(value => {
-			this.paginator.pageIndex = 0;
-			this.pageNumber.set(0);
-			this.search.set(value);
-		});
-
-		this.typeFilter.filter.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(value => {
-			this.paginator.pageIndex = 0;
-			this.pageNumber.set(0);
-			this.filter.set(value && value?.length > 0 ? value : []);
-		});
+		// this.typeFilter.filter.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(value => {
+		// 	this.paginator.pageIndex = 0;
+		// 	this.pageNumber.set(0);
+		// 	this.filter.set(value && value?.length > 0 ? value : []);
+		// });
 
 		this.sort.sortChange
 			.pipe(takeUntilDestroyed(this.destroyReference))
 			.subscribe(() => this.ordering.set(SortParamsMapper.toDto(this.sort.active as SortParams, this.sort.direction)));
 	}
 
+	private getSearchValue(): string | null {
+		let search: string | null = null;
+		this.search$
+			.pipe(takeUntilDestroyed(this.destroyReference))
+			.subscribe(value => {
+				search = value;
+			});
+		return search;
+	}
+
+	private getFilterValue(): readonly AnimeType[] {
+		let filter: readonly AnimeType[] = [];
+		this.filter$
+			.pipe(takeUntilDestroyed(this.destroyReference))
+			.subscribe(value => {
+				filter = value;
+			});
+		return filter;
+	}
+
 	/** @inheritdoc */
 	public ngOnInit(): void {
 		this.getQueryParams();
+	}
+
+	/** @inheritdoc */
+	public ngOnChanges(changes: SimpleChanges): void {
+		if (this.paginator) {
+			this.paginator.pageIndex = 0;
+			this.pageNumber.set(0);
+		}
+		const searchValue = changes['search']?.currentValue;
+		const filterValue = changes['filter']?.currentValue;
+		if (searchValue) {
+			this.search$.next(searchValue);
+		}
+		if (filterValue.length) {
+			this.filter$.next(filterValue);
+		}
 	}
 
 	/** @inheritdoc */
@@ -171,17 +202,17 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 
 		this.subscribeToControls();
 
-		merge(this.typeFilter.filter, this.searchForm.searchValueEmitter, this.sort.sortChange, this.paginator.page)
+		merge(this.sort.sortChange, this.paginator.page, this.search$)
 			.pipe(
 				debounceTime(500),
-				startWith({}),
+				startWith(null),
 				switchMap(() =>
 					this.getAnimeList({
 						pageSize: this.pageSize(),
 						pageNumber: this.pageNumber(),
 						ordering: this.ordering() ?? undefined,
-						search: this.search() ?? undefined,
-						types: this.filter(),
+						search: this.getSearchValue() ?? undefined,
+						types: this.getFilterValue(),
 					}).pipe(catchError(() => of(null)))),
 				map(value => {
 					if (value == null) {
