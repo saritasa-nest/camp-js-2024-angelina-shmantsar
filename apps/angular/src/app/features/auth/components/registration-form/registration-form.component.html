@@ -5,7 +5,7 @@
 >
 	<h2 class="title">Register</h2>
 	@if (registrationForm.errors?.['passwordMismatch'] && (registrationForm.touched || registrationForm.dirty)) {
-		<camp-error [errorMessage]="errorMessages.passwordMismatch" />
+		<camp-error [errorMessage]="errorMessages.mismatch" />
 	}
 	@if ((hasPasswordError$ | async)) {
 		<camp-error [errorMessage]="errorMessages.weakPassword" />
