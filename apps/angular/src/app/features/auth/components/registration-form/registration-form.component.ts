@@ -3,7 +3,7 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationService } from '@js-camp/angular/core/services/validation.service';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -17,6 +17,25 @@ import { CurrentForm } from '@js-camp/angular/shared/constants/current-auth-form
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 
 import { ErrorComponent } from '../error/error.component';
+
+/** Registration form. */
+type RegistrationForm = {
+
+	/** Email. */
+	readonly email: FormControl<string>;
+
+	/** First name. */
+	readonly firstName: FormControl<string>;
+
+	/** Last name. */
+	readonly lastName: FormControl<string>;
+
+	/** Password. */
+	readonly password: FormControl<string>;
+
+	/** Retyped password. */
+	readonly retypedPassword: FormControl<string>;
+};
 
 /** Registration form component. */
 @Component({
@@ -50,7 +69,7 @@ export class RegistrationFormComponent implements OnInit {
 	private readonly currentAuthForm$ = CURRENT_AUTH_FORM$;
 
 	/** Registration form. */
-	protected readonly registrationForm = this.formBuilder.nonNullable.group(
+	protected readonly registrationForm: FormGroup<RegistrationForm> = this.formBuilder.nonNullable.group(
 		{
 			email: ['', [Validators.required, Validators.email]],
 			firstName: ['', Validators.required],
@@ -63,6 +82,20 @@ export class RegistrationFormComponent implements OnInit {
 
 	/** Has password error (password is weak). */
 	protected readonly hasPasswordError$ = new BehaviorSubject(false);
+
+	/** Error messages. */
+	protected readonly errorMessages = {
+		required: 'This field is required',
+		email: 'This field should be valid email',
+		minLength: 'The password must be at least 8 characters long',
+		passwordMismatch: 'Passwords must match',
+		weakPassword: 'Check password. It must contain numeric and alphabetic symbols',
+	};
+
+	/** Form controls. */
+	protected get controls(): RegistrationForm {
+		return this.registrationForm.controls;
+	}
 
 	/** On form change. */
 	protected onFormChange(): void {

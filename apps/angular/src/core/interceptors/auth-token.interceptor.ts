@@ -25,7 +25,7 @@ export function authTokenInterceptor(req: HttpRequest<unknown>, next: HttpHandle
 
 	let isRefreshing = false;
 
-	if (accessToken !== null && accessToken.length === 0) {
+	if (accessToken === null || accessToken.length === 0) {
 		return next(req);
 	}
 

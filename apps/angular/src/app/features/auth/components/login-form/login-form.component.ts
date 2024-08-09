@@ -3,7 +3,7 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ValidationService } from '@js-camp/angular/core/services/validation.service';
@@ -16,6 +16,16 @@ import { CURRENT_AUTH_FORM$ } from '@js-camp/angular/shared/constants/current-au
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 
 import { ErrorComponent } from '../error/error.component';
+
+/** Login form. */
+type LoginForm = {
+
+	/** Email. */
+	readonly email: FormControl<string>;
+
+	/** Password. */
+	readonly password: FormControl<string>;
+};
 
 /** Login form component. */
 @Component({
@@ -52,7 +62,7 @@ export class LoginFormComponent implements OnInit {
 	protected readonly hasLoginError$ = new BehaviorSubject(false);
 
 	/** Login form. */
-	protected readonly loginForm = this.formBuilder.nonNullable.group({
+	protected readonly loginForm: FormGroup<LoginForm> = this.formBuilder.nonNullable.group({
 		email: ['', [Validators.required, Validators.email]],
 		password: ['', Validators.required],
 	});
@@ -60,18 +70,13 @@ export class LoginFormComponent implements OnInit {
 	/** Error messages. */
 	protected readonly errorMessages = {
 		loginError: 'No active account found with given credentials',
-		email$: new BehaviorSubject(''),
-		password$: new BehaviorSubject(''),
+		required: 'This field is required',
+		email: 'This field should be valid email',
 	};
 
-	/** 'email' control. */
-	protected get email(): FormControl<string> {
-		return this.loginForm.controls.email;
-	}
-
-	/** 'password' control. */
-	protected get password(): FormControl<string> {
-		return this.loginForm.controls.password;
+	/** Form controls. */
+	protected get controls(): LoginForm {
+		return this.loginForm.controls;
 	}
 
 	/** On submit. */
@@ -100,34 +105,10 @@ export class LoginFormComponent implements OnInit {
 		this.currentAuthForm$.next(CurrentForm.Register);
 	}
 
-	private updateEmailError(): void {
-		const emailControl = this.loginForm.controls.email;
-		if (emailControl.hasError('required')) {
-			this.errorMessages.email$.next('This field is required');
-		} else if (emailControl.hasError('email')) {
-			this.errorMessages.email$.next('This field should be valid email');
-		} else {
-			this.errorMessages.email$.next('');
-		}
-	}
-
-	private updatePasswordError(): void {
-		const passwordControl = this.loginForm.controls.password;
-		if (passwordControl.hasError('required')) {
-			this.errorMessages.password$.next('This field is required');
-		} else if (passwordControl.hasError('email')) {
-			this.errorMessages.password$.next('The password must be at least 8 characters long');
-		} else {
-			this.errorMessages.password$.next('');
-		}
-	}
-
 	/** @inheritdoc */
 	public ngOnInit(): void {
 		this.loginForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
 			this.hasLoginError$.next(false);
-			this.updateEmailError();
-			this.updatePasswordError();
 		});
 	}
 }

@@ -5,12 +5,17 @@
 >
 	<h2 class="title">Register</h2>
 	@if (registrationForm.errors?.['passwordMismatch'] && (registrationForm.touched || registrationForm.dirty)) {
-	<mat-error class="error">Passwords must match</mat-error>
+		<camp-error [errorMessage]="errorMessages.passwordMismatch" />
 	}
 	@if ((hasPasswordError$ | async)) {
-	<mat-error class="error">Check password. It must contain numeric and alphabetic symbols</mat-error>
+		<camp-error [errorMessage]="errorMessages.weakPassword" />
 	}
-	<camp-error />
+	@if (validationService.hasError(controls.email, 'required')) {
+		<camp-error [errorMessage]="errorMessages.required" />
+	}
+	@if (validationService.hasError(controls.email, 'email')) {
+		<camp-error [errorMessage]="errorMessages.email" />
+	}
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Email</mat-label>
 		<input
@@ -20,7 +25,9 @@
 			formControlName="email"
 		/>
 	</mat-form-field>
-	<camp-error></camp-error>
+	@if (validationService.hasError(controls.firstName, 'required')) {
+		<camp-error [errorMessage]="errorMessages.required" />
+	}
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">First name</mat-label>
 		<input
@@ -30,7 +37,9 @@
 			formControlName="firstName"
 		/>
 	</mat-form-field>
-	<camp-error></camp-error>
+	@if (validationService.hasError(controls.lastName, 'required')) {
+		<camp-error [errorMessage]="errorMessages.required" />
+	}
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Last name</mat-label>
 		<input
@@ -40,7 +49,12 @@
 			formControlName="lastName"
 		/>
 	</mat-form-field>
-	<camp-error></camp-error>
+	@if (validationService.hasError(controls.password, 'required')) {
+		<camp-error [errorMessage]="errorMessages.required" />
+	}
+	@if (validationService.hasError(controls.password, 'minlength')) {
+		<camp-error [errorMessage]="errorMessages.minLength" />
+	}
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Password</mat-label>
 		<input
@@ -50,7 +64,9 @@
 			formControlName="password"
 		/>
 	</mat-form-field>
-	<camp-error></camp-error>
+	@if (validationService.hasError(controls.retypedPassword, 'required')) {
+		<camp-error [errorMessage]="errorMessages.required" />
+	}
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Retyped password</mat-label>
 		<input
