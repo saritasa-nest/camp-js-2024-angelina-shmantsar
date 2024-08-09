@@ -12,6 +12,17 @@ const FROM_DTO: Readonly<Record<AnimeTypeDto, AnimeType>> = {
 	[AnimeTypeDto.Unknown]: AnimeType.Unknown,
 };
 
+const TO_DTO: Readonly<Record<AnimeType, AnimeTypeDto>> = {
+	[AnimeType.Tv]: AnimeTypeDto.Tv,
+	[AnimeType.Ova]: AnimeTypeDto.Ova,
+	[AnimeType.Movie]: AnimeTypeDto.Movie,
+	[AnimeType.Special]: AnimeTypeDto.Special,
+	[AnimeType.Ona]: AnimeTypeDto.Ona,
+	[AnimeType.Music]: AnimeTypeDto.Music,
+	[AnimeType.PromotionalVideos]: AnimeTypeDto.PromotionalVideos,
+	[AnimeType.Unknown]: AnimeTypeDto.Unknown,
+};
+
 export namespace AnimeTypeMapper {
 
 	/**
@@ -20,5 +31,14 @@ export namespace AnimeTypeMapper {
 	 */
 	export function fromDto(dto: AnimeTypeDto): AnimeType {
 		return FROM_DTO[dto];
+	}
+
+	/**
+	 * Maps model to dto.
+	 * @param model Anime model.
+	 * @returns
+	 */
+	export function toDto(model: AnimeType): AnimeTypeDto {
+		return TO_DTO[model];
 	}
 }

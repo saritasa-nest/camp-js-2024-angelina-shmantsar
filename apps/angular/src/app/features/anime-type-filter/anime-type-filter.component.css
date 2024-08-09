@@ -1,0 +1,11 @@
+:host {
+	display: block;
+}
+
+.mat-label {
+	color: var(--anime-primary-dark-color);
+}
+
+.mat-option {
+	color: var(--anime-primary-dark-color);
+}
