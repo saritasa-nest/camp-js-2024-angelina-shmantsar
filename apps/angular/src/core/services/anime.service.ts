@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
@@ -12,6 +12,7 @@ import { AnimePaginationMapper } from '../mappers/anime-pagination.mapper';
 import { Pagination } from '../models/pagination';
 import { AnimeManagementParams } from '../models/anime-management-params';
 import { AnimeManagementParamsMapper } from '../mappers/anime-management-params.mapper';
+import { composeHttpParams } from '../utils/compose-http-params';
 
 import { ApiUrlService } from './api-url.service';
 
@@ -27,7 +28,7 @@ export class AnimeService {
 	 * @param params - Params.
 	 * */
 	public getPaginatedAnime(params: AnimeManagementParams): Observable<Pagination<Anime>> {
-		const queryParams: HttpParams = JSON.parse(JSON.stringify(AnimeManagementParamsMapper.toDto(params)));
+		const queryParams = composeHttpParams(AnimeManagementParamsMapper.toDto(params));
 		const animeListUrl = this.urlService.anime.list;
 		return this.httpClient
 			.get<PaginationDto<AnimeDto>>(animeListUrl, { params: queryParams })
