@@ -4,13 +4,25 @@ div.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline
 	border-color: var(--anime-primary-dark-color);
 }
 
+div.mdc-text-field--outlined.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-notched-outline__leading {
+	border-color: var(--error-color);
+}
+
 div.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch {
 	border-color: var(--anime-primary-dark-color);
 	border-left: none;
 }
 
+div.mdc-text-field--outlined.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-notched-outline__notch {
+	border-color: var(--error-color);
+}
+
 div.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
 	border-color: var(--anime-primary-dark-color);
+}
+
+div.mdc-text-field--outlined.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+	border-color: var(--error-color);
 }
 
 .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-floating-label {
@@ -38,6 +50,11 @@ div.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focu
 /* Input */
 
 .mat-mdc-input-element.search-input.mat-mdc-form-field-input-control.mdc-text-field__input {
+	color: var(--anime-primary-dark-color);
+	caret-color: var(--anime-primary-dark-color);
+}
+
+.mat-mdc-input-element.mat-mdc-form-field-input-control.mdc-text-field__input.cdk-text-field-autofill-monitored {
 	color: var(--anime-primary-dark-color);
 	caret-color: var(--anime-primary-dark-color);
 }
@@ -102,4 +119,25 @@ svg.mat-mdc-paginator-icon {
 
 .mat-mdc-paginator .mat-mdc-select {
 	color: var(--anime-primary-dark-color);
+}
+
+/* Auth form */
+
+.submit-button.mdc-button.mdc-button--unelevated.mat-mdc-unelevated-button.mat-unthemed.mat-mdc-button-base {
+	background-color: var(--anime-primary-dark-color);
+	color: var(--anime-accent-light-color);
+	border-color: var(--anime-primary-dark-color);
+}
+
+.form-change-button.mdc-button.mdc-button--outlined.mat-mdc-outlined-button.mat-unthemed.mat-mdc-button-base {
+	color: var(--anime-primary-dark-color);
+	border-color: var(--anime-primary-light-color);
+}
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-floating-label .field-title {
+	color: var(--anime-primary-dark-color);
+}
+
+input.mat-mdc-form-field-input-control.mdc-text-field__input.cdk-text-field-autofill-monitored::placeholder {
+	color: var(--anime-primary-dark-color-disabled);
 }

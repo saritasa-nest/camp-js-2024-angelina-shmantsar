@@ -97,6 +97,10 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 	/** Page size. */
 	protected readonly pageSizes = [25, 50, 100];
 
+	private readonly defaultPageSize = 25;
+
+	private readonly defaultPageNumber = 0;
+
 	/** Total count. */
 	protected totalCount = 0;
 
@@ -127,8 +131,8 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
 		this.activatedRoute.queryParams
 			.pipe(
 				tap(value => {
-					this.pageSize.set(value['limit']);
-					this.pageNumber.set(Math.round(value['offset'] / this.pageSize()));
+					this.pageSize.set(value['limit'] ?? this.defaultPageSize);
+					this.pageNumber.set(Math.round((value['offset'] ?? this.defaultPageNumber) / this.pageSize()));
 					this.search.set(value['search']);
 					this.ordering.set(value['ordering']);
 					this.filter.set(value['type__in']?.split(',').map((type: AnimeTypeDto) => AnimeTypeMapper.fromDto(type)));

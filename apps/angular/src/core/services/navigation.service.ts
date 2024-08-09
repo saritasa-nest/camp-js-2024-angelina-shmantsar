@@ -10,19 +10,19 @@ export class NavigationService {
 
 	private readonly activatedRoute = inject(ActivatedRoute);
 
-	private readonly destroyReference = inject(DestroyRef);
+	private readonly destroyRef = inject(DestroyRef);
 
 	/**
 	 * Navigate to endpoint.
-	 * @param endpoint Endpoint.
-	 * @param params Query params.
+	 * @param endpoint - Endpoint.
+	 * @param params - Query params.
 	 */
 	public navigate(endpoint: string, params?: Readonly<Record<string, string>>): void {
 		this.activatedRoute.queryParams.pipe(
 			tap(() => this.router.navigate([endpoint], {
 				queryParams: params,
 			})),
-			takeUntilDestroyed(this.destroyReference),
+			takeUntilDestroyed(this.destroyRef),
 		).subscribe();
 	}
 }

@@ -14,6 +14,13 @@ export class ApiUrlService {
 		list: this.constructUrl('anime/anime/'),
 	};
 
+	/** List of auth endpoints. */
+	public readonly auth = {
+		login: this.constructUrl('auth/login/'),
+		register: this.constructUrl('auth/register/'),
+		tokenRefresh: this.constructUrl('auth/token/refresh/'),
+	};
+
 	private constructUrl(endpoint: string): string {
 		return `${this.baseApiUrl}${endpoint}`;
 	}
