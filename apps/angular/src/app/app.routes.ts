@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { MainPageComponent } from './pages/main-page.component';
 
 /** Routes object. */
 export const appRoutes: Routes = [
@@ -10,7 +11,7 @@ export const appRoutes: Routes = [
 			{
 				path: '',
 				loadComponent: () =>
-					import('./features/anime-table/anime-table.component').then(value => value.AnimeTableComponent),
+					import('./pages/main-page.component').then(value => value.MainPageComponent),
 			},
 		],
 	},

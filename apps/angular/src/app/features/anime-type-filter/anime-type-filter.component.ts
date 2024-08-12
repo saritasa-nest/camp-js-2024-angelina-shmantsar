@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { AnimeType } from '@js-camp/angular/core/models/anime-type';
@@ -25,18 +25,19 @@ type FilterOption = {
 	styleUrl: './anime-type-filter.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeTypeFilterComponent implements OnInit {
+export class AnimeTypeFilterComponent implements OnInit, OnChanges {
 	/** Filter values. */
-	@Input() public values: readonly AnimeType[] = [];
+	@Input()
+	public types: readonly AnimeType[] = [];
 
 	/** Filter values emitter. */
 	@Output()
-	public readonly filter = new EventEmitter<readonly AnimeType[] | null>();
+	public readonly filterValueEmitter = new EventEmitter<readonly AnimeType[]>();
 
-	private readonly destroyReference = inject(DestroyRef);
+	private readonly destroyRef = inject(DestroyRef);
 
 	/** Filter control. */
-	protected readonly filterControl = new FormControl<readonly AnimeType[]>(this.values);
+	protected readonly filterControl = new FormControl<readonly AnimeType[]>(this.types);
 
 	/** Filter options. */
 	protected readonly filterOptions: readonly FilterOption[] = [
@@ -52,11 +53,16 @@ export class AnimeTypeFilterComponent implements OnInit {
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.filterControl.patchValue(this.values);
+		this.filterControl.patchValue(this.types);
 		this.filterControl.valueChanges
 			.pipe(
-				takeUntilDestroyed(this.destroyReference),
+				takeUntilDestroyed(this.destroyRef),
 			)
-			.subscribe(value => this.filter.emit(value));
+			.subscribe(value => this.filterValueEmitter.emit(value ?? []));
+	}
+
+	/** @inheritdoc */
+	public ngOnChanges(changes: SimpleChanges): void {
+		this.filterControl.patchValue(changes['types'].currentValue);
 	}
 }

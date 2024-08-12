@@ -10,12 +10,13 @@ export namespace AnimeManagementParamsMapper {
 	 * @param model - Model.
 	 */
 	export function toDto(model: AnimeManagementParams): AnimeManagementParamsDto {
+		const types = model.types?.map(item => AnimeTypeMapper.toDto(item)).join(',');
 		return {
 			limit: model.pageSize.toString(),
 			offset: (model.pageNumber * model.pageSize).toString(),
 			ordering: model.ordering,
 			search: model.search,
-			type__in: model.types?.map(item => AnimeTypeMapper.toDto(item)).join(','),
+			type__in: types.length > 0 ? types : undefined,
 		};
 	}
 }
