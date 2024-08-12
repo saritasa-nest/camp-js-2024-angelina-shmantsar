@@ -2,7 +2,7 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 import { AfterViewInit, Component, DestroyRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { Anime } from '@js-camp/angular/core/models/anime';
 import { Pagination } from '@js-camp/angular/core/models/pagination';
 import { TableColumn } from '@js-camp/angular/core/models/table-column';
@@ -110,7 +110,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 	protected readonly columnKey = ColumnKey;
 
 	/** Data source. */
-	protected dataSource = new MatTableDataSource<Anime>();
+	protected animeList$ = new Observable<readonly Anime[]>();
 
 	/** Page size. */
 	protected readonly pageSizes = [25, 50, 100];
@@ -188,14 +188,12 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 
 	/** @inheritdoc */
 	public ngAfterViewInit(): void {
-		this.dataSource.paginator = this.paginator;
-		this.dataSource.sort = this.sort;
 		this.paginator.pageSize = this.getSubjectValue(this.pageSize$) ?? INITIAL_PAGE_SIZE;
 		this.paginator.pageIndex = this.getSubjectValue(this.pageNumber$) ?? 0;
 
 		this.subscribeToControls();
 
-		merge(this.sort.sortChange, this.paginator.page, this.search$, this.filter$)
+		this.animeList$ = merge(this.sort.sortChange, this.paginator.page, this.search$, this.filter$)
 			.pipe(
 				debounceTime(DEBOUNCE_TIME),
 				startWith(null),
@@ -227,9 +225,6 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 					return value.results;
 				}),
 				takeUntilDestroyed(this.destroyRef),
-			)
-			.subscribe(value => {
-				this.dataSource = new MatTableDataSource([...value]);
-			});
+			);
 	}
 }

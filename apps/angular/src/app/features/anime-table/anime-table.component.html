@@ -1,7 +1,7 @@
 @if (hasFetchingError$ | async) {
 	<h2 class="error">Fetching error occurred!</h2>
 } @else {
-	<table mat-table [dataSource]="dataSource" class="anime-table" matSort matSortDisableClear>
+	<table mat-table [dataSource]="(animeList$ | async) ?? []" class="anime-table" matSort matSortDisableClear>
 		@for (column of displayedColumns; track $index) {
 			<ng-container [matColumnDef]="column.key">
 				@if (sortableFields.includes(column.key)) {
