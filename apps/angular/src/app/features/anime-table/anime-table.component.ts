@@ -176,14 +176,30 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 
 	/** @inheritdoc */
 	public ngOnChanges(changes: SimpleChanges): void {
-		const searchValue = changes['search']?.currentValue;
-		const filterValue = changes['filter']?.currentValue;
-		if (searchValue != null) {
-			this.search$.next(searchValue);
+		const previousSearchValue = changes['search']?.previousValue;
+		const currentSearchValue = changes['search']?.currentValue;
+		if (previousSearchValue !== currentSearchValue) {
+			this.search$.next(currentSearchValue);
+			this.pageNumber$.next(0);
 		}
-		if (filterValue?.length) {
-			this.filter$.next(filterValue);
+		const previousFilterValue = changes['filter']?.previousValue;
+		const currentFilterValue = changes['filter']?.currentValue;
+		if (this.isFiltersChange(previousFilterValue, currentFilterValue)) {
+			this.filter$.next(currentFilterValue);
+			this.pageNumber$.next(0);
 		}
+	}
+
+	private isFiltersChange(previous: string[] | null, current: string[] | null): boolean {
+		if (previous == null || current == null || previous.length !== current.length) {
+			return true;
+		}
+		for (let i = 0; i < current.length; i++) {
+			if (current[i] !== previous[i]) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/** @inheritdoc */
