@@ -3,8 +3,9 @@ import {
 	Component,
 	EventEmitter,
 	Input,
-	OnInit,
+	OnChanges,
 	Output,
+	SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -22,27 +23,28 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 	styleUrl: './search-form.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchFormComponent implements OnInit {
+export class SearchFormComponent implements OnChanges {
 	/** Value of search input. */
-	@Input() public value: string | null = null;
+	@Input()
+	public value = '';
 
 	/** Search value. */
-	@Output() public readonly searchValueEmitter = new EventEmitter<string>();
+	@Output()
+	public readonly searchValueEmitter = new EventEmitter<string>();
 
 	/** Form. */
-	protected readonly searchControl = new FormControl<string | null>(this.value);
+	protected readonly searchControl = new FormControl<string>(this.value);
 
 	/** @inheritdoc */
-	public ngOnInit(): void {
-		this.searchControl.patchValue(this.value);
+	public ngOnChanges(changes: SimpleChanges): void {
+		this.searchControl.patchValue(changes['value'].currentValue);
 	}
 
 	/**
 	 * Form submit.
 	 * @param event - Event.
 	 */
-	protected onSubmit(event: Event): void {
-		event.preventDefault();
+	protected onSubmit(): void {
 		this.searchValueEmitter.emit(this.searchControl.value ?? '');
 	}
 }
