@@ -34,7 +34,7 @@ export class AnimeTypeFilterComponent implements OnInit, OnChanges {
 	@Output()
 	public readonly filterValueEmitter = new EventEmitter<readonly AnimeType[]>();
 
-	private readonly destroyReference = inject(DestroyRef);
+	private readonly destroyRef = inject(DestroyRef);
 
 	/** Filter control. */
 	protected readonly filterControl = new FormControl<readonly AnimeType[]>(this.types);
@@ -56,7 +56,7 @@ export class AnimeTypeFilterComponent implements OnInit, OnChanges {
 		this.filterControl.patchValue(this.types);
 		this.filterControl.valueChanges
 			.pipe(
-				takeUntilDestroyed(this.destroyReference),
+				takeUntilDestroyed(this.destroyRef),
 			)
 			.subscribe(value => this.filterValueEmitter.emit(value ?? []));
 	}
