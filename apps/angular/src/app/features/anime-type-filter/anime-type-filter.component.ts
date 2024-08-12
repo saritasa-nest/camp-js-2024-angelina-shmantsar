@@ -28,7 +28,7 @@ type FilterOption = {
 export class AnimeTypeFilterComponent implements OnInit, OnChanges {
 	/** Filter values. */
 	@Input()
-	public values: readonly AnimeType[] = [];
+	public types: readonly AnimeType[] = [];
 
 	/** Filter values emitter. */
 	@Output()
@@ -37,7 +37,7 @@ export class AnimeTypeFilterComponent implements OnInit, OnChanges {
 	private readonly destroyReference = inject(DestroyRef);
 
 	/** Filter control. */
-	protected readonly filterControl = new FormControl<readonly AnimeType[]>(this.values);
+	protected readonly filterControl = new FormControl<readonly AnimeType[]>(this.types);
 
 	/** Filter options. */
 	protected readonly filterOptions: readonly FilterOption[] = [
@@ -53,7 +53,7 @@ export class AnimeTypeFilterComponent implements OnInit, OnChanges {
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.filterControl.patchValue(this.values);
+		this.filterControl.patchValue(this.types);
 		this.filterControl.valueChanges
 			.pipe(
 				takeUntilDestroyed(this.destroyReference),
@@ -63,6 +63,6 @@ export class AnimeTypeFilterComponent implements OnInit, OnChanges {
 
 	/** @inheritdoc */
 	public ngOnChanges(changes: SimpleChanges): void {
-		this.filterControl.patchValue(changes['values'].currentValue);
+		this.filterControl.patchValue(changes['types'].currentValue);
 	}
 }

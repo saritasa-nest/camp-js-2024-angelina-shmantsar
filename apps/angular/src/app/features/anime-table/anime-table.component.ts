@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { AfterViewInit, Component, DestroyRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -34,6 +34,8 @@ enum ColumnKey {
 	Status = 'status',
 }
 
+const INITIAL_PAGE_SIZE = 25;
+
 /** Anime table component. */
 @Component({
 	selector: 'camp-anime-table',
@@ -65,13 +67,13 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 
 	private readonly navigationService = inject(NavigationService);
 
-	private readonly destroyReference = inject(DestroyRef);
+	private readonly destroyRef = inject(DestroyRef);
 
-	private readonly pageNumber = signal(0);
+	private readonly pageNumber$ = new BehaviorSubject(0);
 
-	private readonly pageSize = signal(25);
+	private readonly pageSize$ = new BehaviorSubject(INITIAL_PAGE_SIZE);
 
-	private readonly ordering = signal<string | null>(null);
+	private readonly ordering$ = new BehaviorSubject<string | null>(null);
 
 	private readonly search$ = new BehaviorSubject('');
 
@@ -83,7 +85,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 	@Output()
 	public readonly filterValueEmitter = new EventEmitter<readonly AnimeType[]>();
 
-	private readonly filter$ = new BehaviorSubject<AnimeType[]>([]);
+	private readonly filter$ = new BehaviorSubject<readonly AnimeType[]>([]);
 
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
@@ -131,26 +133,50 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 		this.activatedRoute.queryParams
 			.pipe(
 				tap(value => {
-					this.pageSize.set(value['limit']);
-					this.pageNumber.set(Math.round(value['offset'] / this.pageSize()));
+					this.pageSize$.next(value['limit']);
+					this.pageNumber$.next(Math.round(value['offset'] / this.getPageSize()));
 					this.search = value['search'] ?? '';
-					this.ordering.set(value['ordering']);
+					this.ordering$.next(value['ordering']);
 					this.filter = value['type__in']?.split(',').map((type: AnimeTypeDto) => AnimeTypeMapper.fromDto(type)) ?? [];
 				}),
-				takeUntilDestroyed(this.destroyReference),
+				takeUntilDestroyed(this.destroyRef),
 			)
 			.subscribe();
 	}
 
+	private getPageNumber(): number {
+		let pageNumber = 0;
+		this.pageNumber$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => {
+			pageNumber = value;
+		});
+		return pageNumber;
+	}
+
+	private getPageSize(): number {
+		let pageSize = 0;
+		this.pageSize$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => {
+			pageSize = value;
+		});
+		return pageSize;
+	}
+
+	private getOrdering(): string | null {
+		let ordering = null;
+		this.ordering$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => {
+			ordering = value;
+		});
+		return ordering;
+	}
+
 	private subscribeToControls(): void {
-		this.paginator.page.pipe(takeUntilDestroyed(this.destroyReference)).subscribe(() => {
-			this.pageNumber.set(this.paginator.pageIndex);
-			this.pageSize.set(this.paginator.pageSize);
+		this.paginator.page.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+			this.pageNumber$.next(this.paginator.pageIndex);
+			this.pageSize$.next(this.paginator.pageSize);
 		});
 
 		this.sort.sortChange
-			.pipe(takeUntilDestroyed(this.destroyReference))
-			.subscribe(() => this.ordering.set(SortParamsMapper.toDto(this.sort.active as SortParams, this.sort.direction)));
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe(() => this.ordering$.next(SortParamsMapper.toDto(this.sort.active as SortParams, this.sort.direction)));
 	}
 
 	/** @inheritdoc */
@@ -162,7 +188,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 	public ngOnChanges(changes: SimpleChanges): void {
 		if (this.paginator) {
 			this.paginator.pageIndex = 0;
-			this.pageNumber.set(0);
+			this.pageNumber$.next(0);
 		}
 		const searchValue = changes['search']?.currentValue;
 		const filterValue = changes['filter']?.currentValue;
@@ -178,8 +204,8 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 	public ngAfterViewInit(): void {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
-		this.paginator.pageSize = this.pageSize();
-		this.paginator.pageIndex = this.pageNumber();
+		this.paginator.pageSize = this.getPageSize();
+		this.paginator.pageIndex = this.getPageNumber();
 
 		this.subscribeToControls();
 
@@ -193,21 +219,25 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 				}),
 				switchMap(() =>
 					this.getAnimeList({
-						pageSize: this.pageSize(),
-						pageNumber: this.pageNumber(),
-						ordering: this.ordering() ?? undefined,
+						pageSize: this.getPageSize(),
+						pageNumber: this.getPageNumber(),
+						ordering: this.getOrdering() ?? undefined,
 						search: this.search.length > 0 ? this.search : undefined,
 						types: this.filter,
 					}).pipe(catchError(() => of(null)))),
+				tap(value => {
+					if (value != null) {
+						this.totalCount = value.count;
+						this.paginator.pageIndex = this.getPageNumber();
+					}
+				}),
 				map(value => {
 					if (value == null) {
 						return [];
 					}
-					this.totalCount = value.count;
-					this.paginator.pageIndex = this.pageNumber();
 					return value.results;
 				}),
-				takeUntilDestroyed(this.destroyReference),
+				takeUntilDestroyed(this.destroyRef),
 			)
 			.subscribe(value => {
 				this.dataSource = new MatTableDataSource([...value]);

@@ -1,6 +1,12 @@
 <div class="controls">
-	<camp-anime-type-filter [values]="(filter$ | async) ?? []" (filterValueEmitter)="onFilterValueChange($event)" />
-	<camp-search-form [value]="(search$ | async) ?? ''" (searchValueEmitter)="onSearchValueChange($event)" />
+	<camp-anime-type-filter
+		[types]="(filter$ | async) ?? []"
+		(filterValueEmitter)="onFilterValueChange($event)"
+	/>
+	<camp-search-form
+		[value]="(search$ | async) ?? ''"
+		(searchValueEmitter)="onSearchValueChange($event)"
+	/>
 </div>
 <camp-anime-table
 	[search]="(search$ | async) ?? ''"
