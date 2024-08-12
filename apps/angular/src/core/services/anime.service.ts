@@ -8,11 +8,12 @@ import { AnimeDto } from '../dtos/anime.dto';
 
 import { Anime } from '../models/anime';
 
-import { AnimePaginationMapper } from '../mappers/anime-pagination.mapper';
+import { PaginationMapper } from '../mappers/pagination.mapper';
 import { Pagination } from '../models/pagination';
 import { AnimeManagementParams } from '../models/anime-management-params';
 import { AnimeManagementParamsMapper } from '../mappers/anime-management-params.mapper';
 import { composeHttpParams } from '../utils/compose-http-params';
+import { AnimeMapper } from '../mappers/anime.mapper';
 
 import { ApiUrlService } from './api-url.service';
 
@@ -32,6 +33,6 @@ export class AnimeService {
 		const animeListUrl = this.urlService.anime.list;
 		return this.httpClient
 			.get<PaginationDto<AnimeDto>>(animeListUrl, { params: queryParams })
-			.pipe(map(value => AnimePaginationMapper.fromDto(value)));
+			.pipe(map(value => PaginationMapper.fromDto(value, AnimeMapper.fromDto)));
 	}
 }

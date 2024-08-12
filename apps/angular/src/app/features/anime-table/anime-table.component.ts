@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { AfterViewInit, Component, DestroyRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -8,7 +8,7 @@ import { Pagination } from '@js-camp/angular/core/models/pagination';
 import { TableColumn } from '@js-camp/angular/core/models/table-column';
 import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
-import { BehaviorSubject, Observable, catchError, debounceTime, map, merge, of, startWith, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, debounceTime, map, merge, startWith, switchMap, take, tap, throwError } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AnimeManagementParams } from '@js-camp/angular/core/models/anime-management-params';
 import { AnimeType } from '@js-camp/angular/core/models/anime-type';
@@ -36,6 +36,8 @@ enum ColumnKey {
 
 const INITIAL_PAGE_SIZE = 25;
 
+const DEBOUNCE_TIME = 500;
+
 /** Anime table component. */
 @Component({
 	selector: 'camp-anime-table',
@@ -50,6 +52,7 @@ const INITIAL_PAGE_SIZE = 25;
 		MatSortModule,
 		SearchFormComponent,
 		AnimeTypeFilterComponent,
+		AsyncPipe,
 	],
 })
 export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
@@ -76,6 +79,9 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 	private readonly ordering$ = new BehaviorSubject<string | null>(null);
 
 	private readonly search$ = new BehaviorSubject('');
+
+	/** Has fetching error. */
+	protected readonly hasFetchingError$ = new BehaviorSubject(false);
 
 	/** Search value emitter. */
 	@Output()
@@ -133,8 +139,8 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 		this.activatedRoute.queryParams
 			.pipe(
 				tap(value => {
-					this.pageSize$.next(value['limit']);
-					this.pageNumber$.next(Math.round(value['offset'] / this.getPageSize()));
+					this.pageSize$.next(value['limit'] ?? INITIAL_PAGE_SIZE);
+					this.pageNumber$.next(Math.round((value['offset'] ?? 0) / (this.getSubjectValue(this.pageSize$) ?? INITIAL_PAGE_SIZE)));
 					this.search = value['search'] ?? '';
 					this.ordering$.next(value['ordering']);
 					this.filter = value['type__in']?.split(',').map((type: AnimeTypeDto) => AnimeTypeMapper.fromDto(type)) ?? [];
@@ -144,28 +150,12 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 			.subscribe();
 	}
 
-	private getPageNumber(): number {
-		let pageNumber = 0;
-		this.pageNumber$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => {
-			pageNumber = value;
+	private getSubjectValue<T>(subject$: BehaviorSubject<T>): T | null {
+		let subjectValue: T | null = null;
+		subject$.pipe(take(1)).subscribe(value => {
+			subjectValue = value;
 		});
-		return pageNumber;
-	}
-
-	private getPageSize(): number {
-		let pageSize = 0;
-		this.pageSize$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => {
-			pageSize = value;
-		});
-		return pageSize;
-	}
-
-	private getOrdering(): string | null {
-		let ordering = null;
-		this.ordering$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => {
-			ordering = value;
-		});
-		return ordering;
+		return subjectValue;
 	}
 
 	private subscribeToControls(): void {
@@ -186,10 +176,6 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 
 	/** @inheritdoc */
 	public ngOnChanges(changes: SimpleChanges): void {
-		if (this.paginator) {
-			this.paginator.pageIndex = 0;
-			this.pageNumber$.next(0);
-		}
 		const searchValue = changes['search']?.currentValue;
 		const filterValue = changes['filter']?.currentValue;
 		if (searchValue != null) {
@@ -204,14 +190,14 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 	public ngAfterViewInit(): void {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
-		this.paginator.pageSize = this.getPageSize();
-		this.paginator.pageIndex = this.getPageNumber();
+		this.paginator.pageSize = this.getSubjectValue(this.pageSize$) ?? INITIAL_PAGE_SIZE;
+		this.paginator.pageIndex = this.getSubjectValue(this.pageNumber$) ?? 0;
 
 		this.subscribeToControls();
 
 		merge(this.sort.sortChange, this.paginator.page, this.search$, this.filter$)
 			.pipe(
-				debounceTime(500),
+				debounceTime(DEBOUNCE_TIME),
 				startWith(null),
 				tap(() => {
 					this.searchValueEmitter.emit(this.search);
@@ -219,16 +205,19 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 				}),
 				switchMap(() =>
 					this.getAnimeList({
-						pageSize: this.getPageSize(),
-						pageNumber: this.getPageNumber(),
-						ordering: this.getOrdering() ?? undefined,
+						pageSize: this.getSubjectValue(this.pageSize$) ?? INITIAL_PAGE_SIZE,
+						pageNumber: this.getSubjectValue(this.pageNumber$) ?? 0,
+						ordering: this.getSubjectValue(this.ordering$) ?? undefined,
 						search: this.search.length > 0 ? this.search : undefined,
 						types: this.filter,
-					}).pipe(catchError(() => of(null)))),
+					}).pipe(catchError((error: unknown) => {
+						this.hasFetchingError$.next(true);
+						return throwError(error);
+					}))),
 				tap(value => {
 					if (value != null) {
 						this.totalCount = value.count;
-						this.paginator.pageIndex = this.getPageNumber();
+						this.paginator.pageIndex = this.getSubjectValue(this.pageNumber$) ?? 0;
 					}
 				}),
 				map(value => {

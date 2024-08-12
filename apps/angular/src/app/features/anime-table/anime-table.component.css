@@ -10,6 +10,11 @@
 	overflow-x: auto;
 }
 
+.error {
+	color: var(--error-color);
+	font-family: var(--main-anime-font-family);
+}
+
 .controls {
 	width: 100%;
 	display: flex;
