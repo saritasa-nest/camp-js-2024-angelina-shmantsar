@@ -79,8 +79,11 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 	@Output()
 	public readonly searchValueEmitter = new EventEmitter<string>();
 
-	/** Select filter values. */
-	protected readonly filter$ = new BehaviorSubject<AnimeType[]>([]);
+	/** Filter value emitter. */
+	@Output()
+	public readonly filterValueEmitter = new EventEmitter<readonly AnimeType[]>();
+
+	private readonly filter$ = new BehaviorSubject<AnimeType[]>([]);
 
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
@@ -132,7 +135,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 					this.pageNumber.set(Math.round(value['offset'] / this.pageSize()));
 					this.search = value['search'] ?? '';
 					this.ordering.set(value['ordering']);
-					this.filter$.next(value['type__in']?.split(',').map((type: AnimeTypeDto) => AnimeTypeMapper.fromDto(type)));
+					this.filter = value['type__in']?.split(',').map((type: AnimeTypeDto) => AnimeTypeMapper.fromDto(type)) ?? [];
 				}),
 				takeUntilDestroyed(this.destroyReference),
 			)
@@ -150,16 +153,6 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 			.subscribe(() => this.ordering.set(SortParamsMapper.toDto(this.sort.active as SortParams, this.sort.direction)));
 	}
 
-	private getFilterValue(): readonly AnimeType[] {
-		let filter: readonly AnimeType[] = [];
-		this.filter$
-			.pipe(takeUntilDestroyed(this.destroyReference))
-			.subscribe(value => {
-				filter = value;
-			});
-		return filter;
-	}
-
 	/** @inheritdoc */
 	public ngOnInit(): void {
 		this.getQueryParams();
@@ -173,7 +166,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 		}
 		const searchValue = changes['search']?.currentValue;
 		const filterValue = changes['filter']?.currentValue;
-		if (searchValue) {
+		if (searchValue != null) {
 			this.search$.next(searchValue);
 		}
 		if (filterValue?.length) {
@@ -190,12 +183,13 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 
 		this.subscribeToControls();
 
-		merge(this.sort.sortChange, this.paginator.page, this.search$)
+		merge(this.sort.sortChange, this.paginator.page, this.search$, this.filter$)
 			.pipe(
 				debounceTime(500),
 				startWith(null),
 				tap(() => {
 					this.searchValueEmitter.emit(this.search);
+					this.filterValueEmitter.emit(this.filter);
 				}),
 				switchMap(() =>
 					this.getAnimeList({
@@ -203,7 +197,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 						pageNumber: this.pageNumber(),
 						ordering: this.ordering() ?? undefined,
 						search: this.search.length > 0 ? this.search : undefined,
-						types: this.getFilterValue(),
+						types: this.filter,
 					}).pipe(catchError(() => of(null)))),
 				map(value => {
 					if (value == null) {

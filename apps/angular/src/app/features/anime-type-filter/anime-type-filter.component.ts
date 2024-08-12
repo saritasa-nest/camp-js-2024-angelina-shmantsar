@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { AnimeType } from '@js-camp/angular/core/models/anime-type';
@@ -25,13 +25,14 @@ type FilterOption = {
 	styleUrl: './anime-type-filter.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeTypeFilterComponent implements OnInit {
+export class AnimeTypeFilterComponent implements OnInit, OnChanges {
 	/** Filter values. */
-	@Input() public values: readonly AnimeType[] = [];
+	@Input()
+	public values: readonly AnimeType[] = [];
 
 	/** Filter values emitter. */
 	@Output()
-	public readonly filter = new EventEmitter<readonly AnimeType[]>();
+	public readonly filterValueEmitter = new EventEmitter<readonly AnimeType[]>();
 
 	private readonly destroyReference = inject(DestroyRef);
 
@@ -57,6 +58,11 @@ export class AnimeTypeFilterComponent implements OnInit {
 			.pipe(
 				takeUntilDestroyed(this.destroyReference),
 			)
-			.subscribe(value => this.filter.emit(value ?? []));
+			.subscribe(value => this.filterValueEmitter.emit(value ?? []));
+	}
+
+	/** @inheritdoc */
+	public ngOnChanges(changes: SimpleChanges): void {
+		this.filterControl.patchValue(changes['values'].currentValue);
 	}
 }

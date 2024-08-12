@@ -1,5 +1,10 @@
 <div class="controls">
-	<camp-anime-type-filter [values]="(filter$ | async) ?? []" (filter)="onFilterValueChange($event)" />
+	<camp-anime-type-filter [values]="(filter$ | async) ?? []" (filterValueEmitter)="onFilterValueChange($event)" />
 	<camp-search-form [value]="(search$ | async) ?? ''" (searchValueEmitter)="onSearchValueChange($event)" />
 </div>
-<camp-anime-table [search]="(search$ | async) ?? ''" [filter]="(filter$ | async) ?? []" (searchValueEmitter)="onSearchValueChange($event)"/>
+<camp-anime-table
+	[search]="(search$ | async) ?? ''"
+	[filter]="(filter$ | async) ?? []"
+	(searchValueEmitter)="onSearchValueChange($event)"
+	(filterValueEmitter)="onFilterValueChange($event)"
+/>
