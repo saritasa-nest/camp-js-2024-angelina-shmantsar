@@ -47,14 +47,16 @@
 			[type]="(isPasswordVisible$ | async) ? 'text' : 'password'"
 			formControlName="password"
 		/>
-		<mat-icon
+		<button
+			mat-icon-button
 			matSuffix
-			class="password-visibility"
+			type="button"
 			(click)="changePasswordVisibility()"
-			onkeydown="changePasswordVisibility()"
 		>
-			{{(isPasswordVisible$ | async) ? 'visibility_off' : 'visibility'}}
-		</mat-icon>
+			<mat-icon class="password-visibility">
+				{{(isPasswordVisible$ | async) ? 'visibility_off' : 'visibility'}}
+			</mat-icon>
+		</button>
 	</mat-form-field>
 	<camp-error [errorMessage]="validationService.hasError(controls.retypedPassword, 'required') ? validationService.getErrorMessage('required') : ''" />
 	<mat-form-field appearance="outline" class="field">
@@ -65,14 +67,16 @@
 			[type]="(isPasswordVisible$ | async) ? 'text' : 'password'"
 			formControlName="retypedPassword"
 		/>
-		<mat-icon
+		<button
+			mat-icon-button
 			matSuffix
-			class="password-visibility"
+			type="button"
 			(click)="changePasswordVisibility()"
-			onkeydown="changePasswordVisibility()"
 		>
-			{{(isPasswordVisible$ | async) ? 'visibility_off' : 'visibility'}}
-		</mat-icon>
+			<mat-icon class="password-visibility">
+				{{(isPasswordVisible$ | async) ? 'visibility_off' : 'visibility'}}
+			</mat-icon>
+		</button>
 	</mat-form-field>
 	<button
 		mat-flat-button
