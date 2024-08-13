@@ -4,15 +4,9 @@
 	(ngSubmit)="onSubmit()"
 >
 	<h2 class="title">Login</h2>
-	@if ((hasLoginError$ | async)) {
-		<camp-error [errorMessage]="errorMessages.loginError" />
-	}
-	@if (validationService.hasError(controls.email, 'required')) {
-		<camp-error [errorMessage]="errorMessages.required" />
-	}
-	@if (validationService.hasError(controls.email, 'email')) {
-		<camp-error [errorMessage]="errorMessages.email" />
-	}
+	<camp-error [errorMessage]="(hasLoginError$ | async) ? loginError : ''" />
+	<camp-error [errorMessage]="validationService.hasError(controls.email, 'required') ? validationService.getErrorMessage('required') : ''" />
+	<camp-error [errorMessage]="validationService.hasError(controls.email, 'email') ? validationService.getErrorMessage('email') : ''" />
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Email</mat-label>
 		<input
@@ -22,9 +16,7 @@
 			formControlName="email"
 		/>
 	</mat-form-field>
-	@if (validationService.hasError(controls.password, 'required')) {
-		<camp-error [errorMessage]="errorMessages.required" />
-	}
+	<camp-error [errorMessage]="validationService.hasError(controls.password, 'required') ? validationService.getErrorMessage('required') : ''" />
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Password</mat-label>
 		<input

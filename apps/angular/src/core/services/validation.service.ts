@@ -7,14 +7,10 @@ import { HttpErrors } from '../models/http-errors';
 /** Validation service. */
 @Injectable({ providedIn: 'root' })
 export class ValidationService {
-	/** Common errors. */
-	public readonly commonErrors: Readonly<Record<string, string>> = {
+	private readonly commonErrors: Readonly<Record<string, string>> = {
 		required: 'This field is required',
 		email: 'This field should be valid email',
-		minLength: 'The password must be at least 8 characters long',
-		passwordMismatch: 'The passwords must match',
-		weakPassword: 'Check password. It must contain numeric and alphabetic symbols',
-		loginError: 'No active account found with given credentials',
+		minlength: 'The password must be at least 8 characters long',
 	};
 
 	/**

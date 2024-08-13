@@ -4,18 +4,10 @@
 	(ngSubmit)="onSubmit()"
 >
 	<h2 class="title">Register</h2>
-	@if (registrationForm.errors?.['passwordMismatch'] && (registrationForm.touched || registrationForm.dirty)) {
-		<camp-error [errorMessage]="errorMessages.mismatch" />
-	}
-	@if ((hasPasswordError$ | async)) {
-		<camp-error [errorMessage]="errorMessages.weakPassword" />
-	}
-	@if (validationService.hasError(controls.email, 'required')) {
-		<camp-error [errorMessage]="errorMessages.required" />
-	}
-	@if (validationService.hasError(controls.email, 'email')) {
-		<camp-error [errorMessage]="errorMessages.email" />
-	}
+	<camp-error [errorMessage]="(hasPasswordMismatchError$ | async) ? errorMessages.mismatch : ''" />
+	<camp-error [errorMessage]="(hasPasswordError$ | async) ? errorMessages.weakPassword : ''" />
+	<camp-error [errorMessage]="validationService.hasError(controls.email, 'required') ? validationService.getErrorMessage('required') : ''" />
+	<camp-error [errorMessage]="validationService.hasError(controls.email, 'email') ? validationService.getErrorMessage('email') : ''" />
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Email</mat-label>
 		<input
@@ -25,9 +17,7 @@
 			formControlName="email"
 		/>
 	</mat-form-field>
-	@if (validationService.hasError(controls.firstName, 'required')) {
-		<camp-error [errorMessage]="errorMessages.required" />
-	}
+	<camp-error [errorMessage]="validationService.hasError(controls.firstName, 'required') ? validationService.getErrorMessage('required') : ''" />
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">First name</mat-label>
 		<input
@@ -37,9 +27,7 @@
 			formControlName="firstName"
 		/>
 	</mat-form-field>
-	@if (validationService.hasError(controls.lastName, 'required')) {
-		<camp-error [errorMessage]="errorMessages.required" />
-	}
+	<camp-error [errorMessage]="validationService.hasError(controls.lastName, 'required') ? validationService.getErrorMessage('required') : ''" />
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Last name</mat-label>
 		<input
@@ -49,12 +37,8 @@
 			formControlName="lastName"
 		/>
 	</mat-form-field>
-	@if (validationService.hasError(controls.password, 'required')) {
-		<camp-error [errorMessage]="errorMessages.required" />
-	}
-	@if (validationService.hasError(controls.password, 'minlength')) {
-		<camp-error [errorMessage]="errorMessages.minLength" />
-	}
+	<camp-error [errorMessage]="validationService.hasError(controls.password, 'required') ? validationService.getErrorMessage('required') : ''" />
+	<camp-error [errorMessage]="validationService.hasError(controls.password, 'minlength') ? validationService.getErrorMessage('minlength') : ''" />
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Password</mat-label>
 		<input
@@ -71,9 +55,7 @@
 			{{(isPasswordVisible$ | async) ? 'visibility_off' : 'visibility'}}
 		</mat-icon>
 	</mat-form-field>
-	@if (validationService.hasError(controls.retypedPassword, 'required')) {
-		<camp-error [errorMessage]="errorMessages.required" />
-	}
+	<camp-error [errorMessage]="validationService.hasError(controls.retypedPassword, 'required') ? validationService.getErrorMessage('required') : ''" />
 	<mat-form-field appearance="outline" class="field">
 		<mat-label class="field-title">Retyped password</mat-label>
 		<input

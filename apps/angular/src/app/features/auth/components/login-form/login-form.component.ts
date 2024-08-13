@@ -67,11 +67,7 @@ export class LoginFormComponent implements OnInit {
 	});
 
 	/** Error messages. */
-	protected readonly errorMessages = {
-		loginError: 'No active account found with given credentials',
-		required: 'This field is required',
-		email: 'This field should be valid email',
-	};
+	protected readonly loginError = 'No active account found with given credentials';
 
 	/** Form controls. */
 	protected get controls(): LoginForm {

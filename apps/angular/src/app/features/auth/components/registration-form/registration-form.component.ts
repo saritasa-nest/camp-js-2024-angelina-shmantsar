@@ -82,11 +82,11 @@ export class RegistrationFormComponent implements OnInit {
 	/** Is password visible. */
 	protected readonly isPasswordVisible$ = new BehaviorSubject(false);
 
+	/** Has password mismatch error. */
+	protected readonly hasPasswordMismatchError$ = new BehaviorSubject(false);
+
 	/** Error messages. */
 	protected readonly errorMessages = {
-		required: 'This field is required',
-		email: 'This field should be valid email',
-		minLength: 'The password must be at least 8 characters long',
 		mismatch: 'The passwords must match',
 		weakPassword: 'Check password. It must contain numeric and alphabetic symbols',
 	};
@@ -140,6 +140,8 @@ export class RegistrationFormComponent implements OnInit {
 	public ngOnInit(): void {
 		this.registrationForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
 			this.hasPasswordError$.next(false);
+			this.hasPasswordMismatchError$.next(this.registrationForm.errors?.['passwordMismatch'] &&
+				(this.registrationForm.touched || this.registrationForm.dirty));
 		});
 	}
 }
