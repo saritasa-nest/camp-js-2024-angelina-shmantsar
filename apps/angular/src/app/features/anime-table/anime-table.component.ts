@@ -36,6 +36,8 @@ enum ColumnKey {
 
 const INITIAL_PAGE_SIZE = 25;
 
+const DEFAULT_PAGE_NUMBER = 0;
+
 const DEBOUNCE_TIME = 500;
 
 /** Anime table component. */
@@ -115,10 +117,6 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 	/** Page size. */
 	protected readonly pageSizes = [25, 50, 100];
 
-	private readonly defaultPageSize = 25;
-
-	private readonly defaultPageNumber = 0;
-
 	/** Total count. */
 	protected totalCount = 0;
 
@@ -143,8 +141,11 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 		this.activatedRoute.queryParams
 			.pipe(
 				tap(value => {
-					this.pageSize$.next(value['limit'] ?? INITIAL_PAGE_SIZE);
-					this.pageNumber$.next(Math.round((value['offset'] ?? 0) / (this.getSubjectValue(this.pageSize$) ?? INITIAL_PAGE_SIZE)));
+					const limit = value['limit'] ?? INITIAL_PAGE_SIZE;
+					const offset = value['offset'] ?? DEFAULT_PAGE_NUMBER;
+
+					this.pageSize$.next(limit);
+					this.pageNumber$.next(Math.round(offset / (this.getSubjectValue(this.pageSize$) ?? INITIAL_PAGE_SIZE)));
 					this.search = value['search'] ?? '';
 					this.ordering$.next(value['ordering']);
 					this.filter = value['type__in']?.split(',').map((type: AnimeTypeDto) => AnimeTypeMapper.fromDto(type)) ?? [];
