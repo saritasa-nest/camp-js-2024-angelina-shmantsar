@@ -7,6 +7,7 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { ValidationService } from '@js-camp/angular/core/services/validation.service';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatIconModule } from '@angular/material/icon';
 
 import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 
@@ -45,6 +46,7 @@ type RegistrationForm = {
 		ReactiveFormsModule,
 		ErrorComponent,
 		AsyncPipe,
+		MatIconModule,
 	],
 	templateUrl: './registration-form.component.html',
 	styleUrl: './registration-form.component.css',
@@ -77,6 +79,9 @@ export class RegistrationFormComponent implements OnInit {
 	/** Has password error (password is weak). */
 	protected readonly hasPasswordError$ = new BehaviorSubject(false);
 
+	/** Is password visible. */
+	protected readonly isPasswordVisible$ = new BehaviorSubject(false);
+
 	/** Error messages. */
 	protected readonly errorMessages = {
 		required: 'This field is required',
@@ -89,6 +94,21 @@ export class RegistrationFormComponent implements OnInit {
 	/** Form controls. */
 	protected get controls(): RegistrationForm {
 		return this.registrationForm.controls;
+	}
+
+	private get isPasswordVisible(): boolean {
+		let isVisible = false;
+		this.isPasswordVisible$
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe(value => {
+				isVisible = value;
+			});
+		return isVisible;
+	}
+
+	/** Change password visibility. */
+	protected changePasswordVisibility(): void {
+		this.isPasswordVisible$.next(!this.isPasswordVisible);
 	}
 
 	/** On form change. */

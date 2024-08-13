@@ -8,6 +8,7 @@ import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ValidationService } from '@js-camp/angular/core/services/validation.service';
 import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
 
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 
@@ -35,6 +36,7 @@ type LoginForm = {
 		ReactiveFormsModule,
 		ErrorComponent,
 		AsyncPipe,
+		MatIconModule,
 	],
 	templateUrl: './login-form.component.html',
 	styleUrl: './login-form.component.css',
@@ -55,6 +57,9 @@ export class LoginFormComponent implements OnInit {
 	/** Has login error (invalid credentials entered). */
 	protected readonly hasLoginError$ = new BehaviorSubject(false);
 
+	/** Is password visible. */
+	protected readonly isPasswordVisible$ = new BehaviorSubject(false);
+
 	/** Login form. */
 	protected readonly loginForm: FormGroup<LoginForm> = this.formBuilder.nonNullable.group({
 		email: ['', [Validators.required, Validators.email]],
@@ -71,6 +76,21 @@ export class LoginFormComponent implements OnInit {
 	/** Form controls. */
 	protected get controls(): LoginForm {
 		return this.loginForm.controls;
+	}
+
+	private get isPasswordVisible(): boolean {
+		let isVisible = false;
+		this.isPasswordVisible$
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe(value => {
+				isVisible = value;
+			});
+		return isVisible;
+	}
+
+	/** Change password visibility. */
+	protected changePasswordVisibility(): void {
+		this.isPasswordVisible$.next(!this.isPasswordVisible);
 	}
 
 	/** On submit. */

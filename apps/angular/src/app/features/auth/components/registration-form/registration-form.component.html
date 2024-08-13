@@ -60,9 +60,16 @@
 		<input
 			matInput
 			placeholder="er123456"
-			type="password"
+			[type]="(isPasswordVisible$ | async) ? 'text' : 'password'"
 			formControlName="password"
 		/>
+		<mat-icon
+			matSuffix
+			class="password-visibility"
+			(click)="changePasswordVisibility()"
+		>
+			{{(isPasswordVisible$ | async) ? 'visibility_off' : 'visibility'}}
+		</mat-icon>
 	</mat-form-field>
 	@if (validationService.hasError(controls.retypedPassword, 'required')) {
 		<camp-error [errorMessage]="errorMessages.required" />
@@ -72,9 +79,16 @@
 		<input
 			matInput
 			placeholder="er123456"
-			type="password"
+			[type]="(isPasswordVisible$ | async) ? 'text' : 'password'"
 			formControlName="retypedPassword"
 		/>
+		<mat-icon
+			matSuffix
+			class="password-visibility"
+			(click)="changePasswordVisibility()"
+		>
+			{{(isPasswordVisible$ | async) ? 'visibility_off' : 'visibility'}}
+		</mat-icon>
 	</mat-form-field>
 	<button
 		mat-flat-button

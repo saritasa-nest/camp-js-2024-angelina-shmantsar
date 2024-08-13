@@ -36,6 +36,11 @@
 	margin-bottom: var(--size-3);
 }
 
+.password-visibility {
+	color: var(--anime-primary-dark-color-disabled);
+	cursor: pointer;
+}
+
 .submit-button {
 	width: var(--auth-buttons-width);
 	border-radius: var(--size-2);
