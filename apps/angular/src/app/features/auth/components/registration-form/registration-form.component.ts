@@ -9,8 +9,6 @@ import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
-import { HttpErrors } from '@js-camp/angular/core/models/http-errors';
 
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 
@@ -108,8 +106,7 @@ export class RegistrationFormComponent implements OnInit {
 					tap(() => this.navigationService.navigate('')),
 					takeUntilDestroyed(this.destroyRef),
 					catchError((error: unknown) => {
-						const httpError = error as HttpErrorResponse;
-						if (httpError.status === HttpErrors.BadRequest) {
+						if (this.validationService.isPasswordError(error)) {
 							this.hasPasswordError$.next(true);
 						}
 						return throwError(error);
