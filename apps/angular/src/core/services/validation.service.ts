@@ -50,7 +50,7 @@ export class ValidationService {
 
 	/**
 	 * Check if passwords are equal.
-	 * @param control - Control.
+	 * @param control Control.
 	 */
 	public passwordIdentityValidator(control: AbstractControl): ValidationErrors | null {
 		const password = control.get('password');

@@ -11,8 +11,8 @@ const IS_REFRESHING$ = new BehaviorSubject(false);
 
 /**
  * Add authorization header.
- * @param req - Request.
- * @param next - Next interceptor.
+ * @param req Request.
+ * @param next Next interceptor.
  */
 export function authTokenInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 	const storageService = inject(StorageService);
@@ -85,7 +85,7 @@ type HandleRefreshData = {
 
 /**
  * Do refreshing and repeat request.
- * @param handleRefreshData - Handle refresh data.
+ * @param handleRefreshData Handle refresh data.
  */
 function refreshToken({
 	authService,
@@ -109,8 +109,8 @@ function refreshToken({
 
 /**
  * Adds the specified token to the request header.
- * @param request - Request.
- * @param accessToken - Access token.
+ * @param request Request.
+ * @param accessToken Access token.
  */
 function addAuthorizationHeader(request: HttpRequest<unknown>, accessToken: string): HttpRequest<unknown> {
 	return request.clone({

@@ -23,7 +23,7 @@ export class AuthService {
 
 	/**
 	 * Register user.
-	 * @param credentials - Credentials.
+	 * @param credentials Credentials.
 	 */
 	public register(credentials: RegisterCredentials): Observable<TokensDto> {
 		const { registerUrl } = this.urlService.auth;
@@ -36,7 +36,7 @@ export class AuthService {
 
 	/**
 	 * Login.
-	 * @param credentials - Credentials.
+	 * @param credentials Credentials.
 	 */
 	public login(credentials: LoginCredentials): Observable<TokensDto> {
 		const { loginUrl } = this.urlService.auth;
@@ -49,7 +49,7 @@ export class AuthService {
 
 	/**
 	 * Refresh token.
-	 * @param refreshToken - Refresh token.
+	 * @param refreshToken Refresh token.
 	 */
 	public refreshToken(refreshToken: string): Observable<TokensDto> {
 		const { tokenRefreshUrl } = this.urlService.auth;

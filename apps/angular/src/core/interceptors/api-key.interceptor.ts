@@ -6,8 +6,8 @@ import { AppConfigService } from '../services/app-config.service';
 
 /**
  * Add 'Api-Key' header to request.
- * @param req - Request.
- * @param next - Next interceptor.
+ * @param req Request.
+ * @param next Next interceptor.
  */
 export function apiKeyInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 	const appConfigService = inject(AppConfigService);

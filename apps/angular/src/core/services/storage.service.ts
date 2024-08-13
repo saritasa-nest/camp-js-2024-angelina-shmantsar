@@ -5,8 +5,8 @@ import { Injectable } from '@angular/core';
 export class StorageService {
 	/**
 	 * Set local storage key "key" to "value".
-	 * @param key - Key.
-	 * @param value - Value.
+	 * @param key Key.
+	 * @param value Value.
 	 */
 	public setItem(key: string, value: string): void {
 		localStorage.setItem(key, value);
@@ -14,7 +14,7 @@ export class StorageService {
 
 	/**
 	 * Get local storage key "key" value.
-	 * @param key - Key.
+	 * @param key Key.
 	 */
 	public getItem(key: string): string | null {
 		return localStorage.getItem(key);
@@ -22,7 +22,7 @@ export class StorageService {
 
 	/**
 	 * Remove local storage key "key" value.
-	 * @param key - Key.
+	 * @param key Key.
 	 */
 	public removeItem(key: string): void {
 		localStorage.removeItem(key);
