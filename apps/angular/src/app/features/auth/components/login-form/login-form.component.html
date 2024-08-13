@@ -29,7 +29,7 @@
 			matSuffix
 			class="password-visibility"
 			(click)="changePasswordVisibility()"
-			(onKeyDown)="changePasswordVisibility()"
+			onkeydown="changePasswordVisibility()"
 		>
 			{{(isPasswordVisible$ | async) ? 'visibility_off' : 'visibility'}}
 		</mat-icon>
