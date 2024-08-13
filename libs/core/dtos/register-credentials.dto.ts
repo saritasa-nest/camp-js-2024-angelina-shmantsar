@@ -1,4 +1,4 @@
-/** Register credentials dto. */
+/** Register credentials DTO. */
 export type RegisterCredentialsDto = {
 
 	/** Email. */

@@ -1,4 +1,4 @@
-/** Login credentials dto. */
+/** Login credentials DTO. */
 export type LoginCredentialsDto = {
 
 	/** Email. */

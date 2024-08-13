@@ -4,9 +4,9 @@ import { RegisterCredentials } from '../models/register-credentials';
 export namespace RegisterCredentialsMapper {
 
 	/**
-	 * Maps model to dto.
+	 * Maps model to DTO.
 	 * @param model Model.
-	 * @returns Register credentials dto.
+	 * @returns Register credentials DTO.
 	 */
 	export function toDto(model: RegisterCredentials): RegisterCredentialsDto {
 		return {

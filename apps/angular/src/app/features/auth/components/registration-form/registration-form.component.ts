@@ -67,11 +67,11 @@ export class RegistrationFormComponent implements OnInit {
 	/** Registration form. */
 	protected readonly registrationForm: FormGroup<RegistrationForm> = this.formBuilder.nonNullable.group(
 		{
-			email: ['', [Validators.required, Validators.email]],
-			firstName: ['', Validators.required],
-			lastName: ['', Validators.required],
-			password: ['', [Validators.required, Validators.minLength(8)]],
-			retypedPassword: ['', Validators.required],
+			email: this.formBuilder.nonNullable.control('', [Validators.required, Validators.email]),
+			firstName: this.formBuilder.nonNullable.control('', [Validators.required]),
+			lastName: this.formBuilder.nonNullable.control('', [Validators.required]),
+			password: this.formBuilder.nonNullable.control('', [Validators.required, Validators.minLength(8)]),
+			retypedPassword: this.formBuilder.nonNullable.control('', [Validators.required]),
 		},
 		{ validators: this.validationService.passwordIdentityValidator },
 	);

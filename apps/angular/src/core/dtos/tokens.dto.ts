@@ -1,4 +1,4 @@
-/** Access and refresh tokens dto. */
+/** Access and refresh tokens DTO. */
 export type TokensDto = {
 
 	/** Access. */

@@ -62,8 +62,8 @@ export class LoginFormComponent implements OnInit {
 
 	/** Login form. */
 	protected readonly loginForm: FormGroup<LoginForm> = this.formBuilder.nonNullable.group({
-		email: ['', [Validators.required, Validators.email]],
-		password: ['', Validators.required],
+		email: this.formBuilder.nonNullable.control('', [Validators.required, Validators.email]),
+		password: this.formBuilder.nonNullable.control('', [Validators.required]),
 	});
 
 	/** Error messages. */

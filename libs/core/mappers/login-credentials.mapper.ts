@@ -4,9 +4,9 @@ import { LoginCredentials } from '../models/login-credentials';
 export namespace LoginCredentialsMapper {
 
 	/**
-	 * Maps model to dto.
+	 * Maps model to DTO.
 	 * @param model Model.
-	 * @returns Login credentials dto.
+	 * @returns Login credentials DTO.
 	 */
 	export function toDto(model: LoginCredentials): LoginCredentialsDto {
 		return {
