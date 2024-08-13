@@ -11,8 +11,6 @@ import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpErrors } from '@js-camp/angular/core/models/http-errors';
 
-import { CurrentForm } from '@js-camp/angular/shared/constants/current-auth-form-enum';
-import { CURRENT_AUTH_FORM$ } from '@js-camp/angular/shared/constants/current-auth-form';
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 
 import { ErrorComponent } from '../error/error.component';
@@ -55,8 +53,6 @@ export class LoginFormComponent implements OnInit {
 	protected readonly validationService = inject(ValidationService);
 
 	private readonly formBuilder = inject(FormBuilder);
-
-	private readonly currentAuthForm$ = CURRENT_AUTH_FORM$;
 
 	/** Has login error (invalid credentials entered). */
 	protected readonly hasLoginError$ = new BehaviorSubject(false);
@@ -102,7 +98,7 @@ export class LoginFormComponent implements OnInit {
 
 	/** On form change. */
 	protected onFormChange(): void {
-		this.currentAuthForm$.next(CurrentForm.Register);
+		this.navigationService.navigate('register');
 	}
 
 	/** @inheritdoc */

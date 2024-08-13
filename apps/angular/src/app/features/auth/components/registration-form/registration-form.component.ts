@@ -12,8 +12,6 @@ import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpErrors } from '@js-camp/angular/core/models/http-errors';
 
-import { CURRENT_AUTH_FORM$ } from '@js-camp/angular/shared/constants/current-auth-form';
-import { CurrentForm } from '@js-camp/angular/shared/constants/current-auth-form-enum';
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 
 import { ErrorComponent } from '../error/error.component';
@@ -66,8 +64,6 @@ export class RegistrationFormComponent implements OnInit {
 
 	private readonly formBuilder = inject(FormBuilder);
 
-	private readonly currentAuthForm$ = CURRENT_AUTH_FORM$;
-
 	/** Registration form. */
 	protected readonly registrationForm: FormGroup<RegistrationForm> = this.formBuilder.nonNullable.group(
 		{
@@ -99,7 +95,7 @@ export class RegistrationFormComponent implements OnInit {
 
 	/** On form change. */
 	protected onFormChange(): void {
-		this.currentAuthForm$.next(CurrentForm.Login);
+		this.navigationService.navigate('login');
 	}
 
 	/** On submit. */

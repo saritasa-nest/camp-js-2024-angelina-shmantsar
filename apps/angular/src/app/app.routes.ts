@@ -15,7 +15,11 @@ export const appRoutes: Routes = [
 		],
 	},
 	{
-		path: 'auth',
-		loadComponent: () => import('./features/auth/auth.component').then(value => value.AuthComponent),
+		path: 'login',
+		loadComponent: () => import('./pages/login-page/login-page.component').then(value => value.LoginPageComponent),
+	},
+	{
+		path: 'register',
+		loadComponent: () => import('./pages/registration-page/registration-page.component').then(value => value.RegistrationPageComponent),
 	},
 ];

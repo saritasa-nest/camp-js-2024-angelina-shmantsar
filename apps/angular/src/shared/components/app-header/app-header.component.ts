@@ -28,7 +28,7 @@ export class AppHeaderComponent {
 
 	/** On login. */
 	protected onLogin(): void {
-		this.navigationService.navigate('/auth');
+		this.navigationService.navigate('/login');
 	}
 
 	/** On logout. */
