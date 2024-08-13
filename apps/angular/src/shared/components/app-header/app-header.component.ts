@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterOutlet } from '@angular/router';
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
-import { LocalStorageService } from '@js-camp/angular/core/services/local-storage.service';
+import { StorageService } from '@js-camp/angular/core/services/storage.service';
 import { BehaviorSubject } from 'rxjs';
 
 /** App header component. */
@@ -19,12 +19,12 @@ import { BehaviorSubject } from 'rxjs';
 export class AppHeaderComponent {
 	private readonly navigationService = inject(NavigationService);
 
-	private readonly localStorageService = inject(LocalStorageService);
+	private readonly storageService = inject(StorageService);
 
-	private readonly accessToken = this.localStorageService.getItem('accessToken') ?? '';
+	private readonly tokens = this.storageService.getItem('authTokens');
 
 	/** Is user authorized. */
-	protected readonly isAuthorized$ = new BehaviorSubject(this.accessToken.length > 0);
+	protected readonly isAuthorized$ = new BehaviorSubject(this.tokens != null);
 
 	/** On login. */
 	protected onLogin(): void {
@@ -33,8 +33,7 @@ export class AppHeaderComponent {
 
 	/** On logout. */
 	protected onLogout(): void {
-		this.localStorageService.removeItem('accessToken');
-		this.localStorageService.removeItem('refreshToken');
+		this.storageService.removeItem('authTokens');
 		this.isAuthorized$.next(false);
 	}
 }

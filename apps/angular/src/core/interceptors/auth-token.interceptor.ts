@@ -1,12 +1,11 @@
 import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
-import { DestroyRef, inject } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, switchMap, throwError } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { inject } from '@angular/core';
+import { BehaviorSubject, Observable, catchError, switchMap, take, throwError } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
 
 import { HttpErrors } from '../models/http-errors';
-import { LocalStorageService } from '../services/local-storage.service';
+import { StorageService } from '../services/storage.service';
 
 const IS_REFRESHING$ = new BehaviorSubject(false);
 
@@ -16,51 +15,49 @@ const IS_REFRESHING$ = new BehaviorSubject(false);
  * @param next - Next interceptor.
  */
 export function authTokenInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
-	const localStorageService = inject(LocalStorageService);
+	const storageService = inject(StorageService);
 	const authService = inject(AuthService);
-	const destroyRef = inject(DestroyRef);
 
-	const accessToken = localStorageService.getItem('accessToken');
-	const refreshToken = localStorageService.getItem('refreshToken');
+	const tokens = storageService.getItem('authTokens');
 
 	let isRefreshing = false;
 
-	if (accessToken === null || accessToken.length === 0) {
+	if (tokens === null) {
 		return next(req);
 	}
 
-	IS_REFRESHING$
-		.pipe(takeUntilDestroyed(destroyRef))
-		.subscribe(value => {
-			isRefreshing = value;
-		});
+	const { access, refresh } = JSON.parse(tokens);
+
+	IS_REFRESHING$.pipe(take(1)).subscribe(value => {
+		isRefreshing = value;
+	});
 
 	if (isRefreshing) {
-		return handleRefresh({
+		return refreshToken({
 			authService,
-			localStorageService,
+			storageService,
 			request: req,
 			next,
-			refreshToken: refreshToken ?? '',
+			refresh: refresh ?? '',
 			isRefreshing,
 		});
 	}
 
-	const authTokenRequest = addAuthorizationHeader(req, accessToken ?? '');
+	const authTokenRequest = addAuthorizationHeader(req, access ?? '');
 	return next(authTokenRequest).pipe(
 		catchError((error: unknown) => {
 			const httpError = error as HttpErrorResponse;
 			if (httpError.status === HttpErrors.Unauthorized) {
-				return handleRefresh({
+				return refreshToken({
 					authService,
-					localStorageService,
+					storageService,
 					request: req,
 					next,
-					refreshToken: refreshToken ?? '',
+					refresh: refresh ?? '',
 					isRefreshing,
 				});
 			}
-			return throwError(() => new Error('Something bad happened; please try again later.'));
+			return throwError(error);
 		}),
 	);
 }
@@ -71,7 +68,7 @@ type HandleRefreshData = {
 	readonly authService: AuthService;
 
 	/** Cookie service. */
-	readonly localStorageService: LocalStorageService;
+	readonly storageService: StorageService;
 
 	/** Request. */
 	readonly request: HttpRequest<unknown>;
@@ -80,7 +77,7 @@ type HandleRefreshData = {
 	readonly next: HttpHandlerFn;
 
 	/** Refresh token. */
-	readonly refreshToken: string;
+	readonly refresh: string;
 
 	/** Is refreshing. */
 	readonly isRefreshing: boolean;
@@ -90,23 +87,28 @@ type HandleRefreshData = {
  * Do refreshing and repeat request.
  * @param handleRefreshData - Handle refresh data.
  */
-function handleRefresh(
-	{ authService, localStorageService, request, next, refreshToken, isRefreshing }: HandleRefreshData,
-): Observable<HttpEvent<unknown>> {
+function refreshToken({
+	authService,
+	storageService,
+	request,
+	next,
+	refresh,
+	isRefreshing,
+}: HandleRefreshData): Observable<HttpEvent<unknown>> {
 	if (!isRefreshing) {
 		IS_REFRESHING$.next(true);
-		return authService.refreshToken(refreshToken).pipe(
+		return authService.refreshToken(refresh).pipe(
 			switchMap(tokens => {
 				IS_REFRESHING$.next(false);
 				return next(addAuthorizationHeader(request, tokens.access));
 			}),
 		);
 	}
-	return next(addAuthorizationHeader(request, localStorageService.getItem('accessToken') ?? ''));
+	return next(addAuthorizationHeader(request, storageService.getItem('accessToken') ?? ''));
 }
 
 /**
- * Add 'Authorization' header.
+ * Adds the specified token to the request header.
  * @param request - Request.
  * @param accessToken - Access token.
  */

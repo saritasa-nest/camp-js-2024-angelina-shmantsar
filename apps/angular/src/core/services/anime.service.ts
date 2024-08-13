@@ -30,7 +30,7 @@ export class AnimeService {
 	 * */
 	public getPaginatedAnime(params: AnimeManagementParams): Observable<Pagination<Anime>> {
 		const queryParams = composeHttpParams(AnimeManagementParamsMapper.toDto(params));
-		const animeListUrl = this.urlService.anime.list;
+		const animeListUrl = this.urlService.anime.listUrl;
 		return this.httpClient
 			.get<PaginationDto<AnimeDto>>(animeListUrl, { params: queryParams })
 			.pipe(map(value => PaginationMapper.fromDto(value, AnimeMapper.fromDto)));

@@ -11,14 +11,14 @@ export class ApiUrlService {
 
 	/** List of anime endpoints. */
 	public readonly anime = {
-		list: this.constructUrl('anime/anime/'),
+		listUrl: this.constructUrl('anime/anime/'),
 	};
 
 	/** List of auth endpoints. */
 	public readonly auth = {
-		login: this.constructUrl('auth/login/'),
-		register: this.constructUrl('auth/register/'),
-		tokenRefresh: this.constructUrl('auth/token/refresh/'),
+		loginUrl: this.constructUrl('auth/login/'),
+		registerUrl: this.constructUrl('auth/register/'),
+		tokenRefreshUrl: this.constructUrl('auth/token/refresh/'),
 	};
 
 	private constructUrl(endpoint: string): string {
