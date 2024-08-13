@@ -12,6 +12,10 @@ export const appRoutes: Routes = [
 				loadComponent: () =>
 					import('./pages/main-page.component').then(value => value.MainPageComponent),
 			},
+			{
+				path: 'anime/:id',
+				loadComponent: () => import('./pages/details-page/details-page.component').then(value => value.DetailsPageComponent),
+			},
 		],
 	},
 	{
