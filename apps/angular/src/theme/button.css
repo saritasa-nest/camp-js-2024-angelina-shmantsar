@@ -1,0 +1,10 @@
+.submit-button.mdc-button.mdc-button--unelevated.mat-mdc-unelevated-button.mat-unthemed.mat-mdc-button-base {
+	background-color: var(--anime-primary-dark-color);
+	color: var(--anime-accent-light-color);
+	border-color: var(--anime-primary-dark-color);
+}
+
+.form-change-button.mdc-button.mdc-button--outlined.mat-mdc-outlined-button.mat-unthemed.mat-mdc-button-base {
+	color: var(--anime-primary-dark-color);
+	border-color: var(--anime-primary-light-color);
+}

@@ -3,24 +3,4 @@
 @import url("paginator.css");
 @import url("input.css");
 @import url("sort-header.css");
-
-/* Auth form */
-
-.submit-button.mdc-button.mdc-button--unelevated.mat-mdc-unelevated-button.mat-unthemed.mat-mdc-button-base {
-	background-color: var(--anime-primary-dark-color);
-	color: var(--anime-accent-light-color);
-	border-color: var(--anime-primary-dark-color);
-}
-
-.form-change-button.mdc-button.mdc-button--outlined.mat-mdc-outlined-button.mat-unthemed.mat-mdc-button-base {
-	color: var(--anime-primary-dark-color);
-	border-color: var(--anime-primary-light-color);
-}
-
-.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-floating-label .field-title {
-	color: var(--anime-primary-dark-color);
-}
-
-input.mat-mdc-form-field-input-control.mdc-text-field__input.cdk-text-field-autofill-monitored::placeholder {
-	color: var(--anime-primary-dark-color-disabled);
-}
+@import url("button.css");

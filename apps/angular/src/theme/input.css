@@ -1,4 +1,8 @@
-.mat-mdc-input-element.search-input.mat-mdc-form-field-input-control.mdc-text-field__input {
+input.mat-mdc-form-field-input-control.mdc-text-field__input.cdk-text-field-autofill-monitored::placeholder {
+	color: var(--anime-primary-dark-color-disabled);
+}
+
+.mat-mdc-input-element.mat-mdc-form-field-input-control.mdc-text-field__input.cdk-text-field-autofill-monitored {
 	color: var(--anime-primary-dark-color);
 	caret-color: var(--anime-primary-dark-color);
 }
