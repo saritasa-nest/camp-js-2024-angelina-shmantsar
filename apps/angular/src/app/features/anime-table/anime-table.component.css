@@ -10,11 +10,6 @@
 	overflow-x: auto;
 }
 
-.error {
-	color: var(--error-color);
-	font-family: var(--main-anime-font-family);
-}
-
 .table-image {
 	width: var(--table-image-width);
 	height: var(--table-image-height);

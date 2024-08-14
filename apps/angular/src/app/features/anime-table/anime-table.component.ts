@@ -1,6 +1,5 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { Anime } from '@js-camp/angular/core/models/anime';
@@ -10,9 +9,6 @@ import {
 	BehaviorSubject,
 } from 'rxjs';
 import { DATE_FORMAT } from '@js-camp/angular/shared/constants/date-format';
-
-import { SearchFormComponent } from '../search-form/search-form.component';
-import { AnimeTypeFilterComponent } from '../anime-type-filter/anime-type-filter.component';
 
 /** Column key values. */
 enum ColumnKey {
@@ -32,12 +28,9 @@ enum ColumnKey {
 	standalone: true,
 	imports: [
 		MatTableModule,
-		MatPaginatorModule,
 		DatePipe,
 		EmptyPipe,
 		MatSortModule,
-		SearchFormComponent,
-		AnimeTypeFilterComponent,
 		AsyncPipe,
 	],
 })
@@ -47,9 +40,6 @@ export class AnimeTableComponent {
 	public set animeList(value: readonly Anime[]) {
 		this.animeList$.next(value);
 	}
-
-	/** Has fetching error. */
-	protected readonly hasFetchingError$ = new BehaviorSubject(false);
 
 	/** Sort value emitter. */
 	@Output()

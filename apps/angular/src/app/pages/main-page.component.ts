@@ -61,7 +61,7 @@ export class MainPageComponent implements OnInit {
 	protected readonly hasFetchingError$ = new BehaviorSubject(false);
 
 	/** Filter. */
-	protected readonly filter$ = new BehaviorSubject<readonly AnimeType[]>([]);
+	protected readonly animeTypeFilter$ = new BehaviorSubject<readonly AnimeType[]>([]);
 
 	/** Data source. */
 	protected readonly animeList$ = this.createAnimeListStream();
@@ -89,7 +89,7 @@ export class MainPageComponent implements OnInit {
 					this.pageNumber$.next(params.pageNumber ?? DEFAULT_PAGE_NUMBER);
 					this.search$.next(params.search ?? '');
 					this.ordering$.next(params.ordering ?? null);
-					this.filter$.next(params.types);
+					this.animeTypeFilter$.next(params.types);
 				}),
 				takeUntilDestroyed(this.destroyRef),
 			)
@@ -102,7 +102,7 @@ export class MainPageComponent implements OnInit {
 	}
 
 	private createAnimeListStream(): Observable<readonly Anime[]> {
-		return combineLatest([this.pageNumber$, this.pageSize$, this.ordering$, this.search$, this.filter$]).pipe(
+		return combineLatest([this.pageNumber$, this.pageSize$, this.ordering$, this.search$, this.animeTypeFilter$]).pipe(
 			debounceTime(DEBOUNCE_TIME),
 			map(([pageNumber, pageSize, ordering, search, filter]) => ({
 				pageSize,
@@ -154,7 +154,7 @@ export class MainPageComponent implements OnInit {
 	 * @param event Type filter change event.
 	 */
 	protected onFilterValueChange(event: readonly AnimeType[]): void {
-		this.filter$.next(event);
+		this.animeTypeFilter$.next(event);
 		this.pageNumber$.next(DEFAULT_PAGE_NUMBER);
 	}
 }

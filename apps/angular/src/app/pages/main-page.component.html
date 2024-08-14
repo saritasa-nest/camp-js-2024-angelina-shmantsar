@@ -1,6 +1,6 @@
 <div class="controls">
 	<camp-anime-type-filter
-		[types]="(filter$ | async) ?? []"
+		[types]="(animeTypeFilter$ | async) ?? []"
 		(filterValueEmitter)="onFilterValueChange($event)"
 	/>
 	<camp-search-form
@@ -8,10 +8,14 @@
 		(searchValueEmitter)="onSearchValueChange($event)"
 	/>
 </div>
-<camp-anime-table
-	[animeList]="(animeList$ | async) ?? []"
-	(sortValueEmitter)="onSortChange($event)"
-/>
+@if (hasFetchingError$ | async) {
+	<h2 class="error">Fetching error occurred!</h2>
+} @else {
+	<camp-anime-table
+		[animeList]="(animeList$ | async) ?? []"
+		(sortValueEmitter)="onSortChange($event)"
+	/>
+}
 <camp-paginator
 	[pageSizes]="pageSizes"
 	[pageSize]="(pageSize$ | async) ?? 25"
