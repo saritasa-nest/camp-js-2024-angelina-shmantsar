@@ -1,13 +1,5 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
-import {
-	Component,
-	DestroyRef,
-	EventEmitter,
-	Input,
-	OnInit,
-	Output,
-	inject,
-} from '@angular/core';
+import { Component, DestroyRef, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
@@ -152,14 +144,17 @@ export class AnimeTableComponent implements OnInit {
 	protected readonly sortableFields = [ColumnKey.TitleEnglish, ColumnKey.AiredStart, ColumnKey.Status];
 
 	private getAnimeList(params: AnimeManagementParams): Observable<Pagination<Anime>> {
-		this.navigationService.navigate('', AnimeManagementParamsMapper.toDto(params));
 		return this.animeService.getPaginatedAnime(params);
 	}
 
-	private getQueryParams(): void {
+	private navigateToRouteWithParams(params: AnimeManagementParams): void {
+		this.navigationService.navigate('', AnimeManagementParamsMapper.toQueryParams(params));
+	}
+
+	private subscribeToQueryParams(): void {
 		this.activatedRoute.queryParams
 			.pipe(
-				map(params => AnimeManagementParamsMapper.fromDto(params as AnimeManagementParamsDto)),
+				map(params => AnimeManagementParamsMapper.fromQueryParams(params as AnimeManagementParamsDto)),
 				tap(params => {
 					this.pageSize$.next(params.pageSize ?? INITIAL_PAGE_SIZE);
 					this.pageNumber$.next(params.pageNumber ?? DEFAULT_PAGE_NUMBER);
@@ -174,24 +169,25 @@ export class AnimeTableComponent implements OnInit {
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.getQueryParams();
+		this.subscribeToQueryParams();
 	}
 
 	private createAnimeListStream(): Observable<readonly Anime[]> {
 		return combineLatest([this.pageNumber$, this.pageSize$, this.ordering$, this.search$, this.filter$]).pipe(
 			debounceTime(DEBOUNCE_TIME),
-			tap(([,,, search, filter]) => {
+			tap(([, , , search, filter]) => {
 				this.searchValueEmitter.emit(search);
 				this.filterValueEmitter.emit(filter);
 			}),
-			switchMap(([pageNumber, pageSize, ordering, search, filter]) =>
-				this.getAnimeList({
-					pageSize,
-					pageNumber,
-					ordering: ordering ?? undefined,
-					search: search.length > 0 ? search : undefined,
-					types: filter,
-				})),
+			map(([pageNumber, pageSize, ordering, search, filter]) => ({
+				pageSize,
+				pageNumber,
+				ordering: ordering ?? undefined,
+				search: search.length > 0 ? search : undefined,
+				types: filter,
+			})),
+			tap(params => this.navigateToRouteWithParams(params)),
+			switchMap(params => this.getAnimeList(params)),
 			tap(value => {
 				this.totalCount = value.count;
 			}),

@@ -10,7 +10,7 @@ export namespace AnimeManagementParamsMapper {
 	 * Maps model to DTO.
 	 * @param model Model.
 	 */
-	export function toDto(model: AnimeManagementParams): AnimeManagementParamsDto {
+	export function toQueryParams(model: AnimeManagementParams): AnimeManagementParamsDto {
 		const types = model.types?.map(item => AnimeTypeMapper.toDto(item)).join(',');
 		return {
 			limit: model.pageSize.toString(),
@@ -25,7 +25,7 @@ export namespace AnimeManagementParamsMapper {
 	 * Maps DTO to model.
 	 * @param dto DTO.
 	 */
-	export function fromDto(dto: AnimeManagementParamsDto): AnimeManagementParams {
+	export function fromQueryParams(dto: AnimeManagementParamsDto): AnimeManagementParams {
 		const pageSize = Number(dto.limit);
 		const types = dto.type__in?.split(',').map(item => AnimeTypeMapper.fromDto(item as AnimeTypeDto)) ?? [];
 		return {

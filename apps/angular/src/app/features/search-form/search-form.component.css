@@ -1,4 +1,3 @@
-/* Use !important to override Material styles */
 :host {
 	display: flex;
 	align-items: flex-start;
