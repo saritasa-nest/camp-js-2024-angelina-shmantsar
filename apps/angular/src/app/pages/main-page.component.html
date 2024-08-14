@@ -4,7 +4,7 @@
 		(filterValueEmitter)="onFilterValueChange($event)"
 	/>
 	<camp-search-form
-		[value]="(search$ | async) ?? ''"
+		[search]="(search$ | async) ?? ''"
 		(searchValueEmitter)="onSearchValueChange($event)"
 	/>
 </div>
