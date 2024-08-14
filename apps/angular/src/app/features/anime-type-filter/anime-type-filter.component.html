@@ -1,6 +1,6 @@
 <mat-form-field appearance="outline">
 	<mat-label class="mat-label">Type</mat-label>
-	<mat-select multiple [formControl]="filterControl">
+	<mat-select multiple [formControl]="filterControl" (valueChange)="onFilterValueChange($event)">
 		@for (option of filterOptions; track option.value) {
 			<mat-option [value]="option.value" class="mat-option">{{option.title}}</mat-option>
 		}

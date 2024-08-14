@@ -37,14 +37,4 @@
 		<tr mat-header-row *matHeaderRowDef="headerRowDefinitions"></tr>
 		<tr mat-row *matRowDef="let row; columns: headerRowDefinitions;" class="mat-row"></tr>
 	</table>
-	<mat-paginator
-		#paginator
-		[length]="totalCount"
-		[pageIndex]="pageNumber$ | async"
-		[pageSize]="pageSize$ | async"
-		[pageSizeOptions]="pageSizes"
-		showFirstLastButtons
-		class="paginator"
-		(page)="updatePagination($event)"
-	/>
 }

@@ -1,7 +1,4 @@
 :host {
-	/* Header sizes */
-	--header-height: 72px;
-
 	/* Login button font size. */
 	--login-button-font-size: 24px;
 }
@@ -10,7 +7,7 @@
 	width: 100%;
 	position: sticky;
 
-	/* Because form fields have z-index = 1 */
+	/* Because table header have z-index = 1 */
 	z-index: 2;
 	top: 0;
 	display: flex;

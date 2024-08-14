@@ -9,8 +9,13 @@
 	/>
 </div>
 <camp-anime-table
-	[search]="(search$ | async) ?? ''"
-	[filter]="(filter$ | async) ?? []"
-	(searchValueEmitter)="onSearchValueChange($event)"
-	(filterValueEmitter)="onFilterValueChange($event)"
+	[animeList]="(animeList$ | async) ?? []"
+	(sortValueEmitter)="onSortChange($event)"
+/>
+<camp-paginator
+	[pageSizes]="pageSizes"
+	[pageSize]="(pageSize$ | async) ?? 25"
+	[pageNumber]="(pageNumber$ | async) ?? 0"
+	[totalCount]="totalCount"
+	(pageEventEmitter)="onPageEvent($event)"
 />

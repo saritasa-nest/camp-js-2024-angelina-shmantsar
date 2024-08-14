@@ -9,6 +9,9 @@
 	--size-5: 20px;
 	--size-7: 28px;
 
+	/* App header size */
+	--header-height: 72px;
+
 	/* Font sizes */
 	--font-size-md: 20px;
 	--font-size-lg: 32px;

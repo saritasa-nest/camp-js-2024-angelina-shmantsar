@@ -15,15 +15,6 @@
 	font-family: var(--main-anime-font-family);
 }
 
-.controls {
-	width: 100%;
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	gap: var(--size-4);
-	background-color: var(--anime-primary-light-color);
-}
-
 .table-image {
 	width: var(--table-image-width);
 	height: var(--table-image-height);
@@ -52,13 +43,10 @@
 	border-bottom: var(--border-sm) solid var(--anime-primary-dark-color);
 }
 
-.mat-row:hover {
-	background-color: var(--anime-primary-light-color);
+.mat-row {
+	cursor: pointer;
 }
 
-.paginator {
+.mat-row:hover {
 	background-color: var(--anime-primary-light-color);
-	font-size: var(--font-size-md);
-	color: var(--anime-primary-dark-color);
-	font-family: var(--main-anime-font-family);
 }
