@@ -1,18 +1,18 @@
-/** Genres data DTO. */
-export type GenresDataDto = {
+/** Genres data. */
+export type AnimeGenresData = {
 
 	/** Id. */
 	readonly id: number;
 
-	/** Id. */
+	/** Created. */
 	readonly created: string;
 
-	/** Id. */
+	/** Modified. */
 	readonly modified: string;
 
-	/** Id. */
+	/** Name. */
 	readonly name: string;
 
-	/** Id. */
+	/** Type. */
 	readonly type: string;
 };

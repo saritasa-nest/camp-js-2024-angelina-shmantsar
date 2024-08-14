@@ -1,5 +1,5 @@
 /** Season DTO. */
-export enum SeasonDto {
+export enum AnimeSeasonDto {
 	SUMMER = 'SUMMER',
 	WINTER = 'WINTER',
 	SPRING = 'SPRING',

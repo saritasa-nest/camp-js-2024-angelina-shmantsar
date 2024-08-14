@@ -1,10 +1,11 @@
 import { AnimeStatusDto } from './backend-enums/anime-status.dto';
 import { AnimeTypeDto } from './backend-enums/anime-type.dto';
-import { RatingDto } from './backend-enums/rating.dto';
-import { SeasonDto } from './backend-enums/season.dto';
-import { SourceDto } from './backend-enums/source.dto';
-import { GenresDataDto } from './genres-data.dto';
-import { StudiosDataDto } from './studios-data.dto';
+import { AnimeRatingDto } from './backend-enums/anime-rating.dto';
+import { AnimeSeasonDto } from './backend-enums/anime-season.dto';
+import { AnimeSourceDto } from './backend-enums/anime-source.dto';
+import { DateTimeRangeDto } from './date-time-range.dto';
+import { AnimeGenresDataDto } from './anime-genres-data.dto';
+import { AnimeStudiosDataDto } from './anime-studios-data.dto';
 
 /** Anime details DTO. */
 export type AnimeDetailsDto = {
@@ -43,26 +44,19 @@ export type AnimeDetailsDto = {
 	readonly status: AnimeStatusDto;
 
 	/** Id. */
-	readonly source: SourceDto;
+	readonly source: AnimeSourceDto;
 
 	/** Id. */
 	readonly airing: boolean;
 
 	/** Id. */
-	readonly aired: {
-
-		/** Id. */
-		readonly start: string;
-
-		/** Id. */
-		readonly end: string;
-	};
+	readonly aired: DateTimeRangeDto;
 
 	/** Id. */
-	readonly rating: RatingDto;
+	readonly rating: AnimeRatingDto;
 
 	/** Id. */
-	readonly season: SeasonDto;
+	readonly season: AnimeSeasonDto;
 
 	/** Id. */
 	readonly synopsis: string;
@@ -83,11 +77,11 @@ export type AnimeDetailsDto = {
 	readonly studios: readonly number[];
 
 	/** Id. */
-	readonly studios_data: readonly StudiosDataDto[];
+	readonly studios_data: readonly AnimeStudiosDataDto[];
 
 	/** Id. */
 	readonly genres: readonly number[];
 
 	/** Id. */
-	readonly genres_data: readonly GenresDataDto[];
+	readonly genres_data: readonly AnimeGenresDataDto[];
 };

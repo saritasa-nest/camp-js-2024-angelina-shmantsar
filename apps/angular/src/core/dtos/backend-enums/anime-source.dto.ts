@@ -1,5 +1,5 @@
 /** Source dto. */
-export enum SourceDto {
+export enum AnimeSourceDto {
 	FOUR_KOMA_MANGA = 'FOUR_KOMA_MANGA',
 	BOOK = 'BOOK',
 	CARD_GAME = 'CARD_GAME',

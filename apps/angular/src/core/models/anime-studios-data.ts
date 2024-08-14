@@ -1,5 +1,5 @@
-/** Studios data DTO. */
-export type StudiosDataDto = {
+/** Studios data. */
+export type AnimeStudiosData = {
 
 	/** Id. */
 	readonly id: number;

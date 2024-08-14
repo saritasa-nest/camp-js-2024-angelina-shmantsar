@@ -1,5 +1,5 @@
 /** Rating DTO. */
-export enum RatingDto {
+export enum AnimeRatingDto {
 	G = 'G',
 	PG = 'PG',
 	PG_13 = 'PG_13',
