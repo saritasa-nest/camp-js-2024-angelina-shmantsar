@@ -4,12 +4,13 @@ import { AnimeDetails } from '@js-camp/angular/core/models/anime-details';
 import { BehaviorSubject } from 'rxjs';
 import { DATE_FORMAT } from '@js-camp/angular/shared/constants/date-format';
 import { StudioCardComponent } from '@js-camp/angular/shared/components/studio-card/studio-card.component';
+import { MatListModule } from '@angular/material/list';
 
 /** Anime details card. */
 @Component({
 	selector: 'camp-anime-details-card',
 	standalone: true,
-	imports: [CommonModule, AsyncPipe, DatePipe, StudioCardComponent],
+	imports: [CommonModule, AsyncPipe, DatePipe, StudioCardComponent, MatListModule],
 	templateUrl: './anime-details-card.component.html',
 	styleUrl: './anime-details-card.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,4 +27,7 @@ export class AnimeDetailsCardComponent {
 
 	/** Date format. */
 	protected readonly dateFormat = DATE_FORMAT;
+
+	/** Details. */
+	protected readonly details = [];
 }

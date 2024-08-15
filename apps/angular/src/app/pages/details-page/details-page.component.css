@@ -1,4 +1,12 @@
 :host {
-	display: block;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--size-8);
 	background-color: var(--anime-accent-light-color);
+}
+
+.divider {
+	width: 95%;
+	border-top-color: var(--anime-primary-dark-color-disabled);
 }
