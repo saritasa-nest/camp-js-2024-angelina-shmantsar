@@ -85,8 +85,8 @@ export class MainPageComponent implements OnInit {
 			.pipe(
 				map(params => AnimeManagementParamsMapper.fromQueryParams(params as AnimeManagementParamsDto)),
 				tap(params => {
-					this.pageSize$.next(params.pageSize ?? INITIAL_PAGE_SIZE);
-					this.pageNumber$.next(params.pageNumber ?? DEFAULT_PAGE_NUMBER);
+					this.pageSize$.next(params.pageSize);
+					this.pageNumber$.next(params.pageNumber);
 					this.search$.next(params.search ?? '');
 					this.ordering$.next(params.ordering ?? null);
 					this.animeTypeFilter$.next(params.types);

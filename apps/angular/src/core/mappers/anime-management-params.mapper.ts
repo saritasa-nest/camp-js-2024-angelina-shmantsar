@@ -4,6 +4,10 @@ import { AnimeManagementParams } from '../models/anime-management-params';
 
 import { AnimeTypeMapper } from './anime-type.mapper';
 
+const INITIAL_PAGE_SIZE = 25;
+
+const DEFAULT_PAGE_NUMBER = 0;
+
 export namespace AnimeManagementParamsMapper {
 
 	/**
@@ -26,11 +30,11 @@ export namespace AnimeManagementParamsMapper {
 	 * @param dto DTO.
 	 */
 	export function fromQueryParams(dto: AnimeManagementParamsDto): AnimeManagementParams {
-		const pageSize = Number(dto.limit);
+		const pageSize = Number(dto.limit ?? INITIAL_PAGE_SIZE);
 		const types = dto.type__in?.split(',').map(item => AnimeTypeMapper.fromDto(item as AnimeTypeDto)) ?? [];
 		return {
 			pageSize,
-			pageNumber: Math.round(Number(dto.offset) / pageSize),
+			pageNumber: Math.round(Number(dto.offset ?? DEFAULT_PAGE_NUMBER) / pageSize),
 			ordering: dto.ordering,
 			search: dto.search,
 			types,
