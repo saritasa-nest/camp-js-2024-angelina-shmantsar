@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, EventEmitter, Input, Output, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { AnimeType } from '@js-camp/angular/core/models/anime-type';
@@ -34,8 +34,6 @@ export class AnimeTypeFilterComponent {
 	/** Filter values emitter. */
 	@Output()
 	public readonly filterValueEmitter = new EventEmitter<readonly AnimeType[]>();
-
-	private readonly destroyRef = inject(DestroyRef);
 
 	/** Filter control. */
 	protected readonly filterControl = new FormControl<readonly AnimeType[]>(this.types);

@@ -2,6 +2,10 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { CommonModule } from '@angular/common';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
+const INITIAL_PAGE_SIZE = 25;
+
+const DEFAULT_PAGE_NUMBER = 0;
+
 /** Paginator. */
 @Component({
 	selector: 'camp-paginator',
@@ -22,11 +26,11 @@ export class PaginatorComponent {
 
 	/** Page number. */
 	@Input()
-	public pageNumber = 0;
+	public pageNumber = DEFAULT_PAGE_NUMBER;
 
 	/** Page size. */
 	@Input()
-	public pageSize = 25;
+	public pageSize = INITIAL_PAGE_SIZE;
 
 	/** Page sizes. */
 	@Input()
