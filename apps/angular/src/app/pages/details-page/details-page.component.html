@@ -1,1 +1,2 @@
 <camp-anime-details-card [animeDetails]="(animeDetails$ | async)" />
+<camp-anime-player [trailerYouTubeId]="(animeDetails$ | async)?.trailerYoutubeIdUrl ?? ''" />
