@@ -4,15 +4,21 @@ export type AnimeGenresDataDto = {
 	/** Id. */
 	readonly id: number;
 
-	/** Id. */
+	/**
+	 * Created.
+	 * String in ISO date format.
+	 * */
 	readonly created: string;
 
-	/** Id. */
+	/**
+	 * Modified.
+	 * String in ISO date format.
+	 * */
 	readonly modified: string;
 
-	/** Id. */
+	/** Name. */
 	readonly name: string;
 
-	/** Id. */
+	/** Type. */
 	readonly type: string;
 };

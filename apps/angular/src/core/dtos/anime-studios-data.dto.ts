@@ -4,10 +4,16 @@ export type AnimeStudiosDataDto = {
 	/** Id. */
 	readonly id: number;
 
-	/** Created. */
+	/**
+	 * Created.
+	 * String in ISO date format.
+	 * */
 	readonly created: string;
 
-	/** Modified. */
+	/**
+	 * Modified.
+	 * String in ISO date format.
+	 * */
 	readonly modified: string;
 
 	/** Name. */

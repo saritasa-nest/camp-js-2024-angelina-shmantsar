@@ -13,75 +13,81 @@ export type AnimeDetailsDto = {
 	/** Id. */
 	readonly id: number;
 
-	/** Id. */
+	/**
+	 * Created.
+	 * String in ISO date format.
+	 * */
 	readonly created: string;
 
-	/** Id. */
+	/**
+	 * Modified.
+	 * String in ISO date format.
+	 * */
 	readonly modified: string;
 
-	/** Id. */
+	/** Anime poster image URL. */
 	readonly image: string;
 
-	/** Id. */
+	/** Trailer youtube id url. */
 	readonly trailer_youtube_id: string;
 
-	/** Id. */
+	/** Anime title in English. */
 	readonly title_eng: string;
 
-	/** Id. */
+	/** Anime title in Japanese. */
 	readonly title_jpn: string;
 
-	/** Id. */
+	/** Critic score. */
 	readonly score: number;
 
-	/** Id. */
+	/** User score. */
 	readonly user_score: number;
 
-	/** Id. */
+	/** Type. */
 	readonly type: AnimeTypeDto;
 
-	/** Id. */
+	/** Status. */
 	readonly status: AnimeStatusDto;
 
-	/** Id. */
+	/** Source. */
 	readonly source: AnimeSourceDto;
 
-	/** Id. */
+	/** Airing. */
 	readonly airing: boolean;
 
-	/** Id. */
+	/** Aired. */
 	readonly aired: DateTimeRangeDto;
 
-	/** Id. */
+	/** Rating. */
 	readonly rating: AnimeRatingDto;
 
-	/** Id. */
+	/** Season. */
 	readonly season: AnimeSeasonDto;
 
-	/** Id. */
+	/** Synopsis. */
 	readonly synopsis: string;
 
-	/** Id. */
+	/** Background. */
 	readonly background: string;
 
-	/** Id. */
+	/** Broadcast day. */
 	readonly broadcast_day: number;
 
-	/** Id. */
+	/** Broadcast time. */
 	readonly broadcast_time: string;
 
-	/** Id. */
+	/** Broadcast timezone. */
 	readonly broadcast_timezone: string;
 
-	/** Id. */
+	/** Studio ID's. */
 	readonly studios: readonly number[];
 
-	/** Id. */
+	/** Studios data. */
 	readonly studios_data: readonly AnimeStudiosDataDto[];
 
-	/** Id. */
+	/** Genre ID's. */
 	readonly genres: readonly number[];
 
-	/** Id. */
+	/** Genres data. */
 	readonly genres_data: readonly AnimeGenresDataDto[];
 };

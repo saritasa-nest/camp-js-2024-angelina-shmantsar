@@ -9,7 +9,7 @@ import { AnimeStatusMapper } from './anime-status.mapper';
 import { AnimeTypeMapper } from './anime-type.mapper';
 import { DateTimeRangeMapper } from './date-time-range.mapper';
 
-export namespace AnimeDetalsMapper {
+export namespace AnimeDetailsMapper {
 
 	/**
 	 * Maps DTO to model.
