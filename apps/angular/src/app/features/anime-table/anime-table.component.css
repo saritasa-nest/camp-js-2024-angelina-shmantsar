@@ -53,6 +53,10 @@
 	border-bottom: var(--border-sm) solid var(--anime-primary-dark-color);
 }
 
+.mat-row {
+	cursor: pointer;
+}
+
 .mat-row:hover {
 	background-color: var(--anime-primary-light-color);
 }
@@ -62,4 +66,8 @@
 	font-size: var(--font-size-md);
 	color: var(--anime-primary-dark-color);
 	font-family: var(--main-anime-font-family);
+}
+
+.details-link {
+	color: var(--anime-primary-dark-color-disabled);
 }

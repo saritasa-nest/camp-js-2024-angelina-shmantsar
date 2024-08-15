@@ -20,6 +20,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AnimeManagementParamsMapper } from '@js-camp/angular/core/mappers/anime-management-params.mapper';
 import { SortParamsMapper } from '@js-camp/angular/core/mappers/sort-params.mapper';
 import { SortParams } from '@js-camp/angular/core/models/sort-params';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 import { SearchFormComponent } from '../search-form/search-form.component';
 import { AnimeTypeFilterComponent } from '../anime-type-filter/anime-type-filter.component';
@@ -32,6 +34,7 @@ enum ColumnKey {
 	AiredStart = 'airedStart',
 	Type = 'type',
 	Status = 'status',
+	Details = 'details',
 }
 
 const INITIAL_PAGE_SIZE = 25;
@@ -55,6 +58,8 @@ const DEBOUNCE_TIME = 500;
 		SearchFormComponent,
 		AnimeTypeFilterComponent,
 		AsyncPipe,
+		MatButtonModule,
+		MatIconModule,
 	],
 })
 export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
@@ -103,6 +108,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 		{ key: ColumnKey.AiredStart, header: 'Aired start' },
 		{ key: ColumnKey.Type, header: 'Type' },
 		{ key: ColumnKey.Status, header: 'Status' },
+		{ key: ColumnKey.Details, header: 'Details' },
 	];
 
 	/** Header row definition. */
@@ -247,5 +253,13 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnChanges {
 				}),
 				takeUntilDestroyed(this.destroyRef),
 			);
+	}
+
+	/**
+	 *
+	 * @param id Anime id.
+	 */
+	protected navigateToDetailsPage(id: string): void {
+		this.navigationService.navigate(`/anime/${id}`);
 	}
 }

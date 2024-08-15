@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { AnimeDetails } from '@js-camp/angular/core/models/anime-details';
 import { AnimePlayerComponent } from '@js-camp/angular/shared/components/anime-player/anime-player.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { AnimeDetailsCardComponent } from '../../features/anime-details-card/anime-details-card.component';
 
@@ -20,10 +21,18 @@ import { AnimeDetailsCardComponent } from '../../features/anime-details-card/ani
 export class DetailsPageComponent {
 	private readonly animeService = inject(AnimeService);
 
+	private readonly activatedRoute = inject(ActivatedRoute);
+
 	/** Anime details. */
-	protected readonly animeDetails$ = this.getAnimeById(23848);
+	protected readonly animeDetails$ = this.createAnimeDetailsStream();
 
 	private getAnimeById(id: number): Observable<AnimeDetails> {
 		return this.animeService.getAnimeById(id);
+	}
+
+	private createAnimeDetailsStream(): Observable<AnimeDetails> {
+		return this.activatedRoute.paramMap.pipe(
+			switchMap((params: ParamMap) => this.getAnimeById(Number(params.get('id')))),
+		);
 	}
 }
