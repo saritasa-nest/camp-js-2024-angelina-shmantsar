@@ -1,4 +1,29 @@
-<img />
+<img [src]="(animeDetails$ | async)?.imageUrl" class="poster" />
 <section class="details">
-	<h2>Anime</h2>
+	<h2 class="details-title">{{(animeDetails$ | async)?.titleJapanese}}</h2>
+	<p class="detail">English title: {{(animeDetails$ | async)?.titleEnglish}}</p>
+	<p class="detail">Rating: {{(animeDetails$ | async)?.rating}}</p>
+	<p class="detail">Source: {{(animeDetails$ | async)?.source}}</p>
+	<p class="detail">Season: {{(animeDetails$ | async)?.season}}</p>
+	<p class="detail">Synopsis: {{(animeDetails$ | async)?.synopsis}}</p>
+	<p class="detail">Type: {{(animeDetails$ | async)?.type}}</p>
+	<p class="detail">Status: {{(animeDetails$ | async)?.status}}</p>
+	<p class="detail">Airing: {{(animeDetails$ | async)?.airing}}</p>
+	<p class="detail">Aired start: {{(animeDetails$ | async)?.aired?.start | date:dateFormat}}</p>
+	<p class="detail">Aired end: {{(animeDetails$ | async)?.aired?.end | date:dateFormat}}</p>
+	Studios:
+	<div class="studios">
+		@for (studio of (animeDetails$ | async)?.studiosData; track studio.id) {
+			<camp-studio-card
+				[studioImageSource]="studio?.image ?? ''"
+				[studioName]="studio?.name ?? ''"
+			/>
+		}
+	</div>
+	Genres:
+	<div class="genres">
+		@for (genre of (animeDetails$ | async)?.genresData; track genre.id) {
+			<p class="genre">{{genre.name}}</p>
+		}
+	</div>
 </section>

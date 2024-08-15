@@ -5,7 +5,7 @@ export enum AnimeSource {
 	CardGame = 'Card Game',
 	Game = 'Game',
 	LightNovel = 'Light Novel',
-	Manga = 'Mange',
+	Manga = 'Manga',
 	MixedMedia = 'Mixed Media',
 	Music = 'Music',
 	Novel = 'Novel',

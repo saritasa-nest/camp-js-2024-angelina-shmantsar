@@ -1,3 +1,47 @@
 :host {
+	--poster-width: 300px;
+	--poster-height: 300px;
+
 	display: flex;
+	color: var(--anime-primary-dark-color);
+}
+
+.poster {
+	width: var(--poster-width);
+	height: var(--poster-height);
+	object-fit: contain;
+	padding: var(--size-3);
+}
+
+.details {
+	padding: var(--size-3);
+}
+
+.details-title {
+	color: var(--anime-primary-dark-color);
+	font-family: var(--japanese-font-family);
+	font-size: var(--font-size-lg);
+}
+
+.detail {
+	font-size: var(--font-size-sm);
+}
+
+.studios {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--size-2);
+}
+
+.genres {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--size-2);
+}
+
+.genre {
+	background-color: var(--anime-primary-light-color);
+	border: 1px solid var(--anime-primary-dark-color);
+	border-radius: 4px;
+	padding: 8px 12px;
 }

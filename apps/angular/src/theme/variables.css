@@ -13,6 +13,7 @@
 	--size-10: 40px;
 
 	/* Font sizes */
+	--font-size-sm: 16px;
 	--font-size-md: 20px;
 	--font-size-lg: 32px;
 
@@ -23,6 +24,7 @@
 	/* Font families */
 	--main-anime-font-family: manrope, sans-serif;
 	--app-title-font-family: megrim, system-ui;
+	--japanese-font-family: shippori mincho, serif;
 
 	/* Colors */
 	--anime-primary-dark-color: rgb(0 49 106);

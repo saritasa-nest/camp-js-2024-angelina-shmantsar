@@ -1,4 +1,1 @@
-<camp-anime-details-card />
-<div>
-	{{animeDetails$ | async | json}}
-</div>
+<camp-anime-details-card [animeDetails]="(animeDetails$ | async)" />
