@@ -1,4 +1,6 @@
-<img [src]="(animeDetails$ | async)?.imageUrl" class="poster" />
+<button type="button" class="popup-button" #item [value]="(animeDetails$ | async)?.imageUrl ?? ''" (click)="onPopupButtonClick(item.value)">
+	<img [src]="(animeDetails$ | async)?.imageUrl" class="poster" matTooltip="View full size" [matTooltipClass]="{ 'poster-tooltip': true }" />
+</button>
 <section class="details">
 	<h2 class="details-title">{{(animeDetails$ | async)?.titleJapanese}}</h2>
 	<p class="details-subtitle">{{(animeDetails$ | async)?.titleEnglish}}</p>

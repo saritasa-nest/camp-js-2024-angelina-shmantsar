@@ -1,0 +1,4 @@
+.poster-tooltip .mat-mdc-tooltip-surface {
+	background-color: var(--anime-primary-dark-color);
+	color: var(--anime-accent-light-color);
+}
