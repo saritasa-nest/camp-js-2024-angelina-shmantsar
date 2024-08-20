@@ -1,11 +1,36 @@
 :host {
+	/* Sizes */
+	--player-height: 600px;
+	--alternative-image-height: 120px;
+
+	/* Font size */
+	--alternative-image-font-size: 24px;
+
 	display: flex;
 	justify-content: center;
 	width: 100%;
-	min-height: 600px;
+	min-height: fit-content;
 	padding-bottom: var(--size-8);
 }
 
 .player {
 	width: 90%;
+	min-height: var(--player-height);
+}
+
+.alternative-image {
+	width: 70%;
+	min-height: var(--alternative-image-height);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	background-color: var(--anime-primary-light-color);
+	color: var(--anime-primary-dark-color);
+	font-size: var(--alternative-image-font-size);
+	border: none;
+}
+
+.alternative-image__icon {
+	scale: 2;
 }

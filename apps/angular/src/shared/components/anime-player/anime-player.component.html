@@ -1,5 +1,14 @@
-<iframe
-	[src]="(trailerYouTubeUrl$ | async) ?? '' | safe"
-	class="player"
->
-</iframe>
+@if ((trailerYouTubeUrl$ | async) !== 'https://www.youtube.com/embed/') {
+	<iframe
+		[src]="(trailerYouTubeUrl$ | async) ?? '' | safe"
+		class="player"
+	>
+	</iframe>
+} @else {
+	<mat-card appearance="outlined" class="alternative-image">
+		<mat-card-header>Sorry, trailer is unavailable</mat-card-header>
+		<mat-card-content>
+			<mat-icon class="alternative-image__icon">sentiment_dissatisfied</mat-icon>
+		</mat-card-content>
+	</mat-card>
+}

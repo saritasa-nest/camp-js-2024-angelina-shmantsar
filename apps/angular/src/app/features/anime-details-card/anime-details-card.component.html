@@ -4,30 +4,38 @@
 <section class="details">
 	<h2 class="details-title">{{(animeDetails$ | async)?.titleJapanese}}</h2>
 	<p class="details-subtitle">{{(animeDetails$ | async)?.titleEnglish}}</p>
-	<p class="detail"><span class="detail-name">User score:</span> {{(animeDetails$ | async)?.userScore ?? 0}}</p>
-	<p class="detail"><span class="detail-name">Critic score:</span> {{(animeDetails$ | async)?.criticScore ?? 0}}</p>
-	<p class="detail"><span class="detail-name">Rating:</span> {{(animeDetails$ | async)?.rating}}</p>
-	<p class="detail"><span class="detail-name">Source:</span> {{(animeDetails$ | async)?.source}}</p>
-	<p class="detail"><span class="detail-name">Season:</span> {{(animeDetails$ | async)?.season}}</p>
-	<p class="detail"><span class="detail-name">Synopsis:</span> {{(animeDetails$ | async)?.synopsis}}</p>
-	<p class="detail"><span class="detail-name">Type:</span> {{(animeDetails$ | async)?.type}}</p>
-	<p class="detail"><span class="detail-name">Status:</span> {{(animeDetails$ | async)?.status}}</p>
+	<p class="detail"><span class="detail-name">User score:</span> {{(animeDetails$ | async)?.userScore | empty}}</p>
+	<p class="detail"><span class="detail-name">Critic score:</span> {{(animeDetails$ | async)?.criticScore | empty}}</p>
+	<p class="detail"><span class="detail-name">Rating:</span> {{(animeDetails$ | async)?.rating | empty}}</p>
+	<p class="detail"><span class="detail-name">Source:</span> {{(animeDetails$ | async)?.source | empty}}</p>
+	<p class="detail"><span class="detail-name">Season:</span> {{(animeDetails$ | async)?.season | empty}}</p>
+	<p class="detail"><span class="detail-name">Synopsis:</span> {{(animeDetails$ | async)?.synopsis | empty}}</p>
+	<p class="detail"><span class="detail-name">Type:</span> {{(animeDetails$ | async)?.type | empty}}</p>
+	<p class="detail"><span class="detail-name">Status:</span> {{(animeDetails$ | async)?.status | empty}}</p>
 	<p class="detail"><span class="detail-name">Airing:</span> {{(animeDetails$ | async)?.airing}}</p>
-	<p class="detail"><span class="detail-name">Aired start:</span> {{(animeDetails$ | async)?.aired?.start | date:dateFormat}}</p>
-	<p class="detail"><span class="detail-name">Aired end:</span> {{(animeDetails$ | async)?.aired?.end | date:dateFormat}}</p>
+	<p class="detail"><span class="detail-name">Aired start:</span> {{(animeDetails$ | async)?.aired?.start | date:dateFormat | empty}}</p>
+	<p class="detail"><span class="detail-name">Aired end:</span> {{(animeDetails$ | async)?.aired?.end | date:dateFormat | empty}}</p>
 	<div class="detail-name list">Studios:</div>
-	<div class="studios">
-		@for (studio of (animeDetails$ | async)?.studiosData; track studio.id) {
-			<camp-studio-card
-				[studioImageSource]="studio?.image ?? ''"
-				[studioName]="studio?.name ?? ''"
-			/>
-		}
-	</div>
+	@if ((animeDetails$ | async)?.studiosData?.length === 0) {
+		<span>—</span>
+	} @else {
+		<div class="studios">
+			@for (studio of (animeDetails$ | async)?.studiosData; track studio.id) {
+				<camp-studio-card
+					[studioImageSource]="studio?.image ?? ''"
+					[studioName]="studio?.name ?? ''"
+				/>
+			}
+		</div>
+	}
 	<div class="detail-name list">Genres:</div>
-	<div class="genres">
-		@for (genre of (animeDetails$ | async)?.genresData; track genre.id) {
-			<p class="genre">{{genre.name}}</p>
-		}
-	</div>
+	@if ((animeDetails$ | async)?.genresData?.length === 0) {
+		<span>—</span>
+	} @else {
+		<div class="genres">
+			@for (genre of (animeDetails$ | async)?.genresData; track genre.id) {
+				<p class="genre">{{genre.name}}</p>
+			}
+		</div>
+	}
 </section>

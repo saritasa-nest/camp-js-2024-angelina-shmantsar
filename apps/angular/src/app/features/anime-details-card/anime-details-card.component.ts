@@ -8,12 +8,13 @@ import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AnimePosterPopupComponent } from '@js-camp/angular/shared/components/anime-poster-popup/anime-poster-popup.component';
+import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
 
 /** Anime details card. */
 @Component({
 	selector: 'camp-anime-details-card',
 	standalone: true,
-	imports: [CommonModule, AsyncPipe, DatePipe, StudioCardComponent, MatListModule, MatTooltipModule],
+	imports: [CommonModule, AsyncPipe, DatePipe, StudioCardComponent, MatListModule, MatTooltipModule, EmptyPipe],
 	templateUrl: './anime-details-card.component.html',
 	styleUrl: './anime-details-card.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
