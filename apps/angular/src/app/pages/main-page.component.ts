@@ -10,13 +10,14 @@ import { Sort } from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
 import { AnimeManagementParamsDto } from '@js-camp/angular/core/dtos/anime-management-params.dto';
 import { AnimeManagementParamsMapper } from '@js-camp/angular/core/mappers/anime-management-params.mapper';
-import { SortParamsMapper } from '@js-camp/angular/core/mappers/sort-params.mapper';
 import { Anime } from '@js-camp/angular/core/models/anime';
 import { AnimeManagementParams } from '@js-camp/angular/core/models/anime-management-params';
 import { Pagination } from '@js-camp/angular/core/models/pagination';
 import { SortParams } from '@js-camp/angular/core/models/sort-params';
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 import { DEFAULT_PAGE_NUMBER, INITIAL_PAGE_SIZE } from '@js-camp/angular/shared/constants/default-paginator-values';
+import { SortModel } from '@js-camp/angular/core/models/sort';
+import { SortMapper } from '@js-camp/angular/core/mappers/sort.mapper';
 
 import { AnimeTypeFilterComponent } from '../features/anime-type-filter/anime-type-filter.component';
 import { SearchFormComponent } from '../features/search-form/search-form.component';
@@ -54,7 +55,7 @@ export class MainPageComponent implements OnInit {
 	 * @param event Sort change event.
 	 */
 	protected onSortChange(event: Sort): void {
-		this.ordering$.next(SortParamsMapper.toDto(event.active as SortParams, event.direction));
+		this.ordering$.next({ activeSort: event.active as SortParams, direction: event.direction });
 	}
 
 	/** Handle search value change.
@@ -90,7 +91,7 @@ export class MainPageComponent implements OnInit {
 					this.pageSize$.next(params.pageSize);
 					this.pageNumber$.next(params.pageNumber);
 					this.search$.next(params.search ?? '');
-					this.ordering$.next(params.ordering ?? null);
+					this.ordering$.next(params.ordering != null ? SortMapper.fromDto(params.ordering) : null);
 					this.animeTypeFilter$.next(params.types);
 				}),
 				takeUntilDestroyed(this.destroyRef),
@@ -104,7 +105,7 @@ export class MainPageComponent implements OnInit {
 			map(([pageNumber, pageSize, ordering, search, filter]) => ({
 				pageSize,
 				pageNumber,
-				ordering: ordering ?? undefined,
+				ordering: ordering != null ? SortMapper.toDto(ordering) : undefined,
 				search: search.length > 0 ? search : undefined,
 				types: filter,
 			})),
@@ -136,7 +137,7 @@ export class MainPageComponent implements OnInit {
 	protected readonly pageSizes = [25, 50, 100];
 
 	/** Written above protected member because it is needed in 'createAnimeListStream'. */
-	private readonly ordering$ = new BehaviorSubject<string | null>(null);
+	private readonly ordering$ = new BehaviorSubject<SortModel | null>(null);
 
 	/** Data source. */
 	protected readonly animeList$ = this.createAnimeListStream();
