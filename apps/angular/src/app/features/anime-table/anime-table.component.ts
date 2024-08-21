@@ -35,6 +35,14 @@ enum ColumnKey {
 	],
 })
 export class AnimeTableComponent {
+	/**
+	 * On sort change.
+	 * @param event Sort change event.
+	 */
+	protected onSortChange(event: Sort): void {
+		this.sortChange.emit(event);
+	}
+
 	/** Anime list. */
 	@Input({ required: true })
 	public animeList: readonly Anime[] = [];
@@ -67,12 +75,4 @@ export class AnimeTableComponent {
 
 	/** Sortable fields. */
 	protected readonly sortableFields = [ColumnKey.TitleEnglish, ColumnKey.AiredStart, ColumnKey.Status];
-
-	/**
-	 * On sort change.
-	 * @param event Sort change event.
-	 */
-	protected onSortChange(event: Sort): void {
-		this.sortChange.emit(event);
-	}
 }

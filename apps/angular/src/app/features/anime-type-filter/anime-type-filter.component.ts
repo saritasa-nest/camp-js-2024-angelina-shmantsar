@@ -25,6 +25,14 @@ type FilterOption = {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeTypeFilterComponent {
+	/**
+	 * On filter value change.
+	 * @param event Filter change event.
+	 */
+	protected onFilterValueChange(event: readonly AnimeType[]): void {
+		this.typeFilterChange.emit(event);
+	}
+
 	/** Filter values. */
 	@Input()
 	public set types(value: readonly AnimeType[]) {
@@ -49,12 +57,4 @@ export class AnimeTypeFilterComponent {
 		{ value: AnimeType.Tv, title: 'TV' },
 		{ value: AnimeType.Unknown, title: 'Unknown' },
 	];
-
-	/**
-	 * On filter value change.
-	 * @param event Filter change event.
-	 */
-	protected onFilterValueChange(event: readonly AnimeType[]): void {
-		this.typeFilterChange.emit(event);
-	}
 }

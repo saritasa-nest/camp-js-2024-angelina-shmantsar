@@ -13,6 +13,14 @@ import { DEFAULT_PAGE_NUMBER, INITIAL_PAGE_SIZE } from '@js-camp/angular/shared/
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaginatorComponent {
+	/**
+	 * On page event.
+	 * @param event Page event.
+	 */
+	protected onPageEvent(event: PageEvent): void {
+		this.pageChange.emit(event);
+	}
+
 	/** Page event emitter. */
 	@Output()
 	public readonly pageChange = new EventEmitter<PageEvent>();
@@ -32,12 +40,4 @@ export class PaginatorComponent {
 	/** Page sizes. */
 	@Input()
 	public pageSizes: readonly number[] = [];
-
-	/**
-	 * On page event.
-	 * @param event Page event.
-	 */
-	protected onPageEvent(event: PageEvent): void {
-		this.pageChange.emit(event);
-	}
 }

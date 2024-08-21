@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 /** Navigation service. */
 @Injectable({ providedIn: 'root' })
 export class NavigationService {
-	private readonly router = inject(Router);
-
 	/**
 	 * Navigate to endpoint.
 	 * @param url Endpoint.
@@ -16,4 +14,6 @@ export class NavigationService {
 			queryParams: params,
 		});
 	}
+
+	private readonly router = inject(Router);
 }

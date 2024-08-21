@@ -35,90 +35,9 @@ const DEBOUNCE_TIME = 500;
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainPageComponent implements OnInit {
-	private readonly animeService = inject(AnimeService);
-
-	private readonly activatedRoute = inject(ActivatedRoute);
-
-	private readonly navigationService = inject(NavigationService);
-
-	private readonly destroyRef = inject(DestroyRef);
-
-	/** Page number. */
-	protected readonly pageNumber$ = new BehaviorSubject(DEFAULT_PAGE_NUMBER);
-
-	/** Page size. */
-	protected readonly pageSize$ = new BehaviorSubject(INITIAL_PAGE_SIZE);
-
-	private readonly ordering$ = new BehaviorSubject<string | null>(null);
-
-	/** Search. */
-	protected readonly search$ = new BehaviorSubject('');
-
-	/** Has fetching error. */
-	protected readonly hasFetchingError$ = new BehaviorSubject(false);
-
-	/** Filter. */
-	protected readonly animeTypeFilter$ = new BehaviorSubject<readonly AnimeType[]>([]);
-
-	/** Data source. */
-	protected readonly animeList$ = this.createAnimeListStream();
-
-	/** Page size. */
-	protected readonly pageSizes = [25, 50, 100];
-
-	/** Total count. */
-	protected totalCount = 0;
-
-	private getAnimeList(params: AnimeManagementParams): Observable<Pagination<Anime>> {
-		return this.animeService.getPaginatedAnime(params);
-	}
-
-	private navigateToRouteWithParams(params: AnimeManagementParams): void {
-		this.navigationService.navigate('', AnimeManagementParamsMapper.toQueryParams(params));
-	}
-
-	private subscribeToQueryParams(): void {
-		this.activatedRoute.queryParams
-			.pipe(
-				map(params => AnimeManagementParamsMapper.fromQueryParams(params as AnimeManagementParamsDto)),
-				tap(params => {
-					this.pageSize$.next(params.pageSize);
-					this.pageNumber$.next(params.pageNumber);
-					this.search$.next(params.search ?? '');
-					this.ordering$.next(params.ordering ?? null);
-					this.animeTypeFilter$.next(params.types);
-				}),
-				takeUntilDestroyed(this.destroyRef),
-			)
-			.subscribe();
-	}
-
 	/** @inheritdoc */
 	public ngOnInit(): void {
 		this.subscribeToQueryParams();
-	}
-
-	private createAnimeListStream(): Observable<readonly Anime[]> {
-		return combineLatest([this.pageNumber$, this.pageSize$, this.ordering$, this.search$, this.animeTypeFilter$]).pipe(
-			debounceTime(DEBOUNCE_TIME),
-			map(([pageNumber, pageSize, ordering, search, filter]) => ({
-				pageSize,
-				pageNumber,
-				ordering: ordering ?? undefined,
-				search: search.length > 0 ? search : undefined,
-				types: filter,
-			})),
-			tap(params => this.navigateToRouteWithParams(params)),
-			switchMap(params => this.getAnimeList(params)),
-			tap(value => {
-				this.totalCount = value.count;
-			}),
-			map(value => value.results),
-			catchError((error: unknown) => {
-				this.hasFetchingError$.next(true);
-				return throwError(() => error);
-			}),
-		);
 	}
 
 	/**
@@ -154,4 +73,86 @@ export class MainPageComponent implements OnInit {
 		this.animeTypeFilter$.next(event);
 		this.pageNumber$.next(DEFAULT_PAGE_NUMBER);
 	}
+
+	private getAnimeList(params: AnimeManagementParams): Observable<Pagination<Anime>> {
+		return this.animeService.getPaginatedAnime(params);
+	}
+
+	private navigateToRouteWithParams(params: AnimeManagementParams): void {
+		this.navigationService.navigate('', AnimeManagementParamsMapper.toQueryParams(params));
+	}
+
+	private subscribeToQueryParams(): void {
+		this.activatedRoute.queryParams
+			.pipe(
+				map(params => AnimeManagementParamsMapper.fromQueryParams(params as AnimeManagementParamsDto)),
+				tap(params => {
+					this.pageSize$.next(params.pageSize);
+					this.pageNumber$.next(params.pageNumber);
+					this.search$.next(params.search ?? '');
+					this.ordering$.next(params.ordering ?? null);
+					this.animeTypeFilter$.next(params.types);
+				}),
+				takeUntilDestroyed(this.destroyRef),
+			)
+			.subscribe();
+	}
+
+	private createAnimeListStream(): Observable<readonly Anime[]> {
+		return combineLatest([this.pageNumber$, this.pageSize$, this.ordering$, this.search$, this.animeTypeFilter$]).pipe(
+			debounceTime(DEBOUNCE_TIME),
+			map(([pageNumber, pageSize, ordering, search, filter]) => ({
+				pageSize,
+				pageNumber,
+				ordering: ordering ?? undefined,
+				search: search.length > 0 ? search : undefined,
+				types: filter,
+			})),
+			tap(params => this.navigateToRouteWithParams(params)),
+			switchMap(params => this.getAnimeList(params)),
+			tap(value => {
+				this.totalCount = value.count;
+			}),
+			map(value => value.results),
+			catchError((error: unknown) => {
+				this.hasFetchingError$.next(true);
+				return throwError(() => error);
+			}),
+		);
+	}
+
+	/** Page number. */
+	protected readonly pageNumber$ = new BehaviorSubject(DEFAULT_PAGE_NUMBER);
+
+	/** Page size. */
+	protected readonly pageSize$ = new BehaviorSubject(INITIAL_PAGE_SIZE);
+
+	/** Search. */
+	protected readonly search$ = new BehaviorSubject('');
+
+	/** Has fetching error. */
+	protected readonly hasFetchingError$ = new BehaviorSubject(false);
+
+	/** Filter. */
+	protected readonly animeTypeFilter$ = new BehaviorSubject<readonly AnimeType[]>([]);
+
+	/** Page size. */
+	protected readonly pageSizes = [25, 50, 100];
+
+	/** Total count. */
+	protected totalCount = 0;
+
+	/** Written above protected member because it is needed in 'createAnimeListStream'. */
+	private readonly ordering$ = new BehaviorSubject<string | null>(null);
+
+	/** Data source. */
+	protected readonly animeList$ = this.createAnimeListStream();
+
+	private readonly animeService = inject(AnimeService);
+
+	private readonly activatedRoute = inject(ActivatedRoute);
+
+	private readonly navigationService = inject(NavigationService);
+
+	private readonly destroyRef = inject(DestroyRef);
 }
