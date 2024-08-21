@@ -20,6 +20,10 @@ import { ApiUrlService } from './api-url.service';
 /** Anime service. */
 @Injectable({ providedIn: 'root' })
 export class AnimeService {
+	private readonly httpClient = inject(HttpClient);
+
+	private readonly urlService = inject(ApiUrlService);
+
 	/**
 	 * Fetch all anime.
 	 * @param params - Params.
@@ -31,8 +35,4 @@ export class AnimeService {
 			.get<PaginationDto<AnimeDto>>(animeListUrl, { params: queryParams })
 			.pipe(map(value => PaginationMapper.fromDto(value, AnimeMapper.fromDto)));
 	}
-
-	private readonly httpClient = inject(HttpClient);
-
-	private readonly urlService = inject(ApiUrlService);
 }

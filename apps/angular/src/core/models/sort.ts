@@ -6,6 +6,6 @@ export type SortModel = {
 	/** Active sort. */
 	readonly activeSort: SortParams;
 
-	/** Sort direction: 'asc' or 'desc' . */
+	/** Sort direction: 'asc', 'desc' or ''. */
 	readonly direction: 'asc' | 'desc' | '';
 };

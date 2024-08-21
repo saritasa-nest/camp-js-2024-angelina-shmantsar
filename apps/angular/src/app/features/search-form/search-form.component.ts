@@ -22,13 +22,6 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchFormComponent {
-	/**
-	 * Form submit.
-	 * @param event - Event.
-	 */
-	protected onSubmit(): void {
-		this.searchValueChange.emit(this.searchControl.value ?? '');
-	}
 
 	/** Value of search input. */
 	@Input()
@@ -39,6 +32,14 @@ export class SearchFormComponent {
 	/** Search value. */
 	@Output()
 	public readonly searchValueChange = new EventEmitter<string>();
+
+	/**
+	 * Form submit.
+	 * @param event - Event.
+	 */
+	protected onSubmit(): void {
+		this.searchValueChange.emit(this.searchControl.value ?? '');
+	}
 
 	/** Form. */
 	protected readonly searchControl = new FormControl<string>('');

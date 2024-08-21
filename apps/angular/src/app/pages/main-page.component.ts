@@ -36,6 +36,14 @@ const DEBOUNCE_TIME = 500;
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainPageComponent implements OnInit {
+	private readonly animeService = inject(AnimeService);
+
+	private readonly activatedRoute = inject(ActivatedRoute);
+
+	private readonly navigationService = inject(NavigationService);
+
+	private readonly destroyRef = inject(DestroyRef);
+
 	/** @inheritdoc */
 	public ngOnInit(): void {
 		this.subscribeToQueryParams();
@@ -141,12 +149,4 @@ export class MainPageComponent implements OnInit {
 
 	/** Data source. */
 	protected readonly animeList$ = this.createAnimeListStream();
-
-	private readonly animeService = inject(AnimeService);
-
-	private readonly activatedRoute = inject(ActivatedRoute);
-
-	private readonly navigationService = inject(NavigationService);
-
-	private readonly destroyRef = inject(DestroyRef);
 }
