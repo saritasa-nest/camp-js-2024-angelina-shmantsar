@@ -1,12 +1,10 @@
+import { DEFAULT_PAGE_NUMBER, INITIAL_PAGE_SIZE } from '@js-camp/angular/shared/constants/default-paginator-values';
+
 import { AnimeManagementParamsDto } from '../dtos/anime-management-params.dto';
 import { AnimeTypeDto } from '../dtos/backend-enums/anime-type.dto';
 import { AnimeManagementParams } from '../models/anime-management-params';
 
 import { AnimeTypeMapper } from './anime-type.mapper';
-
-const INITIAL_PAGE_SIZE = 25;
-
-const DEFAULT_PAGE_NUMBER = 0;
 
 export namespace AnimeManagementParamsMapper {
 

@@ -16,15 +16,12 @@ import { AnimeManagementParams } from '@js-camp/angular/core/models/anime-manage
 import { Pagination } from '@js-camp/angular/core/models/pagination';
 import { SortParams } from '@js-camp/angular/core/models/sort-params';
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
+import { DEFAULT_PAGE_NUMBER, INITIAL_PAGE_SIZE } from '@js-camp/angular/shared/constants/default-paginator-values';
 
 import { AnimeTypeFilterComponent } from '../features/anime-type-filter/anime-type-filter.component';
 import { SearchFormComponent } from '../features/search-form/search-form.component';
 import { AnimeTableComponent } from '../features/anime-table/anime-table.component';
 import { PaginatorComponent } from '../features/paginator/paginator.component';
-
-const INITIAL_PAGE_SIZE = 25;
-
-const DEFAULT_PAGE_NUMBER = 0;
 
 const DEBOUNCE_TIME = 500;
 

@@ -1,11 +1,11 @@
 <div class="controls">
 	<camp-anime-type-filter
 		[types]="(animeTypeFilter$ | async) ?? []"
-		(filterValueEmitter)="onFilterValueChange($event)"
+		(typeFilterChange)="onFilterValueChange($event)"
 	/>
 	<camp-search-form
 		[search]="(search$ | async) ?? ''"
-		(searchValueEmitter)="onSearchValueChange($event)"
+		(searchValueChange)="onSearchValueChange($event)"
 	/>
 </div>
 @if (hasFetchingError$ | async) {
@@ -13,7 +13,7 @@
 } @else {
 	<camp-anime-table
 		[animeList]="(animeList$ | async) ?? []"
-		(sortValueEmitter)="onSortChange($event)"
+		(sortChange)="onSortChange($event)"
 	/>
 }
 <camp-paginator
@@ -21,5 +21,5 @@
 	[pageSize]="(pageSize$ | async) ?? 25"
 	[pageNumber]="(pageNumber$ | async) ?? 0"
 	[totalCount]="totalCount"
-	(pageEventEmitter)="onPageEvent($event)"
+	(pageChange)="onPageEvent($event)"
 />

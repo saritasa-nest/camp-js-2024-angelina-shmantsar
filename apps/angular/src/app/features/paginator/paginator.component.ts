@@ -1,10 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-
-const INITIAL_PAGE_SIZE = 25;
-
-const DEFAULT_PAGE_NUMBER = 0;
+import { DEFAULT_PAGE_NUMBER, INITIAL_PAGE_SIZE } from '@js-camp/angular/shared/constants/default-paginator-values';
 
 /** Paginator. */
 @Component({
@@ -18,7 +15,7 @@ const DEFAULT_PAGE_NUMBER = 0;
 export class PaginatorComponent {
 	/** Page event emitter. */
 	@Output()
-	public readonly pageEventEmitter = new EventEmitter<PageEvent>();
+	public readonly pageChange = new EventEmitter<PageEvent>();
 
 	/** Total count. */
 	@Input()
@@ -41,6 +38,6 @@ export class PaginatorComponent {
 	 * @param event Page event.
 	 */
 	protected onPageEvent(event: PageEvent): void {
-		this.pageEventEmitter.emit(event);
+		this.pageChange.emit(event);
 	}
 }

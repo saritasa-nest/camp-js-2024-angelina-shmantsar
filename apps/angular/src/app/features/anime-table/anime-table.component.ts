@@ -36,14 +36,12 @@ enum ColumnKey {
 })
 export class AnimeTableComponent {
 	/** Anime list. */
-	@Input()
-	public set animeList(value: readonly Anime[]) {
-		this.animeList$.next(value);
-	}
+	@Input({ required: true })
+	public animeList: readonly Anime[] = [];
 
 	/** Sort value emitter. */
 	@Output()
-	public readonly sortValueEmitter = new EventEmitter<Sort>();
+	public readonly sortChange = new EventEmitter<Sort>();
 
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
@@ -75,6 +73,6 @@ export class AnimeTableComponent {
 	 * @param event Sort change event.
 	 */
 	protected onSortChange(event: Sort): void {
-		this.sortValueEmitter.emit(event);
+		this.sortChange.emit(event);
 	}
 }

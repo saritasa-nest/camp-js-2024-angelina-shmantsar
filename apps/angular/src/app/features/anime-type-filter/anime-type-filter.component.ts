@@ -33,7 +33,7 @@ export class AnimeTypeFilterComponent {
 
 	/** Filter values emitter. */
 	@Output()
-	public readonly filterValueEmitter = new EventEmitter<readonly AnimeType[]>();
+	public readonly typeFilterChange = new EventEmitter<readonly AnimeType[]>();
 
 	/** Filter control. */
 	protected readonly filterControl = new FormControl<readonly AnimeType[]>(this.types);
@@ -55,6 +55,6 @@ export class AnimeTypeFilterComponent {
 	 * @param event Filter change event.
 	 */
 	protected onFilterValueChange(event: readonly AnimeType[]): void {
-		this.filterValueEmitter.emit(event);
+		this.typeFilterChange.emit(event);
 	}
 }

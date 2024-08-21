@@ -30,7 +30,7 @@ export class SearchFormComponent {
 
 	/** Search value. */
 	@Output()
-	public readonly searchValueEmitter = new EventEmitter<string>();
+	public readonly searchValueChange = new EventEmitter<string>();
 
 	/** Form. */
 	protected readonly searchControl = new FormControl<string>('');
@@ -40,6 +40,6 @@ export class SearchFormComponent {
 	 * @param event - Event.
 	 */
 	protected onSubmit(): void {
-		this.searchValueEmitter.emit(this.searchControl.value ?? '');
+		this.searchValueChange.emit(this.searchControl.value ?? '');
 	}
 }
