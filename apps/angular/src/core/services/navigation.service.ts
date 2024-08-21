@@ -9,7 +9,7 @@ export class NavigationService {
 	 * @param url Endpoint.
 	 * @param params Query params.
 	 */
-	public navigate(url: string, params?: Readonly<Record<string, string>>): void {
+	public navigate(url: string, params?: Readonly<Record<string, string | number>>): void {
 		this.router.navigate([url], {
 			queryParams: params,
 		});

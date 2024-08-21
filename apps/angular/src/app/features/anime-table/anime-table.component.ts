@@ -36,7 +36,7 @@ enum ColumnKey {
 })
 export class AnimeTableComponent {
 	/**
-	 * On sort change.
+	 * Handle sort change.
 	 * @param event Sort change event.
 	 */
 	protected onSortChange(event: Sort): void {

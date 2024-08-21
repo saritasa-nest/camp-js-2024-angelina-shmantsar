@@ -15,8 +15,8 @@ export namespace AnimeManagementParamsMapper {
 	export function toQueryParams(model: AnimeManagementParams): AnimeManagementParamsDto {
 		const types = model.types?.map(item => AnimeTypeMapper.toDto(item)).join(',');
 		return {
-			limit: model.pageSize.toString(),
-			offset: (model.pageNumber * model.pageSize).toString(),
+			limit: model.pageSize,
+			offset: (model.pageNumber * model.pageSize),
 			ordering: model.ordering,
 			search: model.search,
 			type__in: types.length > 0 ? types : undefined,

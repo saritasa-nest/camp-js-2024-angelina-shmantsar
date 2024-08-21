@@ -26,7 +26,7 @@ type FilterOption = {
 })
 export class AnimeTypeFilterComponent {
 	/**
-	 * On filter value change.
+	 * Handle filter value change.
 	 * @param event Filter change event.
 	 */
 	protected onFilterValueChange(event: readonly AnimeType[]): void {

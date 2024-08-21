@@ -4,12 +4,11 @@ import { HttpParams } from '@angular/common/http';
  * Compose fields from 'params' to new HttpParams object.
  * @param params Query params.
  */
-export function composeHttpParams(params: Readonly<Record<string, string>>): HttpParams {
-	let queryParams = new HttpParams();
-	for (const key in params) {
+export function composeHttpParams(params: Readonly<Record<string, string | number>>): HttpParams {
+	return Object.entries(params).reduce((queryParams, [key, value]) => {
 		if (params[key] != null) {
-			queryParams = queryParams.set(key, params[key]);
+			return queryParams.set(key, value);
 		}
-	}
-	return queryParams;
+		return queryParams;
+	}, new HttpParams());
 }

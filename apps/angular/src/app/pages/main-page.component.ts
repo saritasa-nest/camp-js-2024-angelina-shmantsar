@@ -50,14 +50,14 @@ export class MainPageComponent implements OnInit {
 	}
 
 	/**
-	 * On sort change.
+	 * Handle sort change.
 	 * @param event Sort change event.
 	 */
 	protected onSortChange(event: Sort): void {
 		this.ordering$.next(SortParamsMapper.toDto(event.active as SortParams, event.direction));
 	}
 
-	/** On search value change.
+	/** Handle search value change.
 	 * @param event Search value.
 	 */
 	protected onSearchValueChange(event: string): void {
@@ -66,7 +66,7 @@ export class MainPageComponent implements OnInit {
 	}
 
 	/**
-	 * On filter value change.
+	 * Handle filter value change.
 	 * @param event Type filter change event.
 	 */
 	protected onFilterValueChange(event: readonly AnimeType[]): void {
@@ -98,7 +98,7 @@ export class MainPageComponent implements OnInit {
 			.subscribe();
 	}
 
-	private createAnimeListStream(): Observable<readonly Anime[]> {
+	private createAnimeListStream(): Observable<Pagination<Anime>> {
 		return combineLatest([this.pageNumber$, this.pageSize$, this.ordering$, this.search$, this.animeTypeFilter$]).pipe(
 			debounceTime(DEBOUNCE_TIME),
 			map(([pageNumber, pageSize, ordering, search, filter]) => ({
@@ -110,10 +110,6 @@ export class MainPageComponent implements OnInit {
 			})),
 			tap(params => this.navigateToRouteWithParams(params)),
 			switchMap(params => this.getAnimeList(params)),
-			tap(value => {
-				this.totalCount = value.count;
-			}),
-			map(value => value.results),
 			catchError((error: unknown) => {
 				this.hasFetchingError$.next(true);
 				return throwError(() => error);
@@ -138,9 +134,6 @@ export class MainPageComponent implements OnInit {
 
 	/** Page size. */
 	protected readonly pageSizes = [25, 50, 100];
-
-	/** Total count. */
-	protected totalCount = 0;
 
 	/** Written above protected member because it is needed in 'createAnimeListStream'. */
 	private readonly ordering$ = new BehaviorSubject<string | null>(null);

@@ -14,7 +14,7 @@ import { DEFAULT_PAGE_NUMBER, INITIAL_PAGE_SIZE } from '@js-camp/angular/shared/
 })
 export class PaginatorComponent {
 	/**
-	 * On page event.
+	 * Handle page event.
 	 * @param event Page event.
 	 */
 	protected onPageEvent(event: PageEvent): void {
