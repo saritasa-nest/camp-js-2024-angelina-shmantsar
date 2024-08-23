@@ -1,7 +1,7 @@
-<mat-form-field appearance="outline" class="search-field">
+<mat-form-field class="search-field">
 	<mat-label class="search-title">Search by title</mat-label>
 	<input matInput placeholder="One Piece" type="search" class="search-input" [formControl]="searchControl">
 </mat-form-field>
-<button mat-fab type="button" class="search-button" (click)="onSubmit()">
+<button mat-fab type="button" class="search-button" (click)="onSearchButtonClick()">
 	<mat-icon>search</mat-icon>
 </button>

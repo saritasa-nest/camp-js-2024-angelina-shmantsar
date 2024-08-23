@@ -7,6 +7,10 @@ import { AppConfigService } from './app-config.service';
 export class ApiUrlService {
 	private readonly appConfigService = inject(AppConfigService);
 
+	private constructUrl(endpoint: string): string {
+		return `${this.baseApiUrl}${endpoint}`;
+	}
+
 	private readonly baseApiUrl = this.appConfigService.baseApiUrl;
 
 	/** List of anime endpoints. */
@@ -20,8 +24,4 @@ export class ApiUrlService {
 		registerUrl: this.constructUrl('auth/register/'),
 		tokenRefreshUrl: this.constructUrl('auth/token/refresh/'),
 	};
-
-	private constructUrl(endpoint: string): string {
-		return `${this.baseApiUrl}${endpoint}`;
-	}
 }

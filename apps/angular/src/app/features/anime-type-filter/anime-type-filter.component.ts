@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { AnimeType } from '@js-camp/angular/core/models/anime-type';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /** Filter option. */
 type FilterOption = {
@@ -25,16 +24,25 @@ type FilterOption = {
 	styleUrl: './anime-type-filter.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeTypeFilterComponent implements OnInit, OnChanges {
+export class AnimeTypeFilterComponent {
+
 	/** Filter values. */
 	@Input()
-	public types: readonly AnimeType[] = [];
+	public set types(value: readonly AnimeType[]) {
+		this.filterControl.patchValue(value);
+	}
 
 	/** Filter values emitter. */
 	@Output()
-	public readonly filterValueEmitter = new EventEmitter<readonly AnimeType[]>();
+	public readonly typeFilterChange = new EventEmitter<readonly AnimeType[]>();
 
-	private readonly destroyRef = inject(DestroyRef);
+	/**
+	 * Handle filter value change.
+	 * @param event Filter change event.
+	 */
+	protected onFilterValueChange(event: readonly AnimeType[]): void {
+		this.typeFilterChange.emit(event);
+	}
 
 	/** Filter control. */
 	protected readonly filterControl = new FormControl<readonly AnimeType[]>(this.types);
@@ -50,19 +58,4 @@ export class AnimeTypeFilterComponent implements OnInit, OnChanges {
 		{ value: AnimeType.Tv, title: 'TV' },
 		{ value: AnimeType.Unknown, title: 'Unknown' },
 	];
-
-	/** @inheritdoc */
-	public ngOnInit(): void {
-		this.filterControl.patchValue(this.types);
-		this.filterControl.valueChanges
-			.pipe(
-				takeUntilDestroyed(this.destroyRef),
-			)
-			.subscribe(value => this.filterValueEmitter.emit(value ?? []));
-	}
-
-	/** @inheritdoc */
-	public ngOnChanges(changes: SimpleChanges): void {
-		this.filterControl.patchValue(changes['types'].currentValue);
-	}
 }

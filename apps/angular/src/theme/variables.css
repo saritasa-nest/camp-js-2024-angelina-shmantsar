@@ -12,6 +12,9 @@
 	--size-8: 32px;
 	--size-10: 40px;
 
+	/* App header size */
+	--header-height: 72px;
+
 	/* Font sizes */
 	--font-size-md: 20px;
 	--font-size-lg: 32px;

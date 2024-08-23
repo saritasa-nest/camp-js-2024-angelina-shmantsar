@@ -1,16 +1,25 @@
 <div class="controls">
 	<camp-anime-type-filter
-		[types]="(filter$ | async) ?? []"
-		(filterValueEmitter)="onFilterValueChange($event)"
+		[types]="(animeTypeFilter$ | async) ?? []"
+		(typeFilterChange)="onFilterValueChange($event)"
 	/>
 	<camp-search-form
-		[value]="(search$ | async) ?? ''"
-		(searchValueEmitter)="onSearchValueChange($event)"
+		[search]="(search$ | async) ?? ''"
+		(searchValueChange)="onSearchValueChange($event)"
 	/>
 </div>
-<camp-anime-table
-	[search]="(search$ | async) ?? ''"
-	[filter]="(filter$ | async) ?? []"
-	(searchValueEmitter)="onSearchValueChange($event)"
-	(filterValueEmitter)="onFilterValueChange($event)"
-/>
+@if (animeList$ | async; as animeList) {
+	<camp-anime-table
+		[animeList]="animeList?.results ?? []"
+		(sortChange)="onSortChange($event)"
+	/>
+	<camp-paginator
+		[pageSizes]="pageSizes"
+		[pageSize]="(pageSize$ | async) ?? 25"
+		[pageNumber]="(pageNumber$ | async) ?? 0"
+		[totalCount]="animeList.count"
+		(pageChange)="onPageEvent($event)"
+	/>
+} @else if (hasFetchingError$ | async) {
+	<h2 class="error">Fetching error occurred!</h2>
+}
