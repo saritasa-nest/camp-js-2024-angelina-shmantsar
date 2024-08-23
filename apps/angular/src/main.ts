@@ -22,6 +22,6 @@ bootstrapApplication(AppComponent, {
 		provideRouter(appRoutes),
 		provideAnimationsAsync(),
 		provideHttpClient(withInterceptors([apiKeyInterceptor, authTokenInterceptor])),
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } },
+		{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } },
 	],
 }).catch(err => console.error(err));
