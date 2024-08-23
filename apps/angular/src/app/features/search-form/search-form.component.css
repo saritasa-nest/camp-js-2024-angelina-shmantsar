@@ -1,0 +1,16 @@
+:host {
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-end;
+	gap: var(--size-5);
+	padding: var(--size-3) var(--size-7);
+}
+
+.search-button {
+	background-color: var(--anime-primary-dark-color);
+	color: var(--anime-accent-light-color);
+}
+
+.search-title {
+	color: var(--anime-primary-dark-color);
+}

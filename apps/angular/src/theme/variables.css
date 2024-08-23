@@ -5,12 +5,28 @@
 	/* Small component sizes */
 	--space-base: 4px;
 	--size-3: 12px;
+	--size-4: 16px;
 	--size-5: 20px;
+	--size-7: 28px;
+
+	/* App header size */
+	--header-height: 72px;
 
 	/* Font sizes */
 	--font-size-md: 20px;
 	--font-size-lg: 32px;
 
 	/* Font weights */
+	--font-weight-regular: 400;
 	--font-weight-medium: 500;
+
+	/* Font families */
+	--main-anime-font-family: manrope, sans-serif;
+	--app-title-font-family: megrim, system-ui;
+
+	/* Colors */
+	--anime-primary-dark-color: rgb(0 49 106);
+	--anime-primary-dark-color-disabled: rgb(0 49 106 / 50%);
+	--anime-primary-light-color: rgb(171 192 216);
+	--anime-accent-light-color: rgb(234 245 247);
 }

@@ -1,18 +1,12 @@
 :host {
-	/* Table colors */
-	--table-background-color: rgb(238 130 238);
-	--table-hover-color: rgb(240 98 240);
-	--table-border-color: rgb(138 43 226);
-
 	/* Table sizes */
 	--table-image-width: 150px;
 	--table-image-height: 150px;
 
 	/* Table header font size */
-	--table-header-font-size: 24px;
+	--table-header-font-size: 20px;
 
 	display: block;
-	width: 100%;
 	overflow-x: auto;
 }
 
@@ -24,7 +18,7 @@
 
 .anime-table {
 	width: 100%;
-	background-color: var(--table-background-color);
+	background-color: var(--anime-accent-light-color);
 	padding: 0 var(--size-3);
 }
 
@@ -33,14 +27,21 @@
 	text-align: center;
 	vertical-align: middle;
 	font-size: var(--font-size-md);
-	border-bottom: var(--border-sm) solid var(--table-border-color);
+	border-bottom: none;
 	padding: var(--size-3);
+	color: var(--anime-primary-dark-color);
+	font-family: var(--main-anime-font-family);
 }
 
 .mat-header-cell {
 	font-size: var(--table-header-font-size);
+	border-bottom: var(--border-sm) solid var(--anime-primary-dark-color);
+}
+
+.mat-row {
+	cursor: pointer;
 }
 
 .mat-row:hover {
-	background-color: var(--table-hover-color);
+	background-color: var(--anime-primary-light-color);
 }

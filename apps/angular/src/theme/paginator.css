@@ -1,0 +1,11 @@
+.mdc-icon-button.mat-mdc-icon-button.mat-mdc-button-base .mat-mdc-paginator-icon {
+	fill: var(--anime-primary-dark-color);
+}
+
+.mdc-icon-button.mat-mdc-icon-button.mat-mdc-button-disabled.mat-mdc-button-base .mat-mdc-paginator-icon {
+	fill: var(--anime-primary-dark-color-disabled);
+}
+
+.mat-mdc-paginator .mat-mdc-select {
+	color: var(--anime-primary-dark-color);
+}

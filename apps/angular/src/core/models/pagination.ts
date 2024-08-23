@@ -1,5 +1,5 @@
-/** Pagination meta info. */
-export type PaginationDto<T> = {
+/** Pagination. */
+export type Pagination<T> = {
 
 	/** Total count of items. */
 	readonly count: number;

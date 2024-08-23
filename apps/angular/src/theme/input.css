@@ -1,0 +1,4 @@
+.mat-mdc-input-element.search-input.mat-mdc-form-field-input-control.mdc-text-field__input {
+	color: var(--anime-primary-dark-color);
+	caret-color: var(--anime-primary-dark-color);
+}

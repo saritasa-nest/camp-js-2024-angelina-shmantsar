@@ -1,9 +1,10 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { Anime } from '@js-camp/angular/core/models/anime';
 import { TableColumn } from '@js-camp/angular/core/models/table-column';
 import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
-import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { DATE_FORMAT } from '@js-camp/angular/shared/constants/date-format';
 
 /** Column key values. */
@@ -22,13 +23,31 @@ enum ColumnKey {
 	templateUrl: './anime-table.component.html',
 	styleUrl: './anime-table.component.css',
 	standalone: true,
-	imports: [MatTableModule, AsyncPipe, DatePipe, EmptyPipe],
+	imports: [
+		MatTableModule,
+		DatePipe,
+		EmptyPipe,
+		MatSortModule,
+		AsyncPipe,
+	],
 })
 export class AnimeTableComponent {
-	private readonly animeService = inject(AnimeService);
 
-	/** Represents anime list. */
-	protected readonly anime$ = this.animeService.getAll();
+	/** Anime list. */
+	@Input({ required: true })
+	public animeList: readonly Anime[] = [];
+
+	/** Sort value emitter. */
+	@Output()
+	public readonly sortChange = new EventEmitter<Sort>();
+
+	/**
+	 * Handle sort change.
+	 * @param event Sort change event.
+	 */
+	protected onSortChange(event: Sort): void {
+		this.sortChange.emit(event);
+	}
 
 	/** Represents table columns. */
 	protected readonly displayedColumns: readonly TableColumn<ColumnKey>[] = [
@@ -48,4 +67,7 @@ export class AnimeTableComponent {
 
 	/** Date format. */
 	protected readonly dateFormat = DATE_FORMAT;
+
+	/** Sortable fields. */
+	protected readonly sortableFields = [ColumnKey.TitleEnglish, ColumnKey.AiredStart, ColumnKey.Status];
 }

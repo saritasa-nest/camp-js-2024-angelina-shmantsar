@@ -1,0 +1,49 @@
+.mdc-menu-surface .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(.mat-mdc-option-multiple) {
+	background-color: var(--anime-primary-light-color);
+}
+
+.mat-mdc-select-arrow-wrapper .mat-mdc-select-arrow {
+	color: var(--anime-primary-dark-color);
+}
+
+.mat-mdc-select .mat-mdc-select-trigger .mat-mdc-select-arrow-wrapper .mat-mdc-select-arrow {
+	color: var(--anime-primary-dark-color);
+}
+
+.mat-mdc-select-arrow-wrapper .mat-mdc-form-field.mat-focused .mat-mdc-select-arrow {
+	color: var(--anime-primary-dark-color);
+}
+
+.cdk-overlay-pane .ng-trigger.mat-mdc-select-panel {
+	background-color: var(--anime-primary-light-color);
+}
+
+.mat-mdc-select-panel .mat-mdc-option {
+	background-color: var(--anime-primary-light-color);
+	color: var(--anime-primary-dark-color);
+}
+
+.mat-pseudo-checkbox.mat-mdc-option-pseudo-checkbox.mat-pseudo-checkbox-full {
+	border-color: var(--anime-primary-dark-color);
+}
+
+.mat-pseudo-checkbox.mat-mdc-option-pseudo-checkbox.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked {
+	background-color: var(--anime-primary-light-color);
+	border-color: var(--anime-primary-dark-color);
+}
+
+.mat-mdc-option.mdc-list-item.mdc-list-item--selected.mat-mdc-option-active .mdc-list-item__primary-text {
+	color: var(--anime-primary-dark-color);
+}
+
+.mat-mdc-option.mdc-list-item.mat-option.mat-mdc-option-multiple.mdc-list-item--selected .mdc-list-item__primary-text {
+	color: var(--anime-primary-dark-color);
+}
+
+.mat-mdc-select.mat-mdc-select-multiple {
+	color: var(--anime-primary-dark-color);
+}
+
+.mat-pseudo-checkbox.mat-mdc-option-pseudo-checkbox.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked::after {
+	color: var(--anime-primary-dark-color);
+}

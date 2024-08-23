@@ -1,5 +1,6 @@
 /* Global styles. */
 @import url("variables.css");
+@import url("control-styles.css");
 
 * {
 	box-sizing: border-box;
@@ -12,5 +13,5 @@ body {
 
 body {
 	margin: 0;
-	font-family: Roboto, "Helvetica Neue", sans-serif;
+	font-family: var(--main-anime-font-family);
 }

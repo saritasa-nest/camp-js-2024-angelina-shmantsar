@@ -1,25 +1,45 @@
 :host {
-	/* Header colors */
-	--header-color: rgb(138 43 226 / 80%);
-	--header-text-color: rgb(255 255 255);
-
-	/* Header sizes */
-	--header-height: 72px;
+	/* Login button font size. */
+	--login-button-font-size: 24px;
 }
 
 .header {
+	width: 100%;
 	position: sticky;
+
+	/* Because table header have z-index = 1 */
+	z-index: 2;
 	top: 0;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	padding: 0 var(--size-5);
 	height: var(--header-height);
-	background-color: var(--header-color);
-	color: var(--header-text-color);
+	background-color: var(--anime-primary-light-color);
+	color: var(--anime-primary-dark-color);
+}
+
+.title-container {
+	display: flex;
+	gap: var(--size-5);
+	align-items: center;
+}
+
+.home-icon {
+	color: var(--anime-primary-dark-color);
+	transform: scale(2);
 }
 
 .app-title {
 	font-size: var(--font-size-lg);
-	font-weight: var(--font-weight-medium);
+	font-weight: var(--font-weight-regular);
+	font-family: var(--app-title-font-family);
+}
+
+.login-button {
+	background-color: var(--anime-primary-light-color);
+	color: var(--anime-primary-dark-color);
+	font-size: var(--login-button-font-size);
+	box-shadow: 0 0;
+	font-family: var(--main-anime-font-family);
 }
