@@ -37,7 +37,7 @@ export class SearchFormComponent {
 	 * Form submit.
 	 * @param event - Event.
 	 */
-	protected onSubmit(): void {
+	protected onSearchButtonClick(): void {
 		this.searchValueChange.emit(this.searchControl.value ?? '');
 	}
 

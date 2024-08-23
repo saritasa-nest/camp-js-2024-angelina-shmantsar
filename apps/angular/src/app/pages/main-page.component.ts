@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { BehaviorSubject, Observable, catchError, combineLatest, debounceTime, map, switchMap, tap, throwError } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, catchError, combineLatest, debounceTime, map, switchMap, tap } from 'rxjs';
 import { AnimeType } from '@js-camp/angular/core/models/anime-type';
 
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
@@ -119,9 +119,9 @@ export class MainPageComponent implements OnInit {
 			})),
 			tap(params => this.navigateToRouteWithParams(params)),
 			switchMap(params => this.getAnimeList(params)),
-			catchError((error: unknown) => {
+			catchError(() => {
 				this.hasFetchingError$.next(true);
-				return throwError(() => error);
+				return EMPTY;
 			}),
 		);
 	}

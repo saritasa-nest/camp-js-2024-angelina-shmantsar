@@ -5,9 +5,6 @@ import { MatTableModule } from '@angular/material/table';
 import { Anime } from '@js-camp/angular/core/models/anime';
 import { TableColumn } from '@js-camp/angular/core/models/table-column';
 import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
-import {
-	BehaviorSubject,
-} from 'rxjs';
 import { DATE_FORMAT } from '@js-camp/angular/shared/constants/date-format';
 
 /** Column key values. */
@@ -67,9 +64,6 @@ export class AnimeTableComponent {
 
 	/** Column key. */
 	protected readonly columnKey = ColumnKey;
-
-	/** Data source. */
-	protected readonly animeList$ = new BehaviorSubject<readonly Anime[]>([]);
 
 	/** Date format. */
 	protected readonly dateFormat = DATE_FORMAT;
