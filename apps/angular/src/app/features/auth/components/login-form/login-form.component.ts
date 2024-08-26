@@ -56,13 +56,16 @@ export class LoginFormComponent implements OnInit {
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.loginForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-			this.hasLoginError$.next(false);
-		});
+		this.loginForm.valueChanges
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe(() => {
+				this.hasLoginError$.next(false);
+			});
 	}
 
 	/** Change password visibility. */
 	protected changePasswordVisibility(): void {
+		// Need subject value to invert it.
 		// eslint-disable-next-line rxjs/no-subject-value
 		this.isPasswordVisible$.next(!this.isPasswordVisible$.value);
 	}

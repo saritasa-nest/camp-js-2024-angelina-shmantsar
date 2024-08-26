@@ -66,15 +66,18 @@ export class RegistrationFormComponent implements OnInit {
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.registrationForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-			this.hasPasswordError$.next(false);
-			this.hasPasswordMismatchError$.next(this.registrationForm.errors?.['passwordMismatch'] &&
-				(this.registrationForm.touched || this.registrationForm.dirty));
-		});
+		this.registrationForm.valueChanges
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe(() => {
+				this.hasPasswordError$.next(false);
+				this.hasPasswordMismatchError$.next(this.registrationForm.errors?.['passwordMismatch'] &&
+					(this.registrationForm.touched || this.registrationForm.dirty));
+			});
 	}
 
 	/** Change password visibility. */
 	protected changePasswordVisibility(): void {
+		// Need subject value to invert it.
 		// eslint-disable-next-line rxjs/no-subject-value
 		this.isPasswordVisible$.next(!this.isPasswordVisible$.value);
 	}
