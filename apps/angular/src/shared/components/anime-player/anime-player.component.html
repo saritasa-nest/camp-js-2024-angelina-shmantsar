@@ -1,5 +1,6 @@
 @if ((trailerYouTubeUrl$ | async) !== youtubeBaseUrl) {
 	<iframe
+		title="Youtube anime trailer"
 		[src]="(trailerYouTubeUrl$ | async) ?? '' | safe"
 		class="player"
 		allowfullscreen

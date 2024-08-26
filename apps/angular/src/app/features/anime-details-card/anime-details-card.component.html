@@ -1,5 +1,11 @@
 <button type="button" class="popup-button" #item [value]="animeDetails?.imageUrl ?? ''" (click)="onPopupButtonClick(item.value)">
-	<img [src]="animeDetails?.imageUrl" class="poster" matTooltip="View full size" [matTooltipClass]="{ 'poster-tooltip': true }" />
+	<img
+		[src]="animeDetails?.imageUrl"
+		class="poster"
+		matTooltip="View full size"
+		[matTooltipClass]="{ 'poster-tooltip': true }"
+		[alt]="animeDetails?.titleJapanese"
+	/>
 </button>
 <section class="details">
 	<h2 class="details-title">{{animeDetails?.titleJapanese}}</h2>
