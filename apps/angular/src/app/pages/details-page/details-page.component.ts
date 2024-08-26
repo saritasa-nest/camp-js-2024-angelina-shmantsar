@@ -23,9 +23,6 @@ export class DetailsPageComponent {
 
 	private readonly activatedRoute = inject(ActivatedRoute);
 
-	/** Anime details. */
-	protected readonly animeDetails$ = this.createAnimeDetailsStream();
-
 	private getAnimeById(id: number): Observable<AnimeDetails> {
 		return this.animeService.getAnimeById(id);
 	}
@@ -35,4 +32,7 @@ export class DetailsPageComponent {
 			switchMap((params: ParamMap) => this.getAnimeById(Number(params.get('id')))),
 		);
 	}
+
+	/** Anime details. */
+	protected readonly animeDetails$ = this.createAnimeDetailsStream();
 }

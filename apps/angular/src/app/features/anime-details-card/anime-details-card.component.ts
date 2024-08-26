@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
-import { AsyncPipe, CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { AnimeDetails } from '@js-camp/angular/core/models/anime-details';
 import { DATE_FORMAT } from '@js-camp/angular/shared/constants/date-format';
 import { StudioCardComponent } from '@js-camp/angular/shared/components/studio-card/studio-card.component';
@@ -22,7 +22,7 @@ type Detail = {
 @Component({
 	selector: 'camp-anime-details-card',
 	standalone: true,
-	imports: [CommonModule, AsyncPipe, DatePipe, StudioCardComponent, MatListModule, MatTooltipModule, EmptyPipe],
+	imports: [CommonModule, DatePipe, StudioCardComponent, MatListModule, MatTooltipModule, EmptyPipe],
 	templateUrl: './anime-details-card.component.html',
 	styleUrl: './anime-details-card.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,

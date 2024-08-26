@@ -5,6 +5,8 @@ import { BehaviorSubject } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
+import { YOUTUBE_BASE_URL } from '../../constants/youtube-base-url';
+
 /** Anime player. */
 @Component({
 	selector: 'camp-anime-player',
@@ -18,9 +20,12 @@ export class AnimePlayerComponent {
 	/** Anime trailer youtube id. */
 	@Input()
 	public set trailerYouTubeId(id: string) {
-		this.trailerYouTubeUrl$.next(`https://www.youtube.com/embed/${id}`);
+		this.trailerYouTubeUrl$.next(`${this.youtubeBaseUrl}${id}`);
 	}
 
 	/** Anime trailer youtube url. */
 	protected readonly trailerYouTubeUrl$ = new BehaviorSubject('');
+
+	/** Youtube base url. */
+	protected readonly youtubeBaseUrl = YOUTUBE_BASE_URL;
 }
