@@ -7,12 +7,6 @@ import { HttpErrors } from '../models/http-errors';
 /** Validation service. */
 @Injectable({ providedIn: 'root' })
 export class ValidationService {
-	private readonly commonErrors: Readonly<Record<string, string>> = {
-		required: 'This field is required',
-		email: 'This field should be valid email',
-		minlength: 'The password must be at least 8 characters long',
-	};
-
 	/**
 	 * Check if control has error.
 	 * @param errorCode Error code.
@@ -59,4 +53,10 @@ export class ValidationService {
 			null :
 			{ passwordMismatch: true };
 	}
+
+	private readonly commonErrors: Readonly<Record<string, string>> = {
+		required: 'This field is required',
+		email: 'This field should be valid email',
+		minlength: 'The password must be at least 8 characters long',
+	};
 }

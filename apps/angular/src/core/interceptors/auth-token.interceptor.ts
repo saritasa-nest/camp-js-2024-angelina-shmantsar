@@ -57,7 +57,7 @@ export function authTokenInterceptor(req: HttpRequest<unknown>, next: HttpHandle
 					isRefreshing,
 				});
 			}
-			return throwError(error);
+			return throwError(() => error);
 		}),
 	);
 }
