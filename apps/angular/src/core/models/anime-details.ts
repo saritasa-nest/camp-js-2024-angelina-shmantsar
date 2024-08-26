@@ -53,7 +53,7 @@ export type AnimeDetails = {
 	readonly source: AnimeSource;
 
 	/** Airing. */
-	readonly airing: boolean;
+	readonly airing: string;
 
 	/** Aired. */
 	readonly aired: DateTimeRange;

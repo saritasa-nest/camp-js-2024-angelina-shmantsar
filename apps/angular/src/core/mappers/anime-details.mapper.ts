@@ -29,7 +29,7 @@ export namespace AnimeDetailsMapper {
 			type: AnimeTypeMapper.fromDto(dto.type),
 			status: AnimeStatusMapper.fromDto(dto.status),
 			source: AnimeSourceMapper.fromDto(dto.source),
-			airing: dto.airing,
+			airing: dto.airing ? 'Yes' : 'No',
 			aired: DateTimeRangeMapper.fromDto(dto.aired),
 			rating: AnimeRatingMapper.fromDto(dto.rating),
 			season: AnimeSeasonMapper.fromDto(dto.season),
