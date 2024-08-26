@@ -21,15 +21,20 @@ export class AppHeaderComponent {
 
 	private readonly storageService = inject(StorageService);
 
-	/** On login. */
+	/** Handle login. */
 	protected onLogin(): void {
 		this.navigationService.navigate('/login');
 	}
 
-	/** On logout. */
+	/** Handle logout. */
 	protected onLogout(): void {
 		this.storageService.removeItem('authTokens');
 		this.isAuthorized$.next(false);
+	}
+
+	/** Navigate to home page. */
+	protected navigateToHome(): void {
+		this.navigationService.navigate('/');
 	}
 
 	private readonly tokens = this.storageService.getItem('authTokens');

@@ -1,0 +1,71 @@
+:host {
+	--poster-width: 300px;
+	--poster-height: 300px;
+
+	display: flex;
+	color: var(--anime-primary-dark-color);
+}
+
+.popup-button {
+	height: var(--poster-height);
+	margin: 0;
+	background-color: var(--anime-accent-light-color);
+	border: none;
+	padding: var(--size-3);
+}
+
+.poster {
+	height: 100%;
+	object-fit: contain;
+	cursor: pointer;
+}
+
+.details {
+	padding: var(--size-3) var(--size-3) 0;
+}
+
+.details-title {
+	color: var(--anime-primary-dark-color);
+	font-family: var(--japanese-font-family);
+	font-size: var(--font-size-lg);
+}
+
+.details-subtitle {
+	font-size: 14px;
+	margin: 0;
+	padding-bottom: var(--size-5);
+}
+
+.detail-name {
+	font-weight: var(--font-weight-bold);
+}
+
+.detail-name.list {
+	padding: var(--size-3) 0;
+}
+
+.detail {
+	font-size: var(--font-size-sm);
+	margin: 0;
+	padding: var(--space-base) 0;
+}
+
+.studios {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--size-2);
+}
+
+.genres {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--size-2);
+}
+
+.genre {
+	background-color: var(--anime-primary-light-color);
+	border: var(--border-sm) solid var(--anime-primary-dark-color);
+	border-radius: var(--space-base);
+	padding: var(--size-2) var(--size-3);
+	margin: 0;
+}

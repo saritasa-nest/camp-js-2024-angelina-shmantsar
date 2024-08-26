@@ -1,0 +1,43 @@
+<button type="button" class="popup-button" #item [value]="animeDetails?.imageUrl ?? ''" (click)="onPopupButtonClick(item.value)">
+	<img
+		[src]="animeDetails?.imageUrl"
+		class="poster"
+		matTooltip="View full size"
+		[matTooltipClass]="{ 'poster-tooltip': true }"
+		[alt]="animeDetails?.titleJapanese"
+	/>
+</button>
+<section class="details">
+	<h2 class="details-title">{{animeDetails?.titleJapanese}}</h2>
+	@if (animeDetails?.titleEnglish) {
+		<p class="details-subtitle">{{animeDetails?.titleEnglish}}</p>
+	}
+	@for (detail of details; track $index) {
+		<p class="detail"><span class="detail-name">{{detail.title}}</span> {{detail.getContent(animeDetails) | empty}}</p>
+	}
+	<p class="detail"><span class="detail-name">Aired start:</span> {{animeDetails?.aired?.start | date:dateFormat | empty}}</p>
+	<p class="detail"><span class="detail-name">Aired end:</span> {{animeDetails?.aired?.end | date:dateFormat | empty}}</p>
+	<div class="detail-name list">Studios:</div>
+	@if (animeDetails?.studiosData?.length === 0) {
+		<span>—</span>
+	} @else {
+		<div class="studios">
+			@for (studio of animeDetails?.studiosData; track studio.id) {
+				<camp-studio-card
+					[studioImageSource]="studio?.image ?? ''"
+					[studioName]="studio?.name ?? ''"
+				/>
+			}
+		</div>
+	}
+	<div class="detail-name list">Genres:</div>
+	@if (animeDetails?.genresData?.length === 0) {
+		<span>—</span>
+	} @else {
+		<div class="genres">
+			@for (genre of animeDetails?.genresData; track genre.id) {
+				<p class="genre">{{genre.name}}</p>
+			}
+		</div>
+	}
+</section>

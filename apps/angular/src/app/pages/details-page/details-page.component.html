@@ -1,0 +1,3 @@
+<camp-anime-details-card [animeDetails]="(animeDetails$ | async)" />
+<mat-divider class="divider" />
+<camp-anime-player [trailerYouTubeId]="(animeDetails$ | async)?.trailerYoutubeIdUrl ?? ''" />

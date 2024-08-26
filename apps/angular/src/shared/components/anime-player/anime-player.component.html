@@ -1,0 +1,16 @@
+@if ((trailerYouTubeUrl$ | async) !== youtubeBaseUrl) {
+	<iframe
+		title="Youtube anime trailer"
+		[src]="sanitizer.bypassSecurityTrustResourceUrl((trailerYouTubeUrl$ | async) ?? '')"
+		class="player"
+		allowfullscreen
+	>
+	</iframe>
+} @else {
+	<mat-card appearance="outlined" class="alternative-image">
+		<mat-card-header>Sorry, trailer is unavailable</mat-card-header>
+		<mat-card-content>
+			<mat-icon class="alternative-image__icon">sentiment_dissatisfied</mat-icon>
+		</mat-card-content>
+	</mat-card>
+}

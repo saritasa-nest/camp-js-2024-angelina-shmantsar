@@ -16,16 +16,19 @@
 	--header-height: 72px;
 
 	/* Font sizes */
+	--font-size-sm: 16px;
 	--font-size-md: 20px;
 	--font-size-lg: 32px;
 
 	/* Font weights */
 	--font-weight-regular: 400;
 	--font-weight-medium: 500;
+	--font-weight-bold: 700;
 
 	/* Font families */
 	--main-anime-font-family: manrope, sans-serif;
 	--app-title-font-family: megrim, system-ui;
+	--japanese-font-family: shippori mincho, serif;
 
 	/* Colors */
 	--anime-primary-dark-color: rgb(0 49 106);

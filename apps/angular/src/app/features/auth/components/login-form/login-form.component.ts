@@ -9,6 +9,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ValidationService } from '@js-camp/angular/core/services/validation.service';
 import { BehaviorSubject, EMPTY, catchError, tap, throwError } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 
@@ -54,6 +55,10 @@ export class LoginFormComponent implements OnInit {
 
 	private readonly formBuilder = inject(FormBuilder);
 
+	private readonly activatedRoute = inject(ActivatedRoute);
+
+	private readonly router = inject(Router);
+
 	/** @inheritdoc */
 	public ngOnInit(): void {
 		this.loginForm.valueChanges
@@ -77,7 +82,7 @@ export class LoginFormComponent implements OnInit {
 			this.authService
 				.login(credentials)
 				.pipe(
-					tap(() => this.navigationService.navigate('')),
+					tap(() => this.navigationService.navigate(this.redirectUrl)),
 					takeUntilDestroyed(this.destroyRef),
 					catchError((error: unknown) => {
 						if (this.validationService.isLoginError(error)) {
@@ -93,7 +98,7 @@ export class LoginFormComponent implements OnInit {
 
 	/** On form change. */
 	protected onFormChange(): void {
-		this.navigationService.navigate('register');
+		this.router.navigate(['register'], { queryParams: { redirectUrl: this.redirectUrl } });
 	}
 
 	/** Form controls. */
@@ -115,4 +120,6 @@ export class LoginFormComponent implements OnInit {
 
 	/** Error messages. */
 	protected readonly loginError = 'No active account found with given credentials';
+
+	private readonly redirectUrl: string = this.activatedRoute.snapshot.queryParams['redirectUrl'] ?? '';
 }

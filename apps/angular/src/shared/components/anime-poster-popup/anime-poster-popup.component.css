@@ -1,0 +1,8 @@
+:host {
+	display: block;
+}
+
+.poster-popup {
+	background-color: var(--anime-primary-light-color);
+	max-height: fit-content;
+}

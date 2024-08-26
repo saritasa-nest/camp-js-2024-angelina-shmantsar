@@ -1,10 +1,13 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { Anime } from '@js-camp/angular/core/models/anime';
 import { TableColumn } from '@js-camp/angular/core/models/table-column';
 import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
+import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 import { DATE_FORMAT } from '@js-camp/angular/shared/constants/date-format';
 
 /** Column key values. */
@@ -15,6 +18,7 @@ enum ColumnKey {
 	AiredStart = 'airedStart',
 	Type = 'type',
 	Status = 'status',
+	Details = 'details',
 }
 
 /** Anime table component. */
@@ -29,6 +33,8 @@ enum ColumnKey {
 		EmptyPipe,
 		MatSortModule,
 		AsyncPipe,
+		MatButtonModule,
+		MatIconModule,
 	],
 })
 export class AnimeTableComponent {
@@ -40,6 +46,8 @@ export class AnimeTableComponent {
 	/** Sort value emitter. */
 	@Output()
 	public readonly sortChange = new EventEmitter<Sort>();
+
+	private readonly navigationService = inject(NavigationService);
 
 	/**
 	 * Handle sort change.
@@ -57,6 +65,7 @@ export class AnimeTableComponent {
 		{ key: ColumnKey.AiredStart, header: 'Aired start' },
 		{ key: ColumnKey.Type, header: 'Type' },
 		{ key: ColumnKey.Status, header: 'Status' },
+		{ key: ColumnKey.Details, header: 'Details' },
 	];
 
 	/** Header row definition. */
@@ -70,4 +79,12 @@ export class AnimeTableComponent {
 
 	/** Sortable fields. */
 	protected readonly sortableFields = [ColumnKey.TitleEnglish, ColumnKey.AiredStart, ColumnKey.Status];
+
+	/**
+	 *
+	 * @param id Anime id.
+	 */
+	protected navigateToDetailsPage(id: string): void {
+		this.navigationService.navigate(`/anime/${id}`);
+	}
 }

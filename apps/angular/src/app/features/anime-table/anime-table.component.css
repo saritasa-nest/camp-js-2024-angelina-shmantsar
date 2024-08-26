@@ -46,3 +46,7 @@
 .mat-row:hover {
 	background-color: var(--anime-primary-light-color);
 }
+
+.details-link {
+	color: var(--anime-primary-dark-color-disabled);
+}

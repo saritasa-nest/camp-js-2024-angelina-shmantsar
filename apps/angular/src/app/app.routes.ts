@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 
+import { DetailsPageGuard } from '../core/guards/details-page.guard';
+
 /** Routes object. */
 export const appRoutes: Routes = [
 	{
@@ -11,6 +13,11 @@ export const appRoutes: Routes = [
 				path: '',
 				loadComponent: () =>
 					import('./pages/main-page.component').then(value => value.MainPageComponent),
+			},
+			{
+				path: 'anime/:id',
+				loadComponent: () => import('./pages/details-page/details-page.component').then(value => value.DetailsPageComponent),
+				canActivate: [DetailsPageGuard],
 			},
 		],
 	},

@@ -7,10 +7,16 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class EmptyPipe implements PipeTransform {
 	/** @inheritdoc */
-	public transform(value: string | null): string {
-		if (value != null && value.length > 0) {
+	public transform(value: string | null | number | undefined): string | number {
+		if (value == null) {
+			return '—';
+		}
+		if (typeof value === 'number') {
 			return value;
 		}
-		return '—';
+		if (value.length === 0) {
+			return '—';
+		}
+		return value;
 	}
 }
