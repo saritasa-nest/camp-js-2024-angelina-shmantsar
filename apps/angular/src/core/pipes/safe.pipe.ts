@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, inject } from '@angular/core';
+import { Pipe, PipeTransform, SecurityContext, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 /** Return customized empty value. */
@@ -11,6 +11,7 @@ export class SafePipe implements PipeTransform {
 
 	/** @inheritdoc */
 	public transform(url: string): SafeResourceUrl {
-		return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+		const sanitizedUrl = this.sanitizer.sanitize(SecurityContext.URL, url) ?? '';
+		return this.sanitizer.bypassSecurityTrustResourceUrl(sanitizedUrl);
 	}
 }
