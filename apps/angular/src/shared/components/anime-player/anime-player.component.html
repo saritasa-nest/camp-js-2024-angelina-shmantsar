@@ -1,7 +1,7 @@
 @if ((trailerYouTubeUrl$ | async) !== youtubeBaseUrl) {
 	<iframe
 		title="Youtube anime trailer"
-		[src]="(trailerYouTubeUrl$ | async) ?? '' | safe"
+		[src]="sanitizer.bypassSecurityTrustResourceUrl((trailerYouTubeUrl$ | async) ?? '')"
 		class="player"
 		allowfullscreen
 	>
