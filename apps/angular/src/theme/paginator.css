@@ -1,8 +1,8 @@
-svg.mat-mdc-paginator-icon {
+.mdc-icon-button.mat-mdc-icon-button.mat-mdc-button-base .mat-mdc-paginator-icon {
 	fill: var(--anime-primary-dark-color);
 }
 
-.mat-mdc-icon-button[disabled] svg.mat-mdc-paginator-icon {
+.mdc-icon-button.mat-mdc-icon-button.mat-mdc-button-disabled.mat-mdc-button-base .mat-mdc-paginator-icon {
 	fill: var(--anime-primary-dark-color-disabled);
 }
 

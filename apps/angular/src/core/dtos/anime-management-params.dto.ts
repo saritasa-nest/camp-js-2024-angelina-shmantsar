@@ -2,10 +2,10 @@
 export type AnimeManagementParamsDto = {
 
 	/** Limit. */
-	readonly limit: string;
+	readonly limit: number;
 
 	/** Offset. */
-	readonly offset: string;
+	readonly offset: number;
 
 	/** Ordering. */
 	readonly ordering?: string;
@@ -13,6 +13,6 @@ export type AnimeManagementParamsDto = {
 	/** Search. */
 	readonly search?: string;
 
-	/** Type. */
+	/** Separated by comma list of selected types. */
 	readonly type__in?: string;
 };

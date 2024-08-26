@@ -21,11 +21,6 @@ export class AppHeaderComponent {
 
 	private readonly storageService = inject(StorageService);
 
-	private readonly tokens = this.storageService.getItem('authTokens');
-
-	/** Is user authorized. */
-	protected readonly isAuthorized$ = new BehaviorSubject(this.tokens != null);
-
 	/** On login. */
 	protected onLogin(): void {
 		this.navigationService.navigate('/login');
@@ -36,4 +31,9 @@ export class AppHeaderComponent {
 		this.storageService.removeItem('authTokens');
 		this.isAuthorized$.next(false);
 	}
+
+	private readonly tokens = this.storageService.getItem('authTokens');
+
+	/** Is user authorized. */
+	protected readonly isAuthorized$ = new BehaviorSubject(this.tokens != null);
 }

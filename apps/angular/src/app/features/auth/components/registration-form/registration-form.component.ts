@@ -9,8 +9,8 @@ import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
 
-import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, EMPTY, catchError, tap, throwError } from 'rxjs';
 
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 
@@ -67,6 +67,55 @@ export class RegistrationFormComponent implements OnInit {
 
 	private readonly activatedRoute = inject(ActivatedRoute);
 
+	/** @inheritdoc */
+	public ngOnInit(): void {
+		this.registrationForm.valueChanges
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe(() => {
+				this.hasPasswordError$.next(false);
+				this.hasPasswordMismatchError$.next(this.registrationForm.errors?.['passwordMismatch'] &&
+					(this.registrationForm.touched || this.registrationForm.dirty));
+			});
+	}
+
+	/** Change password visibility. */
+	protected changePasswordVisibility(): void {
+		// Need subject value to invert it.
+		// eslint-disable-next-line rxjs/no-subject-value
+		this.isPasswordVisible$.next(!this.isPasswordVisible$.value);
+	}
+
+	/** On form change. */
+	protected onFormChange(): void {
+		this.navigationService.navigate('login');
+	}
+
+	/** On submit. */
+	protected onSubmit(): void {
+		if (this.registrationForm.valid) {
+			const credentials = this.registrationForm.getRawValue();
+			this.authService
+				.register(credentials)
+				.pipe(
+					tap(() => this.navigationService.navigate('')),
+					takeUntilDestroyed(this.destroyRef),
+					catchError((error: unknown) => {
+						if (this.validationService.isPasswordError(error)) {
+							this.hasPasswordError$.next(true);
+							return EMPTY;
+						}
+						return throwError(() => error);
+					}),
+				)
+				.subscribe();
+		}
+	}
+
+	/** Form controls. */
+	protected get controls(): RegistrationForm {
+		return this.registrationForm.controls;
+	}
+
 	/** Registration form. */
 	protected readonly registrationForm: FormGroup<RegistrationForm> = this.formBuilder.nonNullable.group(
 		{
@@ -95,58 +144,4 @@ export class RegistrationFormComponent implements OnInit {
 	};
 
 	private readonly redirectUrl = this.activatedRoute.snapshot.queryParams['redirectUrl'] ?? '';
-
-	/** Form controls. */
-	protected get controls(): RegistrationForm {
-		return this.registrationForm.controls;
-	}
-
-	private get isPasswordVisible(): boolean {
-		let isVisible = false;
-		this.isPasswordVisible$
-			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe(value => {
-				isVisible = value;
-			});
-		return isVisible;
-	}
-
-	/** Change password visibility. */
-	protected changePasswordVisibility(): void {
-		this.isPasswordVisible$.next(!this.isPasswordVisible);
-	}
-
-	/** On form change. */
-	protected onFormChange(): void {
-		this.navigationService.navigate('login');
-	}
-
-	/** On submit. */
-	protected onSubmit(): void {
-		if (this.registrationForm.valid) {
-			const credentials = this.registrationForm.getRawValue();
-			this.authService
-				.register(credentials)
-				.pipe(
-					tap(() => this.navigationService.navigate(this.redirectUrl)),
-					takeUntilDestroyed(this.destroyRef),
-					catchError((error: unknown) => {
-						if (this.validationService.isPasswordError(error)) {
-							this.hasPasswordError$.next(true);
-						}
-						return throwError(error);
-					}),
-				)
-				.subscribe();
-		}
-	}
-
-	/** @inheritdoc */
-	public ngOnInit(): void {
-		this.registrationForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-			this.hasPasswordError$.next(false);
-			this.hasPasswordMismatchError$.next(this.registrationForm.errors?.['passwordMismatch'] &&
-				(this.registrationForm.touched || this.registrationForm.dirty));
-		});
-	}
 }

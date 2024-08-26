@@ -1,0 +1,8 @@
+.paginator {
+	background-color: var(--anime-primary-light-color);
+	font-size: var(--font-size-md);
+	color: var(--anime-primary-dark-color);
+	font-family: var(--main-anime-font-family);
+	position: sticky;
+	bottom: 0;
+}

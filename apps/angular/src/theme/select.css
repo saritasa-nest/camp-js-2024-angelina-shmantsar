@@ -2,15 +2,23 @@
 	background-color: var(--anime-primary-light-color);
 }
 
-div.mat-mdc-form-field.mat-focused .mat-mdc-select-arrow {
+.mat-mdc-select-arrow-wrapper .mat-mdc-select-arrow {
 	color: var(--anime-primary-dark-color);
 }
 
-div.ng-trigger.mat-mdc-select-panel {
+.mat-mdc-select .mat-mdc-select-trigger .mat-mdc-select-arrow-wrapper .mat-mdc-select-arrow {
+	color: var(--anime-primary-dark-color);
+}
+
+.mat-mdc-select-arrow-wrapper .mat-mdc-form-field.mat-focused .mat-mdc-select-arrow {
+	color: var(--anime-primary-dark-color);
+}
+
+.cdk-overlay-pane .ng-trigger.mat-mdc-select-panel {
 	background-color: var(--anime-primary-light-color);
 }
 
-div.mat-mdc-select-panel .mat-mdc-option {
+.mat-mdc-select-panel .mat-mdc-option {
 	background-color: var(--anime-primary-light-color);
 	color: var(--anime-primary-dark-color);
 }
@@ -24,11 +32,11 @@ div.mat-mdc-select-panel .mat-mdc-option {
 	border-color: var(--anime-primary-dark-color);
 }
 
-.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) span.mdc-list-item__primary-text {
+.mat-mdc-option.mdc-list-item.mdc-list-item--selected.mat-mdc-option-active .mdc-list-item__primary-text {
 	color: var(--anime-primary-dark-color);
 }
 
-div.mat-mdc-select-arrow {
+.mat-mdc-option.mdc-list-item.mat-option.mat-mdc-option-multiple.mdc-list-item--selected .mdc-list-item__primary-text {
 	color: var(--anime-primary-dark-color);
 }
 
@@ -38,8 +46,4 @@ div.mat-mdc-select-arrow {
 
 .mat-pseudo-checkbox.mat-mdc-option-pseudo-checkbox.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked::after {
 	color: var(--anime-primary-dark-color);
-}
-
-div.mat-mdc-select-arrow-wrapper div.mat-mdc-select-arrow svg {
-	fill: var(--anime-primary-dark-color);
 }

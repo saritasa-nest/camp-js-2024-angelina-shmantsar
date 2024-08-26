@@ -7,7 +7,7 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ValidationService } from '@js-camp/angular/core/services/validation.service';
-import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
+import { BehaviorSubject, EMPTY, catchError, tap, throwError } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute } from '@angular/router';
 
@@ -57,41 +57,20 @@ export class LoginFormComponent implements OnInit {
 
 	private readonly activatedRoute = inject(ActivatedRoute);
 
-	/** Has login error (invalid credentials entered). */
-	protected readonly hasLoginError$ = new BehaviorSubject(false);
-
-	/** Is password visible. */
-	protected readonly isPasswordVisible$ = new BehaviorSubject(false);
-
-	private readonly redirectUrl: string = this.activatedRoute.snapshot.queryParams['redirectUrl'] ?? '';
-
-	/** Login form. */
-	protected readonly loginForm: FormGroup<LoginForm> = this.formBuilder.nonNullable.group({
-		email: this.formBuilder.nonNullable.control('', [Validators.required, Validators.email]),
-		password: this.formBuilder.nonNullable.control('', [Validators.required]),
-	});
-
-	/** Error messages. */
-	protected readonly loginError = 'No active account found with given credentials';
-
-	/** Form controls. */
-	protected get controls(): LoginForm {
-		return this.loginForm.controls;
-	}
-
-	private get isPasswordVisible(): boolean {
-		let isVisible = false;
-		this.isPasswordVisible$
+	/** @inheritdoc */
+	public ngOnInit(): void {
+		this.loginForm.valueChanges
 			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe(value => {
-				isVisible = value;
+			.subscribe(() => {
+				this.hasLoginError$.next(false);
 			});
-		return isVisible;
 	}
 
 	/** Change password visibility. */
 	protected changePasswordVisibility(): void {
-		this.isPasswordVisible$.next(!this.isPasswordVisible);
+		// Need subject value to invert it.
+		// eslint-disable-next-line rxjs/no-subject-value
+		this.isPasswordVisible$.next(!this.isPasswordVisible$.value);
 	}
 
 	/** On submit. */
@@ -106,8 +85,9 @@ export class LoginFormComponent implements OnInit {
 					catchError((error: unknown) => {
 						if (this.validationService.isLoginError(error)) {
 							this.hasLoginError$.next(true);
+							return EMPTY;
 						}
-						return throwError(error);
+						return throwError(() => error);
 					}),
 				)
 				.subscribe();
@@ -119,10 +99,25 @@ export class LoginFormComponent implements OnInit {
 		this.navigationService.navigate('register');
 	}
 
-	/** @inheritdoc */
-	public ngOnInit(): void {
-		this.loginForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-			this.hasLoginError$.next(false);
-		});
+	/** Form controls. */
+	protected get controls(): LoginForm {
+		return this.loginForm.controls;
 	}
+
+	/** Has login error (invalid credentials entered). */
+	protected readonly hasLoginError$ = new BehaviorSubject(false);
+
+	/** Is password visible. */
+	protected readonly isPasswordVisible$ = new BehaviorSubject(false);
+
+	/** Login form. */
+	protected readonly loginForm: FormGroup<LoginForm> = this.formBuilder.nonNullable.group({
+		email: this.formBuilder.nonNullable.control('', [Validators.required, Validators.email]),
+		password: this.formBuilder.nonNullable.control('', [Validators.required]),
+	});
+
+	/** Error messages. */
+	protected readonly loginError = 'No active account found with given credentials';
+
+	private readonly redirectUrl: string = this.activatedRoute.snapshot.queryParams['redirectUrl'] ?? '';
 }
