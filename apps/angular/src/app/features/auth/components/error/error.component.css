@@ -1,0 +1,11 @@
+:host {
+	display: block;
+	width: 100%;
+}
+
+.error {
+	color: var(--error-color);
+	width: 100%;
+	text-align: left;
+	margin-bottom: var(--size-3);
+}

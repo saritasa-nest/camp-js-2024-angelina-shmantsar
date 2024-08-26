@@ -1,0 +1,54 @@
+<form
+	class="auth-form"
+	[formGroup]="loginForm"
+	(ngSubmit)="onSubmit()"
+>
+	<h2 class="title">Login</h2>
+	<camp-error [errorMessage]="(hasLoginError$ | async) ? loginError : ''" />
+	<camp-error [errorMessage]="validationService.hasError(controls.email, 'required') ? validationService.getErrorMessage('required') : ''" />
+	<camp-error [errorMessage]="validationService.hasError(controls.email, 'email') ? validationService.getErrorMessage('email') : ''" />
+	<mat-form-field appearance="outline" class="field">
+		<mat-label class="field-title">Email</mat-label>
+		<input
+			matInput
+			placeholder="example@example.com"
+			type="email"
+			formControlName="email"
+		/>
+	</mat-form-field>
+	<camp-error [errorMessage]="validationService.hasError(controls.password, 'required') ? validationService.getErrorMessage('required') : ''" />
+	<mat-form-field appearance="outline" class="field">
+		<mat-label class="field-title">Password</mat-label>
+		<input
+			matInput
+			placeholder="er123456"
+			[type]="(isPasswordVisible$ | async) ? 'text' : 'password'"
+			formControlName="password"
+		/>
+		<button
+			mat-icon-button
+			matSuffix
+			type="button"
+			(click)="changePasswordVisibility()"
+		>
+			<mat-icon class="password-visibility">
+				{{(isPasswordVisible$ | async) ? 'visibility_off' : 'visibility'}}
+			</mat-icon>
+		</button>
+	</mat-form-field>
+	<button
+		mat-flat-button
+		type="submit"
+		class="submit-button"
+	>
+		Login
+	</button>
+	<button
+		mat-stroked-button
+		type="button"
+		class="form-change-button"
+		(click)="onFormChange()"
+	>
+		Not registered yet? Register
+	</button>
+</form>

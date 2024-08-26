@@ -36,7 +36,20 @@
 	font-family: var(--app-title-font-family);
 }
 
-.login-button {
+.controls-container {
+	display: flex;
+	align-items: center;
+	gap: var(--size-3);
+}
+
+.profile-button {
+	background-color: var(--anime-primary-light-color);
+	color: var(--anime-primary-dark-color);
+	box-shadow: 0 0;
+}
+
+.login-button,
+.logout-button {
 	background-color: var(--anime-primary-light-color);
 	color: var(--anime-primary-dark-color);
 	font-size: var(--login-button-font-size);

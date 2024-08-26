@@ -38,3 +38,7 @@
 .search-field .mat-mdc-form-field-input-control.mdc-text-field__input.cdk-text-field-autofill-monitored::placeholder {
 	color: var(--anime-primary-dark-color-disabled);
 }
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-floating-label .field-title {
+	color: var(--anime-primary-dark-color);
+}

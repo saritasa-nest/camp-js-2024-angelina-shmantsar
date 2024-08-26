@@ -11,6 +11,7 @@ import { appRoutes } from './app/app.routes';
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
 import { apiKeyInterceptor } from './core/interceptors/api-key.interceptor';
+import { authTokenInterceptor } from './core/interceptors/auth-token.interceptor';
 
 if (environment.production) {
 	enableProdMode();
@@ -20,7 +21,7 @@ bootstrapApplication(AppComponent, {
 	providers: [
 		provideRouter(appRoutes),
 		provideAnimationsAsync(),
-		provideHttpClient(withInterceptors([apiKeyInterceptor])),
+		provideHttpClient(withInterceptors([apiKeyInterceptor, authTokenInterceptor])),
 		{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } },
 	],
 }).catch(err => console.error(err));

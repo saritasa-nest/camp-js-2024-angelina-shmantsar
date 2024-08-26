@@ -4,10 +4,13 @@
 
 	/* Small component sizes */
 	--space-base: 4px;
+	--size-2: 8px;
 	--size-3: 12px;
 	--size-4: 16px;
 	--size-5: 20px;
 	--size-7: 28px;
+	--size-8: 32px;
+	--size-10: 40px;
 
 	/* App header size */
 	--header-height: 72px;
