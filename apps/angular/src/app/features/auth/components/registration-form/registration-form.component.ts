@@ -10,6 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
 
 import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 
@@ -64,6 +65,8 @@ export class RegistrationFormComponent implements OnInit {
 
 	private readonly formBuilder = inject(FormBuilder);
 
+	private readonly activatedRoute = inject(ActivatedRoute);
+
 	/** Registration form. */
 	protected readonly registrationForm: FormGroup<RegistrationForm> = this.formBuilder.nonNullable.group(
 		{
@@ -90,6 +93,8 @@ export class RegistrationFormComponent implements OnInit {
 		mismatch: 'The passwords must match',
 		weakPassword: 'Check password. It must contain numeric and alphabetic symbols',
 	};
+
+	private readonly redirectUrl = this.activatedRoute.snapshot.queryParams['redirectUrl'] ?? '';
 
 	/** Form controls. */
 	protected get controls(): RegistrationForm {
@@ -123,7 +128,7 @@ export class RegistrationFormComponent implements OnInit {
 			this.authService
 				.register(credentials)
 				.pipe(
-					tap(() => this.navigationService.navigate('')),
+					tap(() => this.navigationService.navigate(this.redirectUrl)),
 					takeUntilDestroyed(this.destroyRef),
 					catchError((error: unknown) => {
 						if (this.validationService.isPasswordError(error)) {

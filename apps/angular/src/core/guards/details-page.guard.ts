@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
 
 import { StorageService } from '../services/storage.service';
 import { NavigationService } from '../services/navigation.service';
@@ -16,10 +16,10 @@ export class DetailsPageGuard implements CanActivate {
 	 * @param route Route.
 	 * @param state State.
 	 */
-	public canActivate(): boolean {
+	public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 		const tokens = this.storageService.getItem('authTokens');
 		if (tokens == null) {
-			this.navigationService.navigate('/login');
+			this.navigationService.navigate('/login', { redirectUrl: state.url });
 			return false;
 		}
 		return true;

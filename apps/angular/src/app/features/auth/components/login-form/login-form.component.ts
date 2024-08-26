@@ -9,6 +9,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ValidationService } from '@js-camp/angular/core/services/validation.service';
 import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
+import { ActivatedRoute } from '@angular/router';
 
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 
@@ -54,11 +55,15 @@ export class LoginFormComponent implements OnInit {
 
 	private readonly formBuilder = inject(FormBuilder);
 
+	private readonly activatedRoute = inject(ActivatedRoute);
+
 	/** Has login error (invalid credentials entered). */
 	protected readonly hasLoginError$ = new BehaviorSubject(false);
 
 	/** Is password visible. */
 	protected readonly isPasswordVisible$ = new BehaviorSubject(false);
+
+	private readonly redirectUrl: string = this.activatedRoute.snapshot.queryParams['redirectUrl'] ?? '';
 
 	/** Login form. */
 	protected readonly loginForm: FormGroup<LoginForm> = this.formBuilder.nonNullable.group({
@@ -96,7 +101,7 @@ export class LoginFormComponent implements OnInit {
 			this.authService
 				.login(credentials)
 				.pipe(
-					tap(() => this.navigationService.navigate('')),
+					tap(() => this.navigationService.navigate(this.redirectUrl)),
 					takeUntilDestroyed(this.destroyRef),
 					catchError((error: unknown) => {
 						if (this.validationService.isLoginError(error)) {
