@@ -9,7 +9,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ValidationService } from '@js-camp/angular/core/services/validation.service';
 import { BehaviorSubject, EMPTY, catchError, tap, throwError } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 
@@ -57,6 +57,8 @@ export class LoginFormComponent implements OnInit {
 
 	private readonly activatedRoute = inject(ActivatedRoute);
 
+	private readonly router = inject(Router);
+
 	/** @inheritdoc */
 	public ngOnInit(): void {
 		this.loginForm.valueChanges
@@ -96,7 +98,7 @@ export class LoginFormComponent implements OnInit {
 
 	/** On form change. */
 	protected onFormChange(): void {
-		this.navigationService.navigate('register');
+		this.router.navigate(['register'], { queryParams: { redirectUrl: this.redirectUrl } });
 	}
 
 	/** Form controls. */

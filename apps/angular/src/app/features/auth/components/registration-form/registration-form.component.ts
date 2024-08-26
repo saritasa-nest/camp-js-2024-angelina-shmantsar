@@ -9,7 +9,7 @@ import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, EMPTY, catchError, tap, throwError } from 'rxjs';
 
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
@@ -67,6 +67,8 @@ export class RegistrationFormComponent implements OnInit {
 
 	private readonly activatedRoute = inject(ActivatedRoute);
 
+	private readonly router = inject(Router);
+
 	/** @inheritdoc */
 	public ngOnInit(): void {
 		this.registrationForm.valueChanges
@@ -87,7 +89,7 @@ export class RegistrationFormComponent implements OnInit {
 
 	/** On form change. */
 	protected onFormChange(): void {
-		this.navigationService.navigate('login');
+		this.router.navigate(['login'], { queryParams: { redirectUrl: this.redirectUrl } });
 	}
 
 	/** On submit. */
@@ -97,7 +99,7 @@ export class RegistrationFormComponent implements OnInit {
 			this.authService
 				.register(credentials)
 				.pipe(
-					tap(() => this.navigationService.navigate('')),
+					tap(() => this.navigationService.navigate(this.redirectUrl)),
 					takeUntilDestroyed(this.destroyRef),
 					catchError((error: unknown) => {
 						if (this.validationService.isPasswordError(error)) {
