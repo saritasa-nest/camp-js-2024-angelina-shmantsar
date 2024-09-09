@@ -1,3 +1,7 @@
 .cdk-global-overlay-wrapper .cdk-overlay-pane.mat-mdc-dialog-panel {
 	max-width: fit-content;
 }
+
+.mat-mdc-dialog-surface.mdc-dialog__surface {
+	background-color: var(--anime-primary-light-color);
+}

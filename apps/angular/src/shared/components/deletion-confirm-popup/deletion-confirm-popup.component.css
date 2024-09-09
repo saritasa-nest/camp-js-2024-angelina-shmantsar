@@ -1,0 +1,12 @@
+.dialog-title,
+.dialog-content {
+	color: var(--anime-primary-dark-color);
+}
+
+.dialog-action-button.mdc-button.mat-mdc-button.mat-unthemed.mat-mdc-button-base {
+	color: var(--anime-primary-dark-color);
+}
+
+.dialog-action-button.focused {
+	background-color: var(--anime-primary-dark-color-disabled);
+}
