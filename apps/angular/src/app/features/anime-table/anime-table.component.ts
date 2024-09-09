@@ -9,6 +9,8 @@ import { TableColumn } from '@js-camp/angular/core/models/table-column';
 import { EmptyPipe } from '@js-camp/angular/core/pipes/empty.pipe';
 import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
 import { DATE_FORMAT } from '@js-camp/angular/shared/constants/date-format';
+import { MatMenuModule } from '@angular/material/menu';
+import { AnimeActionsPopupComponent } from '@js-camp/angular/shared/components/anime-actions-popup/anime-actions-popup.component';
 
 /** Column key values. */
 enum ColumnKey {
@@ -19,6 +21,7 @@ enum ColumnKey {
 	Type = 'type',
 	Status = 'status',
 	Details = 'details',
+	Actions = 'actions',
 }
 
 /** Anime table component. */
@@ -35,6 +38,8 @@ enum ColumnKey {
 		AsyncPipe,
 		MatButtonModule,
 		MatIconModule,
+		MatMenuModule,
+		AnimeActionsPopupComponent,
 	],
 })
 export class AnimeTableComponent {
@@ -66,6 +71,7 @@ export class AnimeTableComponent {
 		{ key: ColumnKey.Type, header: 'Type' },
 		{ key: ColumnKey.Status, header: 'Status' },
 		{ key: ColumnKey.Details, header: 'Details' },
+		{ key: ColumnKey.Actions, header: 'Actions' },
 	];
 
 	/** Header row definition. */

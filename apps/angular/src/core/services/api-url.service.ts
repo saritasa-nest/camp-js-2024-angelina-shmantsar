@@ -15,7 +15,7 @@ export class ApiUrlService {
 
 	/** List of anime endpoints. */
 	public readonly anime = {
-		listUrl: this.constructUrl('anime/anime/'),
+		listUrl: this.constructUrl('anime/'),
 	};
 
 	/** List of auth endpoints. */

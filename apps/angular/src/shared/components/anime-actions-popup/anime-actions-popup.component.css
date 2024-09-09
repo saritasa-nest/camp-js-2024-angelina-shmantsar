@@ -1,0 +1,11 @@
+.menu-button {
+	color: var(--anime-primary-dark-color-disabled);
+}
+
+.menu-item {
+	color: var(--anime-primary-dark-color);
+}
+
+.mat-icon.menu-item__icon.material-icons {
+	color: var(--anime-primary-dark-color);
+}

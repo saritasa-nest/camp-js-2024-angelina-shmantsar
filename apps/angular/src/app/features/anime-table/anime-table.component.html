@@ -16,6 +16,9 @@
 							<mat-icon class="details-link">open_in_new</mat-icon>
 						</button>
 					}
+					@case (columnKey.Actions) {
+						<camp-anime-actions-popup></camp-anime-actions-popup>
+					}
 					@case (columnKey.Image) {
 						<img [src]="element.image" class="table-image" [alt]="element.titleJapanese"/>
 					}
