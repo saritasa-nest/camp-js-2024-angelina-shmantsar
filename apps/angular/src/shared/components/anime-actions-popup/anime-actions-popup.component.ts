@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
+import { Anime } from '@js-camp/angular/core/models/anime';
 
 import { DeletionConfirmPopupComponent } from '../deletion-confirm-popup/deletion-confirm-popup.component';
 
@@ -17,10 +18,18 @@ import { DeletionConfirmPopupComponent } from '../deletion-confirm-popup/deletio
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeActionsPopupComponent {
+	/** Anime. */
+	@Input({ required: true })
+	public anime: Anime | null = null;
+
 	private readonly dialog = inject(MatDialog);
 
 	/** Open anime deletion dialog. */
 	protected openDeletionDialog(): void {
-		this.dialog.open(DeletionConfirmPopupComponent);
+		this.dialog.open(DeletionConfirmPopupComponent, {
+			data: {
+				anime: this.anime,
+			},
+		});
 	}
 }

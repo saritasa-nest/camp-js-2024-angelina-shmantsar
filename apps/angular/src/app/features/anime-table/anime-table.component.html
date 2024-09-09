@@ -17,7 +17,7 @@
 						</button>
 					}
 					@case (columnKey.Actions) {
-						<camp-anime-actions-popup></camp-anime-actions-popup>
+						<camp-anime-actions-popup [anime]="element"></camp-anime-actions-popup>
 					}
 					@case (columnKey.Image) {
 						<img [src]="element.image" class="table-image" [alt]="element.titleJapanese"/>

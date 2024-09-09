@@ -27,15 +27,16 @@ export class AnimeService {
 
 	private readonly urlService = inject(ApiUrlService);
 
+	private readonly animeListUrl = this.urlService.anime.listUrl;
+
 	/**
 	 * Fetch all anime.
 	 * @param params - Params.
 	 * */
 	public getPaginatedAnime(params: AnimeManagementParams): Observable<Pagination<Anime>> {
 		const queryParams = composeHttpParams(AnimeManagementParamsMapper.toQueryParams(params));
-		const animeListUrl = this.urlService.anime.listUrl;
 		return this.httpClient
-			.get<PaginationDto<AnimeDto>>(animeListUrl, { params: queryParams })
+			.get<PaginationDto<AnimeDto>>(this.animeListUrl, { params: queryParams })
 			.pipe(map(value => PaginationMapper.fromDto(value, AnimeMapper.fromDto)));
 	}
 
@@ -44,9 +45,17 @@ export class AnimeService {
 	 * @param id Anime id.
 	 */
 	public getAnimeById(id: number): Observable<AnimeDetails> {
-		const animeListUrl = this.urlService.anime.listUrl;
 		return this.httpClient
-			.get<AnimeDetailsDto>(`${animeListUrl}${id}/`)
+			.get<AnimeDetailsDto>(`${this.animeListUrl}${id}/`)
 			.pipe(map(value => AnimeDetailsMapper.fromDto(value)));
+	}
+
+	/**
+	 * Delete one anime by its id.
+	 * @param id Anime id.
+	 */
+	public deleteAnime(id: number): Observable<undefined> {
+		return this.httpClient
+			.delete<undefined>(`${this.animeListUrl}${id}/`);
 	}
 }

@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { AnimeService } from '@js-camp/angular/core/services/anime.service';
+import { take, tap } from 'rxjs';
 
 /** Anime deletion confirm popup. */
 @Component({
@@ -12,4 +14,20 @@ import { MatButtonModule } from '@angular/material/button';
 	styleUrl: './deletion-confirm-popup.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DeletionConfirmPopupComponent {}
+export class DeletionConfirmPopupComponent {
+	/** Anime data. */
+	protected readonly data = inject(MAT_DIALOG_DATA);
+
+	private readonly animeService = inject(AnimeService);
+
+	/** Delete anime. */
+	protected deleteAnime(): void {
+		this.animeService
+			.deleteAnime(this.data.anime.id)
+			.pipe(
+				take(1),
+				tap(_ => window.location.reload()),
+			)
+			.subscribe();
+	}
+}

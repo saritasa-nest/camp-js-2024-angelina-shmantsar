@@ -1,6 +1,6 @@
 <h2 mat-dialog-title class="dialog-title">Delete anime</h2>
 <mat-dialog-content class="dialog-content">
-  Would you like to delete this anime?
+  Would you like to delete "{{data.anime.titleJapanese}}"?
 </mat-dialog-content>
 <mat-dialog-actions>
   <button
@@ -8,6 +8,7 @@
 		mat-dialog-close
 		type="button"
 		class="dialog-action-button"
+		(click)="deleteAnime()"
 	>
 		Yes
 	</button>
