@@ -7,6 +7,7 @@
 		[search]="(search$ | async) ?? ''"
 		(searchValueChange)="onSearchValueChange($event)"
 	/>
+	<camp-create-anime-button />
 </div>
 @if (animeList$ | async; as animeList) {
 	<camp-anime-table

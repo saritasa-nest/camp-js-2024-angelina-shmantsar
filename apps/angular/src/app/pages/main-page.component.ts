@@ -19,6 +19,8 @@ import { DEFAULT_PAGE_NUMBER, INITIAL_PAGE_SIZE } from '@js-camp/angular/shared/
 import { SortModel } from '@js-camp/angular/core/models/sort';
 import { SortMapper } from '@js-camp/angular/core/mappers/sort.mapper';
 
+import { CreateAnimeButtonComponent } from '@js-camp/angular/shared/components/create-anime-button/create-anime-button.component';
+
 import { AnimeTypeFilterComponent } from '../features/anime-type-filter/anime-type-filter.component';
 import { SearchFormComponent } from '../features/search-form/search-form.component';
 import { AnimeTableComponent } from '../features/anime-table/anime-table.component';
@@ -30,7 +32,15 @@ const DEBOUNCE_TIME = 500;
 @Component({
 	selector: 'camp-main-page',
 	standalone: true,
-	imports: [CommonModule, AnimeTypeFilterComponent, SearchFormComponent, AnimeTableComponent, AsyncPipe, PaginatorComponent],
+	imports: [
+		CommonModule,
+		AnimeTypeFilterComponent,
+		SearchFormComponent,
+		AnimeTableComponent,
+		AsyncPipe,
+		PaginatorComponent,
+		CreateAnimeButtonComponent,
+	],
 	templateUrl: './main-page.component.html',
 	styleUrl: './main-page.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,0 +1,5 @@
+.create-anime-button {
+	background-color: var(--anime-primary-dark-color);
+	color: var(--anime-accent-light-color);
+	margin: 0 var(--size-4) var(--size-5) 0;
+}
