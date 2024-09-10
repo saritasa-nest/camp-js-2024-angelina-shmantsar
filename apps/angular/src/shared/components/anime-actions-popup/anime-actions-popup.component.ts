@@ -5,6 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { Anime } from '@js-camp/angular/core/models/anime';
+import { NavigationService } from '@js-camp/angular/core/services/navigation.service';
+import { Router } from '@angular/router';
 
 import { DeletionConfirmPopupComponent } from '../deletion-confirm-popup/deletion-confirm-popup.component';
 
@@ -24,6 +26,10 @@ export class AnimeActionsPopupComponent {
 
 	private readonly dialog = inject(MatDialog);
 
+	private readonly navigationService = inject(NavigationService);
+
+	private readonly router = inject(Router);
+
 	/** Open anime deletion dialog. */
 	protected openDeletionDialog(): void {
 		this.dialog.open(DeletionConfirmPopupComponent, {
@@ -31,5 +37,10 @@ export class AnimeActionsPopupComponent {
 				anime: this.anime,
 			},
 		});
+	}
+
+	/** Navigate to anime edit page. */
+	protected navigateToEditPage(): void {
+		this.router.navigateByUrl(`/anime/${this.anime?.id}/edit`);
 	}
 }

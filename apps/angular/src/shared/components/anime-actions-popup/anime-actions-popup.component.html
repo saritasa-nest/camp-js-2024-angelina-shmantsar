@@ -2,7 +2,7 @@
 	<mat-icon class="menu-button">more_vert</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
-	<button mat-menu-item type="button" class="menu-item">
+	<button mat-menu-item type="button" class="menu-item" (click)="navigateToEditPage()">
 		<mat-icon class="menu-item__icon">edit_square</mat-icon>
 		<span>Edit</span>
 	</button>

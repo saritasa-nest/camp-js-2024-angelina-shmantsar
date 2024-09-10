@@ -16,8 +16,19 @@ export const appRoutes: Routes = [
 			},
 			{
 				path: 'anime/:id',
-				loadComponent: () => import('./pages/details-page/details-page.component').then(value => value.DetailsPageComponent),
 				canActivate: [DetailsPageGuard],
+				children: [
+					{
+						path: '',
+						loadComponent: () =>
+							import('./pages/details-page/details-page.component').then(value => value.DetailsPageComponent),
+					},
+					{
+						path: 'edit',
+						loadComponent: () =>
+							import('./pages/anime-edit-page/anime-edit-page.component').then(value => value.AnimeEditPageComponent),
+					},
+				],
 			},
 		],
 	},
