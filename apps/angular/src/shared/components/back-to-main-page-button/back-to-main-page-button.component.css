@@ -1,0 +1,5 @@
+.back-button {
+	background-color: var(--anime-primary-dark-color);
+	color: var(--anime-accent-light-color);
+	font-family: var(--main-anime-font-family);
+}
