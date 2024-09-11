@@ -1,3 +1,61 @@
-:host {
-	display: block;
+.edit-form {
+	background-color: var(--anime-primary-light-color);
+	padding: var(--size-5);
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: var(--size-3) var(--size-7);
+}
+
+.title-japanese {
+	grid-column: 1 / 2;
+	grid-row: 1 / 2;
+}
+
+.title-english {
+	grid-column: 1 / 2;
+	grid-row: 2 / 3;
+}
+
+.airing {
+	grid-column: 1 / 2;
+	grid-row: 3 / 4;
+}
+
+.season {
+	grid-column-start: 2;
+}
+
+.source {
+	grid-column-start: 2;
+}
+
+.aired-start {
+	grid-column: 1 / 2;
+	grid-row: 4 / 5;
+}
+
+.aired-end {
+	grid-column: 1 / 2;
+	grid-row: 5 / 6;
+}
+
+.synopsis {
+	grid-column-start: 3;
+	grid-row: 1 / 6;
+}
+
+.status {
+	grid-column-start: 2;
+}
+
+.type {
+	grid-column-start: 2;
+}
+
+.rating {
+	grid-column-start: 2;
+}
+
+.mat-mdc-input-element.mat-mdc-form-field-textarea-control {
+	resize: none;
 }

@@ -1,0 +1,17 @@
+.mat-datepicker-content.mat-primary {
+	background-color: var(--anime-primary-dark-color);
+	color: var(--anime-accent-light-color);
+}
+
+.mat-calendar-body-cell-container .mat-calendar-body-cell .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+	border-color: var(--anime-primary-light-color);
+}
+
+.mat-calendar-body-cell .mat-calendar-body-selected {
+	background-color: var(--anime-primary-light-color);
+	color: var(--anime-primary-dark-color);
+}
+
+.mdc-icon-button.mat-mdc-icon-button.mat-unthemed.mat-mdc-button-base {
+	color: var(--anime-primary-dark-color);
+}

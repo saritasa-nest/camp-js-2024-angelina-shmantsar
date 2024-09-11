@@ -1,3 +1,82 @@
-<form>
-	
+<form
+	[formGroup]="editForm"
+	class="edit-form"
+>
+	<mat-form-field appearance="outline" class="anime-field title-japanese">
+		<mat-label class="field-title">Japanese title</mat-label>
+		<input
+			matInput
+			placeholder="Haha"
+			type="text"
+			formControlName="titleJapanese"
+		/>
+	</mat-form-field>
+	<mat-form-field appearance="outline" class="anime-field status">
+		<mat-label class="field-title">Status</mat-label>
+		<mat-select formControlName="status">
+			@for (status of animeStatusOptions; track $index) {
+				<mat-option [value]="status.value">{{status.title}}</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
+	<mat-form-field appearance="outline" class="anime-field type">
+		<mat-label class="field-title">Type</mat-label>
+		<mat-select formControlName="type">
+			@for (type of animeTypeOptions; track $index) {
+				<mat-option [value]="type.value">{{type.title}}</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
+	<mat-form-field appearance="outline" class="anime-field title-english">
+		<mat-label class="field-title">English title</mat-label>
+		<input
+			matInput
+			placeholder="One Piece"
+			type="text"
+			formControlName="titleEnglish"
+		/>
+	</mat-form-field>
+	<mat-checkbox labelPosition="before" class="airing" formControlName="airing">Airing</mat-checkbox>
+	<mat-form-field appearance="outline" class="anime-field aired-start">
+		<mat-label class="field-title">Aired start</mat-label>
+		<input matInput [matDatepicker]="startPicker" formControlName="airedStart">
+		<mat-hint>MM/DD/YYYY</mat-hint>
+		<mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+		<mat-datepicker #startPicker></mat-datepicker>
+	</mat-form-field>
+	<mat-form-field appearance="outline" class="anime-field aired-end">
+		<mat-label class="field-title">Aired end</mat-label>
+		<input matInput [matDatepicker]="endPicker" formControlName="airedEnd">
+		<mat-hint>MM/DD/YYYY</mat-hint>
+		<mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
+		<mat-datepicker #endPicker></mat-datepicker>
+	</mat-form-field>
+	<mat-form-field appearance="outline" class="anime-field rating">
+		<mat-label class="field-title">Rating</mat-label>
+		<mat-select formControlName="rating">
+			@for (rating of animeRatingOptions; track $index) {
+				<mat-option [value]="rating.value">{{rating.title}}</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
+	<mat-form-field appearance="outline" class="anime-field synopsis">
+		<mat-label class="field-title">Synopsis</mat-label>
+		<textarea matInput formControlName="synopsis"></textarea>
+	</mat-form-field>
+	<mat-form-field appearance="outline" class="anime-field source">
+		<mat-label class="field-title">Source</mat-label>
+		<mat-select formControlName="source">
+			@for (source of animeSourceOptions; track $index) {
+				<mat-option [value]="source.value">{{source.title}}</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
+	<mat-form-field appearance="outline" class="anime-field season">
+		<mat-label class="field-title">Season</mat-label>
+		<mat-select formControlName="season">
+			@for (season of animeSeasonOptions; track $index) {
+				<mat-option [value]="season.value">{{season.title}}</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
 </form>
