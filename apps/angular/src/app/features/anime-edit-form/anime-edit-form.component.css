@@ -60,4 +60,5 @@
 
 .mat-mdc-input-element.mat-mdc-form-field-textarea-control {
 	resize: none;
+	min-height: 400px;
 }

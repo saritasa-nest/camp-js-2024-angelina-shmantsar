@@ -47,3 +47,7 @@
 .mat-pseudo-checkbox.mat-mdc-option-pseudo-checkbox.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked::after {
 	color: var(--anime-primary-dark-color);
 }
+
+.mat-mdc-select-value .mat-mdc-select-min-line {
+	color: var(--anime-primary-dark-color);
+}

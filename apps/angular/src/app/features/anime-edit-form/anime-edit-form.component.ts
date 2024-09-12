@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -6,7 +6,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from '@angular/material/button';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { AnimeDetails } from '@js-camp/angular/core/models/anime-details';
 
 import { ANIME_RATING_OPTIONS, ANIME_SEASON_OPTIONS, ANIME_SOURCE_OPTIONS, ANIME_STATUS_OPTIONS, ANIME_TYPE_OPTIONS } from './form-select-options';
 
@@ -25,13 +27,13 @@ type EditForm = {
 	readonly status: FormControl<string>;
 
 	/** Is anime airing. */
-	readonly airing: FormControl<string>;
+	readonly airing: FormControl<boolean>;
 
 	/** Aired start. */
-	readonly airedStart: FormControl<string>;
+	readonly airedStart: FormControl<Date | string>;
 
 	/** Aired end. */
-	readonly airedEnd: FormControl<string>;
+	readonly airedEnd: FormControl<Date | string>;
 
 	/** Rating. */
 	readonly rating: FormControl<string>;
@@ -59,12 +61,34 @@ type EditForm = {
 		MatSelectModule,
 		MatCheckboxModule,
 		MatDatepickerModule,
+		MatButtonModule,
 	],
 	templateUrl: './anime-edit-form.component.html',
 	styleUrl: './anime-edit-form.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeEditFormComponent {
+	/** Anime to edit. */
+	@Input()
+	public set anime(value: AnimeDetails | null) {
+		this.animeDetails = value;
+		this.editForm.patchValue({
+			titleJapanese: value?.titleJapanese,
+			titleEnglish: value?.titleEnglish,
+			type: value?.type,
+			status: value?.status,
+			airing: value?.airing === 'Yes',
+			airedStart: value?.aired.start ?? '',
+			airedEnd: value?.aired.end ?? '',
+			rating: value?.rating,
+			season: value?.season,
+			source: value?.source,
+			synopsis: value?.synopsis,
+		});
+	}
+
+	private animeDetails: AnimeDetails | null = null;
+
 	private readonly formBuilder = inject(FormBuilder);
 
 	/** Anime type options. */
@@ -88,9 +112,9 @@ export class AnimeEditFormComponent {
 		titleEnglish: this.formBuilder.nonNullable.control(''),
 		type: this.formBuilder.nonNullable.control(''),
 		status: this.formBuilder.nonNullable.control(''),
-		airing: this.formBuilder.nonNullable.control(''),
-		airedStart: this.formBuilder.nonNullable.control(''),
-		airedEnd: this.formBuilder.nonNullable.control(''),
+		airing: this.formBuilder.nonNullable.control(false),
+		airedStart: this.formBuilder.nonNullable.control(this.animeDetails?.aired.start ?? ''),
+		airedEnd: this.formBuilder.nonNullable.control(this.animeDetails?.aired.end ?? ''),
 		rating: this.formBuilder.nonNullable.control(''),
 		season: this.formBuilder.nonNullable.control(''),
 		source: this.formBuilder.nonNullable.control(''),
