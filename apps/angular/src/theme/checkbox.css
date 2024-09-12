@@ -1,0 +1,21 @@
+.mdc-form-field.mat-internal-form-field.mdc-form-field--align-end {
+	color: var(--anime-primary-dark-color);
+	font-size: 16px;
+}
+
+.mat-internal-form-field .mdc-checkbox .mdc-checkbox__background {
+	border-color: var(--anime-primary-dark-color);
+}
+
+.mdc-checkbox__background .mdc-checkbox__checkmark {
+	color: var(--anime-accent-light-color);
+}
+
+.mat-mdc-checkbox.airing.mat-accent.ng-valid.mat-mdc-checkbox-checked .mdc-checkbox__background {
+	background-color: var(--anime-primary-dark-color);
+	border-color: var(--anime-primary-dark-color);
+}
+
+.mdc-checkbox .mdc-checkbox__native-control:focus:focus:not(:checked) ~ .mdc-checkbox__background {
+	border-color: var(--anime-primary-dark-color);
+}
