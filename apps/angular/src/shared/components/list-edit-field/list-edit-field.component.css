@@ -1,0 +1,5 @@
+.list-edit-field {
+	background-color: var(--anime-primary-light-color);
+	width: 100%;
+	padding: var(--size-7) var(--size-5);
+}

@@ -1,3 +1,11 @@
 :host {
-	display: block;
+	color: var(--anime-primary-dark-color);
+}
+
+.header {
+	background-color: var(--anime-primary-light-color);
+	display: flex;
+	gap: calc(50% - 120px);
+	align-items: center;
+	padding: var(--size-5) var(--size-5);
 }

@@ -3,3 +3,5 @@
 	<h2>Edit anime</h2>
 </header>
 <camp-anime-edit-form [anime]="animeDetails$ | async"/>
+<mat-divider></mat-divider>
+<camp-list-edit-field label="Studios" [inputData]="studioEditList$ | async" />

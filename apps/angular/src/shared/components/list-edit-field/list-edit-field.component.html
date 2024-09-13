@@ -1,0 +1,21 @@
+<mat-form-field class="list-edit-field">
+	<mat-label>{{label}}</mat-label>
+	<mat-chip-grid #chipGrid>
+		@for (item of (inputData ?? []); track $index) {
+			<mat-chip-row
+				(removed)="removeListItem(item)"
+				[editable]="true"
+			>
+				{{item.name}}
+				<button matChipRemove type="button">
+					<mat-icon>cancel</mat-icon>
+				</button>
+			</mat-chip-row>
+		}
+		<input
+			[placeholder]="'New' + label"
+			[matChipInputFor]="chipGrid"
+			(matChipInputTokenEnd)="addListItem($event)"
+		/>
+	</mat-chip-grid>
+</mat-form-field>>
