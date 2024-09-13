@@ -1,6 +1,6 @@
 <mat-form-field class="list-edit-field">
-	<mat-label>{{label}}</mat-label>
-	<mat-chip-grid #chipGrid>
+	<mat-label class="label">{{label}}</mat-label>
+	<mat-chip-grid #chipGrid class="chip-grid">
 		@for (item of (inputData ?? []); track $index) {
 			<mat-chip-row
 				(removed)="removeListItem(item)"

@@ -3,3 +3,7 @@
 	width: 100%;
 	padding: var(--size-7) var(--size-5);
 }
+
+.label {
+	color: var(--anime-primary-dark-color);
+}

@@ -9,3 +9,15 @@
 @import url("menu.css");
 @import url("date-picker.css");
 @import url("checkbox.css");
+
+.mat-mdc-chip .mat-mdc-chip-action .mdc-evolution-chip__text-label.mat-mdc-chip-action-label {
+	color: var(--anime-primary-dark-color);
+}
+
+.mat-icon.notranslate.material-icons.mat-ligature-font.mat-icon-no-color {
+	color: var(--anime-primary-dark-color);
+}
+
+.chip-grid .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) .mdc-evolution-chip__action--primary::before {
+	border-color: var(--anime-primary-dark-color);
+}
